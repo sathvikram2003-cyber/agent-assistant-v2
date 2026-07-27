@@ -8,7 +8,7 @@
     <style>
         :root {
             --bg-deep: #09090b;
-            --surface-glass: rgba(24, 24, 27, 0.65);
+            --surface-glass: rgba(24, 24, 27, 0.75);
             --surface-hover: rgba(39, 39, 42, 0.8);
             --border-subtle: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
@@ -38,7 +38,7 @@
         }
 
         .app-wrapper {
-            width: 95%; max-width: 1300px; height: 90vh;
+            width: 95%; max-width: 1350px; height: 92vh;
             background: var(--surface-glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
             display: grid; grid-template-columns: 420px 1fr;
@@ -48,17 +48,18 @@
 
         /* --- LEFT PANEL: HUD --- */
         .hud-panel {
-            background: rgba(9, 9, 11, 0.4); border-right: 1px solid var(--border-subtle);
-            display: flex; flex-direction: column; align-items: center; padding: 30px; position: relative;
+            background: rgba(9, 9, 11, 0.5); border-right: 1px solid var(--border-subtle);
+            display: flex; flex-direction: column; align-items: center; padding: 24px; position: relative;
+            overflow-y: auto;
         }
 
         .brand {
-            display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 800;
-            letter-spacing: -0.5px; margin-bottom: 30px; width: 100%;
+            display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 800;
+            letter-spacing: -0.5px; margin-bottom: 20px; width: 100%;
         }
-        .header-logo { width: 42px; height: 42px; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5)); }
+        .header-logo { width: 38px; height: 38px; filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5)); }
 
-        .progress-container { position: relative; width: 160px; height: 160px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; }
+        .progress-container { position: relative; width: 140px; height: 140px; margin-bottom: 16px; display: flex; justify-content: center; align-items: center; }
         .progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; }
         .progress-ring circle { fill: transparent; stroke-width: 10; stroke-linecap: round; }
         .progress-ring-bg { stroke: rgba(255, 255, 255, 0.05); }
@@ -69,72 +70,87 @@
         }
 
         .progress-text { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-        .progress-percentage { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .progress-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .progress-percentage { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .progress-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
         /* Memory Consciousness & Intent Box */
         .intent-box {
             width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md); padding: 15px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;
+            border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px;
         }
-        .intent-header { font-size: 12px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between;}
-        .intent-tag { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: 600; }
-        .intent-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-        .memory-stats { font-size: 11px; color: var(--success); text-align: right; margin-top: 4px; font-family: monospace; }
+        .intent-header { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between;}
+        .intent-tag { background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .intent-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+        .memory-stats { font-size: 10px; color: var(--success); text-align: right; font-family: monospace; }
 
-        /* Action Buttons */
-        .btn-group { display: flex; gap: 10px; width: 100%; margin-bottom: 20px; }
+        /* Action Buttons Grid */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 12px; }
         .btn {
-            flex: 1; padding: 14px; border-radius: var(--radius-lg); border: none; font-size: 14px; font-weight: 700;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;
+            padding: 12px 8px; border-radius: var(--radius-md); border: none; font-size: 13px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
         }
-        .btn-start { background: var(--primary); color: white; box-shadow: 0 4px 15px var(--primary-glow); }
-        .btn-start.listening { background: var(--danger); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        .btn-start { background: var(--primary); color: white; box-shadow: 0 4px 12px var(--primary-glow); grid-column: span 2; }
+        .btn-start.listening { background: var(--danger); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
         
         .btn-hold { background: transparent; border: 1px solid var(--warning); color: var(--warning); }
-        .btn-hold.active { background: var(--warning); color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); animation: pulse-warning 2s infinite; }
+        .btn-hold.active { background: var(--warning); color: #000; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); animation: pulse-warning 2s infinite; }
 
-        .status-msg { font-size: 13px; color: var(--text-muted); text-align: center; height: 60px; margin-top: auto; display: flex; flex-direction: column; justify-content: flex-end; }
+        .btn-quick-reschedule { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #fca5a5; }
+        .btn-quick-reschedule:hover { background: var(--danger); color: white; }
+
+        .btn-crm { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--success); color: #6ee7b7; grid-column: span 2; margin-top: 4px; }
+        .btn-crm:hover { background: var(--success); color: #000; }
+
+        .status-msg { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: auto; min-height: 40px; display: flex; flex-direction: column; justify-content: center; }
 
         /* --- RIGHT PANEL: TIMELINE & HOLD ASSIST --- */
         .content-panel { position: relative; display: flex; flex-direction: column; overflow: hidden; }
-        .panel-header { padding: 30px 40px 10px; background: linear-gradient(to bottom, var(--surface-glass) 60%, transparent); z-index: 10; }
-        .panel-header h2 { font-size: 22px; font-weight: 700; }
+        .panel-header { padding: 24px 32px 10px; background: linear-gradient(to bottom, var(--surface-glass) 60%, transparent); z-index: 10; }
+        .panel-header h2 { font-size: 20px; font-weight: 700; }
         
-        .scroll-area { padding: 10px 40px 60px; overflow-y: auto; flex: 1; }
+        .scroll-area { padding: 10px 32px 40px; overflow-y: auto; flex: 1; }
         .scroll-area::-webkit-scrollbar { width: 6px; }
         .scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
-        /* Timeline Checklist (Default View) */
-        .qa-card { display: block; position: relative; padding-left: 48px; margin-bottom: 24px; cursor: pointer; transition: all 0.4s ease; }
-        .qa-card::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -24px; width: 2px; background: var(--border-subtle); z-index: 1; }
+        /* Timeline Checklist */
+        .qa-card { display: block; position: relative; padding-left: 44px; margin-bottom: 18px; cursor: pointer; transition: all 0.3s ease; }
+        .qa-card::before { content: ''; position: absolute; left: 15px; top: 28px; bottom: -18px; width: 2px; background: var(--border-subtle); z-index: 1; }
         .qa-card:last-child::before { display: none; }
         .qa-card.done::before { background: var(--success); }
 
-        .qa-node { position: absolute; left: 0; top: 2px; width: 32px; height: 32px; border-radius: 50%; background: rgba(24, 24, 27, 0.8); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.4s; }
-        .qa-node svg { width: 14px; height: 14px; fill: none; stroke: white; stroke-width: 3; opacity: 0; transform: scale(0.5); transition: all 0.4s; }
+        .qa-node { position: absolute; left: 0; top: 2px; width: 30px; height: 30px; border-radius: 50%; background: rgba(24, 24, 27, 0.8); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.3s; }
+        .qa-node svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 3; opacity: 0; transform: scale(0.5); transition: all 0.3s; }
 
         .qa-card.done .qa-node { background: var(--success); border-color: var(--success); box-shadow: 0 0 10px var(--success-glow); }
         .qa-card.done .qa-node svg { opacity: 1; transform: scale(1); }
-        .qa-card.done .qa-content { opacity: 0.5; }
+        .qa-card.done .qa-content { opacity: 0.55; }
         .qa-card.done .qa-title { text-decoration: line-through; color: var(--success); }
 
-        .qa-content { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); padding: 16px; border-radius: var(--radius-lg); transition: all 0.3s; }
+        .qa-content { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); padding: 14px 16px; border-radius: var(--radius-md); transition: all 0.3s; }
         .qa-card:hover .qa-content { background: rgba(255, 255, 255, 0.04); transform: translateX(4px); }
-        .qa-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-        .qa-desc { font-size: 13px; color: var(--text-muted); }
+        .qa-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+        .qa-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
         .qa-card input[type="checkbox"] { display: none; }
 
-        /* Hold Assistant View (Hidden by default) */
-        .hold-assist-view { display: none; flex-direction: column; gap: 20px; animation: fadeIn 0.3s ease-out; }
+        /* Hold Assistant View */
+        .hold-assist-view { display: none; flex-direction: column; gap: 16px; animation: fadeIn 0.3s ease-out; }
         .hold-assist-view.active { display: flex; }
         
-        .timer-display { font-size: 48px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--warning); text-shadow: 0 0 20px rgba(245, 158, 11, 0.3); text-align: center; padding: 20px; background: rgba(0,0,0,0.3); border-radius: var(--radius-lg); border: 1px solid var(--warning); }
+        .timer-display { font-size: 42px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--warning); text-shadow: 0 0 20px rgba(245, 158, 11, 0.3); text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: var(--radius-md); border: 1px solid var(--warning); }
         .timer-display.danger { color: var(--danger); border-color: var(--danger); text-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulse-error 1s infinite; }
 
-        .step-card { background: rgba(255,255,255,0.02); border: 1px solid var(--primary); border-left: 4px solid var(--primary); padding: 20px; border-radius: var(--radius-md); }
-        .step-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--primary); }
-        .step-body { font-size: 14px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; }
+        .step-card { background: rgba(255,255,255,0.02); border: 1px solid var(--primary); border-left: 4px solid var(--primary); padding: 16px; border-radius: var(--radius-md); }
+        .step-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+        .step-body { font-size: 13px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; }
+
+        /* CRM Notes Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 100; }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: #121215; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); width: 90%; max-width: 600px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .modal-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
+        .crm-textarea { width: 100%; height: 220px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main); font-family: monospace; font-size: 12px; padding: 12px; resize: none; margin-bottom: 16px; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 
         @keyframes pulse-warning { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
         @keyframes pulse-error { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
@@ -159,14 +175,14 @@
             </div>
             
             <div class="progress-container">
-                <svg class="progress-ring"><circle class="progress-ring-bg" cx="80" cy="80" r="75"></circle><circle class="progress-ring-fill" id="progressRingFill" cx="80" cy="80" r="75"></circle></svg>
+                <svg class="progress-ring"><circle class="progress-ring-bg" cx="70" cy="70" r="65"></circle><circle class="progress-ring-fill" id="progressRingFill" cx="70" cy="70" r="65"></circle></svg>
                 <div class="progress-text">
                     <div class="progress-percentage" id="progressText">0%</div>
-                    <div class="progress-label">QA Compliance</div>
+                    <div class="progress-label">QA Score</div>
                 </div>
             </div>
 
-            <!-- Smart Copilot Intent & Memory Tracker -->
+            <!-- Consciousness DB & Intent Tracker -->
             <div class="intent-box">
                 <div class="intent-header"><span>Consciousness DB</span> <span>🧠</span></div>
                 <div class="intent-tags" id="intentTags">
@@ -175,9 +191,12 @@
                 <div class="memory-stats" id="memoryStats">Buffer: 0 words retained</div>
             </div>
 
-            <div class="btn-group">
-                <button class="btn btn-start" id="voiceBtn" onclick="toggleVoice()">🎙️ Track</button>
+            <!-- Controls -->
+            <div class="btn-grid">
+                <button class="btn btn-start" id="voiceBtn" onclick="toggleVoice()">🎙️ Start Voice Tracking</button>
                 <button class="btn btn-hold" id="holdBtn" onclick="toggleHold()">⏸️ Script / Hold</button>
+                <button class="btn btn-quick-reschedule" onclick="triggerQuickReschedule()">⚡ Quick Reschedule</button>
+                <button class="btn btn-crm" onclick="openCrmModal()">📋 Generate Case Wrap Notes</button>
             </div>
             
             <div class="status-msg" id="voiceStatus">AI actively listens & auto-checks Techsols requirements.</div>
@@ -202,19 +221,42 @@
         </div>
     </div>
 
+    <!-- CRM NOTES MODAL -->
+    <div class="modal-overlay" id="crmModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">📋 Automated CRM Case Wrap-Up Notes</div>
+                <button onclick="closeCrmModal()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px;">✕</button>
+            </div>
+            <textarea class="crm-textarea" id="crmNotesText" readonly></textarea>
+            <div class="modal-actions">
+                <button class="btn" style="background:var(--border-subtle); color:white;" onclick="closeCrmModal()">Close</button>
+                <button class="btn" style="background:var(--success); color:black;" onclick="copyCrmNotes()">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- 1. DATA STRUCTURES (MAPPED EXACTLY TO PROVIDED SOP) ---
+        // --- 1. QA DATA STRUCTURE & KEYWORDS ---
         const qaItems = [
             { id: 'qa_intro', title: '1. Call Opening & Greeting', desc: 'Introduced self as Technical Solutions on behalf of Google.', keywords: ['technical solutions team', 'on behalf of google', 'am i speaking with'] },
-            { id: 'qa_rec', title: '2. Recorded Line Verbatim', desc: 'Read the verbatim recorded line and privacy policy.', keywords: ['recorded or monitored', 'subject to our privacy policy', 'quality training and to improve'] },
+            { id: 'qa_rec', title: '2. Recorded Line Verbatim', desc: 'Read verbatim recorded line & privacy policy.', keywords: ['recorded or monitored', 'subject to our privacy policy', 'quality training and to improve'] },
             { id: 'qa_auth', title: '3. Account Verification', desc: 'Verified 10-digit CID and matching Email Address.', keywords: ['10 digit', 'customer id', 'email address'] },
-            { id: 'qa_task', title: '4. Case/Task Confirmation', desc: 'Confirmed request and checked if it is the right time to proceed.', keywords: ['request was submitted', 'right time to proceed', 'implement'] },
-            { id: 'qa_access', title: '5. Admin/Backend Access', desc: 'Confirmed required access to Ads/Analytics and Admin Panel.', keywords: ['required access', 'admin panel', 'ads account', 'analytics account'] },
-            { id: 'qa_share', title: '6. Screen Share Protocol', desc: 'Instructed client to close private/confidential windows.', keywords: ['sharing the screen', 'private', 'confidential windows', 'confidential tabs'] },
-            { id: 'qa_centric', title: '7. Customer Centricity Pitch', desc: 'Pitched to the client to interrupt if going too fast or unclear.', keywords: ['going too fast', 'not clear', 'hesitate to stop me', 'interrupt me'] },
-            { id: 'qa_sum', title: '8. Summarize Action', desc: 'Summarized the tag/feed implementation discussed.', keywords: ['during our interaction', 'discussed and implemented', 'tags are firing', 'feed is added'] },
-            { id: 'qa_addt', title: '9. Additional Assistance', desc: 'Asked if there is anything else to help with.', keywords: ['anything else i can help you with', 'any other questions'] },
-            { id: 'qa_gcss', title: '10. GCSS Pitch & Closure', desc: 'Pitched the feedback survey and closed the call.', keywords: ['feedback email', 'solely on the interaction', 'continued partnership'] }
+            { id: 'qa_task', title: '4. Case/Task Confirmation', desc: 'Confirmed request and checked if right time to proceed.', keywords: ['request was submitted', 'right time to proceed', 'implement'] },
+            
+            // PA Pitch with Tool Link
+            { id: 'qa_pa_pitch', title: '5. PA Pitch (Implementation Only)', desc: 'Offered to proceed from our end or guide step-by-step. <br><a href="https://tagsupport.corp.google.com/create-session" target="_blank" style="color:var(--primary); text-decoration:underline; font-weight:600; font-size:12px; margin-top:4px; display:inline-block;">Launch TagSupport Session ↗</a>', keywords: ['implementation from our end', 'temporary access', 'guiding you through each step', 'agree to allow us'] },
+            
+            { id: 'qa_access', title: '6. Admin/Backend Access', desc: 'Confirmed required access to Ads/Analytics & Admin Panel.', keywords: ['required access', 'admin panel', 'ads account', 'analytics account'] },
+            { id: 'qa_share', title: '7. Screen Share Protocol', desc: 'Instructed client to close private/confidential windows.', keywords: ['sharing the screen', 'private', 'confidential windows', 'confidential tabs'] },
+            { id: 'qa_centric', title: '8. Customer Centricity Pitch', desc: 'Pitched to client to interrupt if going too fast or unclear.', keywords: ['going too fast', 'not clear', 'hesitate to stop me', 'interrupt me'] },
+            { id: 'qa_sum', title: '9. Summarize Action', desc: 'Summarized the tag/feed implementation discussed.', keywords: ['during our interaction', 'discussed and implemented', 'tags are firing', 'feed is added'] },
+            
+            // Reschedule Node
+            { id: 'qa_reschedule', title: 'Call Rescheduled', desc: 'Call rescheduled due to request, time limits, or missing access.', keywords: ['want a reschedule', 'reschedule the call', 'can we reschedule', 'have a hard stop', 'another meeting', 'running out of time', 'dont have the login', 'need to check with my developer', 'dont have admin access', 'webmaster has the', 'allocated time for today', 'time slot for today', 'next scheduled call'] },
+            
+            { id: 'qa_addt', title: '10. Additional Assistance', desc: 'Asked if there is anything else to help with.', keywords: ['anything else i can help you with', 'any other questions'] },
+            { id: 'qa_gcss', title: '11. GCSS Pitch & Closure', desc: 'Pitched feedback survey and closed the call.', keywords: ['feedback email', 'solely on the interaction', 'continued partnership'] }
         ];
 
         const troubleshootingKB = {
@@ -222,7 +264,14 @@
             'out_of_scope_tag': { title: "Out of Scope Handling: Tag", steps: "\"Advertiser First Name, just to summarize, you would like to {Mention ask}. However, I am an Implementation Specialist and would be able to answer questions related to tag implementation.\n\nTherefore, on this specific issue, the best person to reach out to would be your Google Account Strategist, {GSR Name}, who’d be glad to help you further.\"" },
             'reschedule_limit': { title: "Reschedule Limit Exceeded", steps: "\"Advertiser First Name, as informed earlier, due to the high demand for this program, we have limited slot-availability to enhance the experience of our customers. Since you have already had a reschedule, we are unable to accommodate any further.\n\nWe will proceed to close your case. You can reach out to your Google Account Strategist [GSR Name], or reach out to us via the Ads Support.\"" },
             'plugins_disclaimer': { title: "Plugins Disclaimer", steps: "\"We do not take responsibility for Plug-ins originating from Third Party websites. As these Plugins have not been investigated and monitored or checked for accuracy.\"" },
-            'default': { title: "Hold Procedure / Standard Script", steps: "\"I will need to (create the code/check with my webmaster/etc). May I place your call on hold for a {specify duration) while I get this done for you?\"\n\nRemember to refresh the hold with the customer before 3 minutes elapses to avoid Dead Air markdown." }
+            'pa_pitch_no': { title: "PA Pitch: Client Declined Access", steps: "\"Thank you, we understand your concerns. In that case we will navigate you through the implementation process.\"" },
+            
+            // Reschedule KB Scripts
+            'reschedule_agent_busy': { title: "Reschedule: Agent Queue / Time Limit", steps: "\"Advertiser [Name], our allocated time slot for today's session is coming to an end, and I want to ensure we give your setup full attention without rushing.\n\nLet's schedule a follow-up session to complete the remaining steps. When are you available next?\"" },
+            'reschedule_time': { title: "Reschedule: Client Hard Stop", steps: "\"I completely understand you have a hard stop. Since we want to ensure this is implemented correctly without rushing, let's go ahead and schedule a follow-up call. What day and time works best for you?\"" },
+            'reschedule_access': { title: "Reschedule: Missing Access / Developer Needed", steps: "\"It looks like we'll need full Admin access [or your web developer] to complete this step. I'll send you an email detailing what is needed. Would you like me to include your webmaster on the follow-up invite?\"" },
+            
+            'default': { title: "Hold Procedure / Standard Script", steps: "\"I will need to check on a few technical details. May I place your call on hold for a 2 minutes while I get this done for you?\"\n\nRemember to refresh the hold with the customer before 3 minutes elapses." }
         };
 
         // --- 2. INITIALIZE QA UI ---
@@ -254,7 +303,7 @@
             });
         }
 
-        // --- 3. SMART HOLD COPILOT LOGIC ---
+        // --- 3. HOLD & SCRIPT CONTROLLER ---
         let isOnHold = false;
         let holdTimerInterval;
         let holdSeconds = 0;
@@ -269,7 +318,7 @@
             
             if (isOnHold) {
                 holdBtn.classList.add('active'); holdBtn.innerHTML = "Resume Call";
-                panelHeader.innerHTML = `<h2>Relevant Scripts & Hold Timer</h2><p>Read the exact verbiage below if applicable.</p>`;
+                panelHeader.innerHTML = `<h2>Relevant Scripts & Hold Timer</h2><p style="font-size:12px; color:var(--text-muted)">Read exact verbiage below.</p>`;
                 qaView.style.display = "none"; holdView.classList.add('active');
                 
                 const data = troubleshootingKB[currentIntent] || troubleshootingKB['default'];
@@ -293,16 +342,59 @@
             display.innerText = `${mins}:${secs}`;
             if (holdSeconds >= 165) {
                 display.classList.add('danger');
-                if (holdSeconds === 165) alert("SLA WARNING: Refresh the hold with the customer now to avoid a Dead Air markdown.");
+                if (holdSeconds === 165) alert("SLA WARNING: Refresh the hold with customer now to avoid Dead Air markdown.");
             }
         }
 
-        // --- 4. UPGRADED "CONSCIOUSNESS MEMORY" AI ENGINE ---
+        // --- 4. QUICK RESCHEDULE PIVOT ---
+        function triggerQuickReschedule() {
+            const cb = document.getElementById('qa_reschedule');
+            cb.checked = true;
+            updateProgress();
+            
+            currentIntent = 'reschedule_agent_busy';
+            detectIntent('allocated time for today');
+            
+            if(!isOnHold) toggleHold();
+        }
+
+        // --- 5. CRM CASE WRAP-UP NOTES GENERATOR ---
+        function openCrmModal() {
+            const checked = Array.from(document.querySelectorAll('.qa-card input:checked')).map(cb => {
+                const item = qaItems.find(i => i.id === cb.id);
+                return `  [✓] ${item.title}`;
+            });
+
+            const isRescheduled = document.getElementById('qa_reschedule').checked;
+            
+            let notes = `=== TECHSOLS CASE WRAP-UP NOTES ===\n`;
+            notes += `Timestamp: ${new Date().toLocaleString()}\n`;
+            notes += `Call Outcome: ${isRescheduled ? 'RESCHEDULED / FOLLOW-UP REQUIRED' : 'IN PROGRESS / COMPLETED'}\n\n`;
+            notes += `QA Checklist Completed:\n${checked.length > 0 ? checked.join('\n') : '  None marked'}\n\n`;
+            notes += `Active Context / Intent: ${currentIntent}\n`;
+            notes += `===================================`;
+
+            document.getElementById('crmNotesText').value = notes;
+            document.getElementById('crmModal').classList.add('active');
+        }
+
+        function closeCrmModal() {
+            document.getElementById('crmModal').classList.remove('active');
+        }
+
+        function copyCrmNotes() {
+            const textarea = document.getElementById('crmNotesText');
+            textarea.select();
+            navigator.clipboard.writeText(textarea.value);
+            alert("Case notes copied to clipboard!");
+            closeCrmModal();
+        }
+
+        // --- 6. VOICE ENGINE & SPEECH RECOGNITION ---
         let recognition;
         let isListening = false;
         let sessionTranscript = ''; 
 
-        // Normalizes text to ensure perfect matching even if punctuation is slightly off
         function normalizeString(str) {
             return str.toLowerCase().replace(/[^\w\s]/gi, ' ').replace(/\s+/g, ' ').trim();
         }
@@ -312,7 +404,7 @@
             const status = document.getElementById('voiceStatus');
 
             if (window.location.protocol === 'file:') {
-                status.innerHTML = "<span style='color:var(--danger)'>Cannot access mic from local file. Use a server like VS Code Live Server.</span>"; return;
+                status.innerHTML = "<span style='color:var(--danger)'>Cannot access mic from file://. Open with a local web server (e.g. VS Code Live Server).</span>"; return;
             }
 
             if(!isListening) {
@@ -321,12 +413,11 @@
                 recognition.continuous = true;
                 recognition.interimResults = true;
                 
-                // Only reset the memory buffer when the user explicitly clicks "Start"
                 sessionTranscript = ''; 
                 isListening = true;
                 
                 recognition.onstart = () => {
-                    btn.classList.add('listening'); btn.innerHTML = `Stop`;
+                    btn.classList.add('listening'); btn.innerHTML = `Stop Voice Tracking`;
                     status.innerHTML = "<span style='color:var(--primary);'>Listening actively...</span>";
                 };
 
@@ -339,21 +430,18 @@
                     
                     let display = interim || final;
                     if (display) {
-                        status.innerHTML = `<span style="color:var(--primary)">Hearing:</span> "<i>${display.substring(display.length - 70)}</i>"`;
+                        status.innerHTML = `<span style="color:var(--primary)">Hearing:</span> "<i>${display.substring(display.length - 60)}</i>"`;
                     }
                     
-                    // Accumulate verified memory
                     sessionTranscript += final;
                     let fullContext = sessionTranscript + interim;
                     
-                    // Update visual buffer count
                     let wordCount = fullContext.split(/\s+/).filter(w => w.length > 0).length;
                     document.getElementById('memoryStats').innerText = `Buffer: ${wordCount} words retained`;
 
-                    // Normalize the full context for fuzzy matching
                     let normalizedContext = normalizeString(fullContext);
                     
-                    // 1. Check QA Boxes using fuzzy matching on the continuous memory
+                    // Match QA Checkboxes
                     qaItems.forEach(item => {
                         const cb = document.getElementById(item.id);
                         if(!cb.checked) {
@@ -365,30 +453,26 @@
                         }
                     });
 
-                    // 2. Detect Context/Intent for Hold Copilot
+                    // Detect Context/Intent
                     detectIntent(normalizedContext);
                 };
                 
                 recognition.onerror = (e) => { 
                     if(e.error === 'not-allowed') {
                         isListening = false;
-                        btn.classList.remove('listening'); btn.innerHTML = `🎙️ Track`;
+                        btn.classList.remove('listening'); btn.innerHTML = `🎙️ Start Voice Tracking`;
                         status.innerHTML = "Microphone blocked.";
                     }
                 };
                 
-                // BUG FIX: Auto-restart on silence drop WITHOUT resetting the session transcript
                 recognition.onend = () => { 
-                    if(isListening) {
-                        try { recognition.start(); } catch(e){} 
-                    }
+                    if(isListening) { try { recognition.start(); } catch(e){} }
                 };
                 
                 recognition.start();
             } else {
-                // User explicitly stops the listening session
                 isListening = false; recognition.stop();
-                btn.classList.remove('listening'); btn.innerHTML = `🎙️ Track`;
+                btn.classList.remove('listening'); btn.innerHTML = `🎙️ Start Voice Tracking`;
                 status.innerHTML = "AI actively listens & auto-checks Techsols requirements.";
             }
         }
@@ -401,6 +485,30 @@
             else if (text.includes('out of scope') && text.includes('tag')) { currentIntent = 'out_of_scope_tag'; detected.push('OOS - Tag Script'); }
             else if (text.includes('reschedule limit') || text.includes('accommodate any further')) { currentIntent = 'reschedule_limit'; detected.push('Reschedule Limit Script'); }
             else if (text.includes('plugin') || text.includes('third party')) { currentIntent = 'plugins_disclaimer'; detected.push('Plugin Disclaimer Script'); }
+            
+            // PA Pitch Declined
+            else if (text.includes('temporary access') && (text.includes('no') || text.includes('not comfortable'))) { 
+                currentIntent = 'pa_pitch_no'; 
+                detected.push('PA Pitch Declined - Guide Mode'); 
+            }
+            
+            // Agent Busy / Queue Reschedule
+            else if (text.includes('allocated time') || text.includes('time slot for today') || text.includes('next scheduled call')) {
+                currentIntent = 'reschedule_agent_busy';
+                detected.push('Pivot: Agent Queue Time-Limit');
+            }
+
+            // Client Hard Stop
+            else if (text.includes('hard stop') || text.includes('another meeting') || text.includes('running out of time')) {
+                currentIntent = 'reschedule_time'; 
+                detected.push('Pivot: Client Time-Out');
+            }
+            
+            // Missing Access / Developer Needed
+            else if (text.includes('dont have the login') || text.includes('developer') || text.includes('webmaster') || text.includes('admin access')) {
+                currentIntent = 'reschedule_access'; 
+                detected.push('Pivot: Missing Access');
+            }
 
             if (detected.length > 0) {
                 tagsBox.innerHTML = detected.map(t => `<span class="intent-tag" style="color:var(--primary); border:1px solid var(--primary)">${t}</span>`).join('');
