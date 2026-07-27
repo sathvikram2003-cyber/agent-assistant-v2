@@ -30,38 +30,39 @@
         body {
             background-color: var(--bg-deep);
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1), transparent 25%);
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.12), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.08), transparent 25%);
             color: var(--text-main);
             display: flex; justify-content: center; align-items: center;
             height: 100vh; overflow: hidden;
         }
 
+        /* NEW 3-COLUMN LAYOUT */
         .app-wrapper {
-            width: 95%; max-width: 1350px; height: 92vh;
+            width: 98%; max-width: 1600px; height: 94vh;
             background: var(--surface-glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
-            display: grid; grid-template-columns: 420px 1fr;
+            display: grid; grid-template-columns: 280px 1fr 350px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             overflow: hidden;
         }
 
         /* --- LEFT PANEL: HUD --- */
         .hud-panel {
-            background: rgba(9, 9, 11, 0.5); border-right: 1px solid var(--border-subtle);
-            display: flex; flex-direction: column; align-items: center; padding: 24px; position: relative;
-            overflow-y: auto;
+            background: rgba(9, 9, 11, 0.6); border-right: 1px solid var(--border-subtle);
+            display: flex; flex-direction: column; align-items: center; padding: 20px; position: relative;
+            z-index: 10;
         }
 
         .brand {
-            display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 800;
+            display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800;
             letter-spacing: -0.5px; margin-bottom: 20px; width: 100%;
         }
-        .header-logo { width: 38px; height: 38px; filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5)); }
+        .header-logo { width: 32px; height: 32px; filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5)); }
 
-        .progress-container { position: relative; width: 140px; height: 140px; margin-bottom: 16px; display: flex; justify-content: center; align-items: center; }
+        .progress-container { position: relative; width: 120px; height: 120px; margin-bottom: 16px; display: flex; justify-content: center; align-items: center; }
         .progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; }
-        .progress-ring circle { fill: transparent; stroke-width: 10; stroke-linecap: round; }
+        .progress-ring circle { fill: transparent; stroke-width: 8; stroke-linecap: round; }
         .progress-ring-bg { stroke: rgba(255, 255, 255, 0.05); }
         .progress-ring-fill {
             stroke: var(--success); stroke-dasharray: 471; stroke-dashoffset: 471;
@@ -70,97 +71,122 @@
         }
 
         .progress-text { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-        .progress-percentage { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .progress-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .progress-percentage { font-size: 28px; font-weight: 800; background: linear-gradient(135deg, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .progress-label { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Memory Consciousness & Intent Box */
         .intent-box {
-            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle);
+            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle);
             border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px;
         }
-        .intent-header { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between;}
-        .intent-tag { background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .intent-header { font-size: 10px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between;}
+        .intent-tag { background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
         .intent-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-        .memory-stats { font-size: 10px; color: var(--success); text-align: right; font-family: monospace; }
+        .memory-stats { font-size: 9px; color: var(--success); text-align: right; font-family: monospace; }
 
-        /* Action Buttons Grid */
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 12px; }
+        .btn-grid { display: grid; grid-template-columns: 1fr; gap: 8px; width: 100%; margin-bottom: 12px; }
         .btn {
-            padding: 12px 8px; border-radius: var(--radius-md); border: none; font-size: 13px; font-weight: 700;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+            padding: 12px; border-radius: var(--radius-md); border: none; font-size: 13px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
         }
-        .btn-start { background: var(--primary); color: white; box-shadow: 0 4px 12px var(--primary-glow); grid-column: span 2; }
+        .btn-start { background: var(--primary); color: white; box-shadow: 0 4px 12px var(--primary-glow); }
         .btn-start.listening { background: var(--danger); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
         
-        .btn-hold { background: transparent; border: 1px solid var(--warning); color: var(--warning); }
-        .btn-hold.active { background: var(--warning); color: #000; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); animation: pulse-warning 2s infinite; }
-
         .btn-quick-reschedule { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #fca5a5; }
         .btn-quick-reschedule:hover { background: var(--danger); color: white; }
 
-        .btn-crm { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--success); color: #6ee7b7; grid-column: span 2; margin-top: 4px; }
+        .btn-crm { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--success); color: #6ee7b7; }
         .btn-crm:hover { background: var(--success); color: #000; }
 
-        .status-msg { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: auto; min-height: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .status-msg { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: auto; padding-top: 10px;}
 
-        /* --- RIGHT PANEL: TIMELINE & HOLD ASSIST --- */
-        .content-panel { position: relative; display: flex; flex-direction: column; overflow: hidden; }
-        .panel-header { padding: 24px 32px 10px; background: linear-gradient(to bottom, var(--surface-glass) 60%, transparent); z-index: 10; }
-        .panel-header h2 { font-size: 20px; font-weight: 700; }
+        /* --- MIDDLE PANEL: SCRIPT VIEWER --- */
+        .script-panel {
+            background: rgba(0, 0, 0, 0.2);
+            border-right: 1px solid var(--border-subtle);
+            display: flex; flex-direction: column;
+            position: relative;
+        }
         
-        .scroll-area { padding: 10px 32px 40px; overflow-y: auto; flex: 1; }
-        .scroll-area::-webkit-scrollbar { width: 6px; }
-        .scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        .panel-header { padding: 20px 24px 10px; background: linear-gradient(to bottom, rgba(24, 24, 27, 0.9) 60%, transparent); z-index: 10; position: sticky; top: 0; }
+        .panel-header h2 { font-size: 18px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .btn-hold { background: transparent; border: 1px solid var(--warning); color: var(--warning); padding: 6px 12px; font-size: 12px; border-radius: 6px; cursor: pointer; }
+        .btn-hold.active { background: var(--warning); color: #000; animation: pulse-warning 2s infinite; }
 
-        /* Timeline Checklist */
-        .qa-card { display: block; position: relative; padding-left: 44px; margin-bottom: 18px; cursor: pointer; transition: all 0.3s ease; }
-        .qa-card::before { content: ''; position: absolute; left: 15px; top: 28px; bottom: -18px; width: 2px; background: var(--border-subtle); z-index: 1; }
-        .qa-card:last-child::before { display: none; }
-        .qa-card.done::before { background: var(--success); }
+        .script-scroll-area { padding: 10px 40px 60px; overflow-y: auto; flex: 1; scroll-behavior: smooth; }
+        .script-scroll-area::-webkit-scrollbar { width: 6px; }
+        .script-scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
-        .qa-node { position: absolute; left: 0; top: 2px; width: 30px; height: 30px; border-radius: 50%; background: rgba(24, 24, 27, 0.8); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.3s; }
-        .qa-node svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 3; opacity: 0; transform: scale(0.5); transition: all 0.3s; }
+        .script-block { 
+            padding: 16px 20px; margin-bottom: 16px; border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.02); border-left: 3px solid transparent;
+            transition: all 0.3s; opacity: 0.6;
+        }
+        .script-block.active { opacity: 1; background: rgba(99, 102, 241, 0.05); border-left-color: var(--primary); transform: translateX(5px); }
+        .script-block.done { opacity: 0.3; border-left-color: var(--success); }
+        
+        .script-title { font-size: 12px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .script-block.done .script-title { color: var(--success); text-decoration: line-through; }
+        
+        .script-text { font-size: 15px; line-height: 1.6; color: var(--text-main); }
+        .highlight { color: #fcd34d; font-weight: 600; background: rgba(252, 211, 77, 0.1); padding: 0 4px; border-radius: 4px;}
+        .instruction { font-size: 12px; color: var(--warning); font-style: italic; margin-top: 8px; display: block;}
+
+        /* Hold Assistant View (Overlays the Script Panel) */
+        .hold-assist-view { display: none; flex-direction: column; gap: 16px; padding: 20px 40px; animation: fadeIn 0.3s ease-out; }
+        .hold-assist-view.active { display: block; }
+        
+        .timer-display { font-size: 42px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--warning); text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: var(--radius-md); border: 1px solid var(--warning); margin-bottom: 20px;}
+        .timer-display.danger { color: var(--danger); border-color: var(--danger); animation: pulse-error 1s infinite; }
+        .step-card { background: rgba(255,255,255,0.02); border: 1px solid var(--primary); border-left: 4px solid var(--primary); padding: 16px; border-radius: var(--radius-md); }
+        .step-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+        .step-body { font-size: 14px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; }
+
+        /* --- RIGHT PANEL: QA CHECKLIST --- */
+        .qa-panel { background: rgba(9, 9, 11, 0.3); display: flex; flex-direction: column; position: relative; }
+        .qa-scroll-area { padding: 20px; overflow-y: auto; flex: 1; }
+        .qa-scroll-area::-webkit-scrollbar { width: 4px; }
+        .qa-scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
+
+        .section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin: 0 0 12px 10px; }
+
+        .qa-card { display: block; position: relative; padding-left: 36px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s ease; }
+        .qa-node { position: absolute; left: 0; top: 4px; width: 24px; height: 24px; border-radius: 50%; background: rgba(24, 24, 27, 0.8); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.3s; }
+        .qa-node svg { width: 10px; height: 10px; fill: none; stroke: white; stroke-width: 3; opacity: 0; transform: scale(0.5); transition: all 0.3s; }
 
         .qa-card.done .qa-node { background: var(--success); border-color: var(--success); box-shadow: 0 0 10px var(--success-glow); }
         .qa-card.done .qa-node svg { opacity: 1; transform: scale(1); }
-        .qa-card.done .qa-content { opacity: 0.55; }
-        .qa-card.done .qa-title { text-decoration: line-through; color: var(--success); }
+        .qa-card.done .qa-title { text-decoration: line-through; color: var(--success); opacity: 0.7;}
 
-        .qa-content { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); padding: 14px 16px; border-radius: var(--radius-md); transition: all 0.3s; }
-        .qa-card:hover .qa-content { background: rgba(255, 255, 255, 0.04); transform: translateX(4px); }
-        .qa-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-        .qa-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+        .qa-content { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); padding: 10px 12px; border-radius: var(--radius-md); transition: all 0.3s; }
+        .qa-title { font-size: 12px; font-weight: 700; }
         .qa-card input[type="checkbox"] { display: none; }
 
-        /* Hold Assistant View */
-        .hold-assist-view { display: none; flex-direction: column; gap: 16px; animation: fadeIn 0.3s ease-out; }
-        .hold-assist-view.active { display: flex; }
-        
-        .timer-display { font-size: 42px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--warning); text-shadow: 0 0 20px rgba(245, 158, 11, 0.3); text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: var(--radius-md); border: 1px solid var(--warning); }
-        .timer-display.danger { color: var(--danger); border-color: var(--danger); text-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulse-error 1s infinite; }
+        /* Contextual/Bonus Card Styling */
+        .qa-card.contextual .qa-node { border-radius: 4px; border-color: var(--warning); }
+        .qa-card.contextual.done .qa-node { background: var(--warning); border-color: var(--warning); box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+        .qa-card.contextual.done .qa-title { color: var(--warning); }
 
-        .step-card { background: rgba(255,255,255,0.02); border: 1px solid var(--primary); border-left: 4px solid var(--primary); padding: 16px; border-radius: var(--radius-md); }
-        .step-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
-        .step-body { font-size: 13px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; }
+        /* Reference Card */
+        .ref-card { background: rgba(99, 102, 241, 0.05); border: 1px solid var(--primary); border-radius: var(--radius-md); padding: 12px; margin-top: 20px; }
+        .ref-title { font-size: 11px; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
+        .ref-list { font-size: 11px; color: var(--text-main); padding-left: 14px; line-height: 1.5; }
 
-        /* CRM Notes Modal */
+        /* CRM NOTES MODAL */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 100; }
         .modal-overlay.active { display: flex; }
         .modal-box { background: #121215; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); width: 90%; max-width: 600px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .modal-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
         .crm-textarea { width: 100%; height: 220px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main); font-family: monospace; font-size: 12px; padding: 12px; resize: none; margin-bottom: 16px; }
-        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 
-        @keyframes pulse-warning { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
-        @keyframes pulse-error { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse-warning { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 70% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
+        @keyframes pulse-error { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
     </style>
 </head>
 <body>
 
     <div class="app-wrapper">
-        <!-- LEFT PANEL -->
+        <!-- 1. LEFT PANEL (HUD) -->
         <div class="hud-panel">
             <div class="brand">
                 <svg class="header-logo" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -168,68 +194,163 @@
                     <rect x="4" y="4" width="8" height="6" fill="#fcd34d" />
                     <rect x="4" y="5" width="3" height="2" fill="#09090b" /><rect x="9" y="5" width="3" height="2" fill="#09090b" /><rect x="7" y="5" width="2" height="1" fill="#09090b" />
                     <rect x="2" y="4" width="2" height="4" fill="#6366f1" /><rect x="12" y="4" width="2" height="4" fill="#6366f1" />
-                    <rect x="3" y="7" width="1" height="2" fill="#94a3b8" /><rect x="4" y="8" width="2" height="1" fill="#94a3b8" /><rect x="6" y="8" width="1" height="1" fill="#ef4444" />
                     <rect x="3" y="10" width="10" height="6" fill="#18181b" /><rect x="6" y="10" width="4" height="2" fill="#f8fafc" /><rect x="7" y="12" width="2" height="1" fill="#f8fafc" /><rect x="7" y="11" width="2" height="5" fill="#6366f1" />
                 </svg>
                 Techsols Assist
             </div>
             
             <div class="progress-container">
-                <svg class="progress-ring"><circle class="progress-ring-bg" cx="70" cy="70" r="65"></circle><circle class="progress-ring-fill" id="progressRingFill" cx="70" cy="70" r="65"></circle></svg>
+                <svg class="progress-ring"><circle class="progress-ring-bg" cx="60" cy="60" r="56"></circle><circle class="progress-ring-fill" id="progressRingFill" cx="60" cy="60" r="56"></circle></svg>
                 <div class="progress-text">
                     <div class="progress-percentage" id="progressText">0%</div>
-                    <div class="progress-label">QA Score</div>
+                    <div class="progress-label">Core QA</div>
                 </div>
             </div>
 
-            <!-- Consciousness DB & Intent Tracker -->
             <div class="intent-box">
-                <div class="intent-header"><span>Consciousness DB</span> <span>🧠</span></div>
+                <div class="intent-header"><span>Consciousness DB</span></div>
                 <div class="intent-tags" id="intentTags">
-                    <span class="intent-tag" style="color:var(--text-muted)">Ready for recording...</span>
+                    <span class="intent-tag" style="color:var(--text-muted)">Ready...</span>
                 </div>
-                <div class="memory-stats" id="memoryStats">Buffer: 0 words retained</div>
+                <div class="memory-stats" id="memoryStats">Buffer: 0 words</div>
             </div>
 
-            <!-- Controls -->
             <div class="btn-grid">
-                <button class="btn btn-start" id="voiceBtn" onclick="toggleVoice()">🎙️ Start Voice Tracking</button>
-                <button class="btn btn-hold" id="holdBtn" onclick="toggleHold()">⏸️ Script / Hold</button>
-                <button class="btn btn-quick-reschedule" onclick="triggerQuickReschedule()">⚡ Quick Reschedule</button>
-                <button class="btn btn-crm" onclick="openCrmModal()">📋 Generate Case Wrap Notes</button>
+                <button class="btn btn-start" id="voiceBtn" onclick="toggleVoice()">🎙️ Start Voice Tracker</button>
+                <button class="btn btn-quick-reschedule" onclick="triggerQuickReschedule()">⚡ Mark Rescheduled</button>
+                <button class="btn btn-crm" onclick="openCrmModal()">📋 Copy Case Notes</button>
             </div>
             
-            <div class="status-msg" id="voiceStatus">AI actively listens & auto-checks Techsols requirements.</div>
+            <div class="status-msg" id="voiceStatus">Auto-scroll & check is active.</div>
         </div>
 
-        <!-- RIGHT PANEL -->
-        <div class="content-panel">
+        <!-- 2. MIDDLE PANEL (SCRIPT VIEWER) -->
+        <div class="script-panel">
             <div class="panel-header" id="panelHeader">
-                <h2>Techsols Live Call Flow</h2>
+                <h2>Call Script / Verbiage <button class="btn-hold" id="holdBtn" onclick="toggleHold()">⏸️ Troubleshooting Scripts</button></h2>
             </div>
             
-            <div class="scroll-area">
-                <!-- DEFAULT VIEW: QA Checklist -->
+            <!-- MAIN SCRIPT (Scrolls automatically) -->
+            <div class="script-scroll-area" id="mainScriptContainer">
+                
+                <div class="script-block active" id="script-qa_intro">
+                    <div class="script-title">1. Greeting</div>
+                    <div class="script-text">
+                        "Hi! My name is <span class="highlight">[Your Name]</span>, and I'm calling from the Technical Solutions team on behalf of Google. Am I speaking with <span class="highlight">[Advertiser Name]</span>? How are you doing today?"
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_rec">
+                    <div class="script-title">2. Recorded Line Verbatim</div>
+                    <div class="script-text">
+                        "This call may be recorded or monitored for quality, training and to improve Google's services, subject to our Privacy Policy. Do you agree to have this call monitored and recorded?"
+                        <span class="instruction">(If no, disconnect and log Speakeasy)</span>
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_auth">
+                    <div class="script-title">3. Authentication</div>
+                    <div class="script-text">
+                        "Advertiser First Name, to ensure that we're working on the correct account, please confirm your <span class="highlight">10-digit Customer ID</span> along with your <span class="highlight">email address</span> and your <span class="highlight">website name</span>?"
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_task">
+                    <div class="script-title">4. Task & Readiness</div>
+                    <div class="script-text">
+                        "This request was submitted for the <span class="highlight">[Task: ads_conversion_tracking]</span>. Please confirm if you have admin access to your Google Ads account and to the admin panel of the website? Could you please confirm if a backup of the website was taken recently?"<br><br>
+                        "As the call was scheduled for 30 minutes, would this be the right time to proceed with the implementation? Just a quick heads-up before we begin—in case of a call disconnection, please don't worry, we will call you back as soon as possible."
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_share">
+                    <div class="script-title">5. Screen Share</div>
+                    <div class="script-text">
+                        "Before sharing your screen Please, close all your private/confidential windows, tabs and confidential documents on your device and start presenting your screen."<br><br>
+                        "When you are ready, please click the 'Present now' button with a rectangle and an upward arrow. Please, choose the 'Entire screen' option."
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_pa_pitch">
+                    <div class="script-title">6. PA Pitch (Implementation Only)</div>
+                    <div class="script-text">
+                        "We may proceed with the implementation from our end or by guiding you through each step. To proceed with the creation on your behalf, we would need to ask you for temporary access... This access will be revoked when our session expires."<br><br>
+                        "You should receive an email with the access request. Do you agree to allow us temporary access?"
+                        <a href="https://tagsupport.corp.google.com/create-session" target="_blank" style="color:var(--primary); font-size:12px; display:block; margin-top:8px; font-weight:bold;">Launch TagSupport Session ↗</a>
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_sum">
+                    <div class="script-title">7. Summarize Call</div>
+                    <div class="script-text">
+                        "During our interaction, we discussed and implemented <span class="highlight">[Task performed]</span>. We also verified that the <span class="highlight">[Tags are firing / Feed is added]</span> as requested. Any user coming through a google ad click visits your website and then performs the action it tracks as conversions."
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_so_test">
+                    <div class="script-title">8. SO Test & Close (If Case Completed)</div>
+                    <div class="script-text">
+                        "The implementation is complete, and we will monitor your account for few days. During this time, our quality team may perform a test conversion to validate the implementation. Are you okay with our quality team performing this test conversion?"<br><br>
+                        "Can I go ahead and close the case?"
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_addt">
+                    <div class="script-title">9. Additional Help</div>
+                    <div class="script-text">
+                        "Would there be anything else that I can help you with?"
+                    </div>
+                </div>
+
+                <div class="script-block" id="script-qa_gcss">
+                    <div class="script-title">10. GCSS & Closure</div>
+                    <div class="script-text">
+                        "We will be sending you a feedback email once your current case is closed. This feedback is focused solely on the interaction and experience you had with us during this particular case."<br><br>
+                        "If you have any other questions, please contact your Google Account Manager or the Google Ads Support. It's been a pleasure speaking with you. We appreciate your continued partnership with Google. Have a great day!"
+                    </div>
+                </div>
+            </div>
+
+            <!-- HOLD/TROUBLESHOOTING ASSISTANT (Hidden by default) -->
+            <div class="hold-assist-view" id="holdAssistContainer">
+                <div class="timer-display" id="holdTimerDisplay">00:00</div>
+                <div id="holdStepsContainer"></div>
+            </div>
+        </div>
+
+        <!-- 3. RIGHT PANEL (QA CHECKLIST) -->
+        <div class="qa-panel">
+            <div class="qa-scroll-area">
+                <div class="section-title">Required Flow</div>
                 <div id="qaListContainer"></div>
 
-                <!-- ON HOLD VIEW: Smart SOPs & Scripts -->
-                <div class="hold-assist-view" id="holdAssistContainer">
-                    <div class="timer-display" id="holdTimerDisplay">00:00</div>
-                    <div id="holdStepsContainer"></div>
+                <div class="section-title" style="margin-top:20px; color:var(--warning)">Contextual / Conditional</div>
+                <div id="qaConditionalContainer"></div>
+                
+                <!-- Helper/Reference Card -->
+                <div class="ref-card">
+                    <div class="ref-title">📸 Screenshots Required</div>
+                    <ul class="ref-list">
+                        <li>Gtag/GTM ID present via Tag Assistant</li>
+                        <li>Tags fired status (in preview mode)</li>
+                        <li>Fired status expanded (Succeeded)</li>
+                        <li>No recent conversions screen</li>
+                        <li>Submit + Publish (Version is Live page)</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CRM NOTES MODAL -->
+    <!-- CRM MODAL (Unchanged functionality, slightly cleaner UI) -->
     <div class="modal-overlay" id="crmModal">
         <div class="modal-box">
             <div class="modal-header">
-                <div class="modal-title">📋 Automated CRM Case Wrap-Up Notes</div>
+                <div class="modal-title">📋 CRM Wrap-Up Notes</div>
                 <button onclick="closeCrmModal()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px;">✕</button>
             </div>
             <textarea class="crm-textarea" id="crmNotesText" readonly></textarea>
-            <div class="modal-actions">
+            <div class="modal-actions" style="display:flex; justify-content:flex-end; gap:10px;">
                 <button class="btn" style="background:var(--border-subtle); color:white;" onclick="closeCrmModal()">Close</button>
                 <button class="btn" style="background:var(--success); color:black;" onclick="copyCrmNotes()">Copy to Clipboard</button>
             </div>
@@ -237,89 +358,109 @@
     </div>
 
     <script>
-        // --- 1. QA DATA STRUCTURE & KEYWORDS ---
+        // --- 1. CORE QA DATA ---
         const qaItems = [
-            { id: 'qa_intro', title: '1. Call Opening & Greeting', desc: 'Introduced self as Technical Solutions on behalf of Google.', keywords: ['technical solutions team', 'on behalf of google', 'am i speaking with'] },
-            { id: 'qa_rec', title: '2. Recorded Line Verbatim', desc: 'Read verbatim recorded line & privacy policy.', keywords: ['recorded or monitored', 'subject to our privacy policy', 'quality training and to improve'] },
-            { id: 'qa_auth', title: '3. Account Verification', desc: 'Verified 10-digit CID and matching Email Address.', keywords: ['10 digit', 'customer id', 'email address'] },
-            { id: 'qa_task', title: '4. Case/Task Confirmation', desc: 'Confirmed request and checked if right time to proceed.', keywords: ['request was submitted', 'right time to proceed', 'implement'] },
-            
-            // PA Pitch with Tool Link
-            { id: 'qa_pa_pitch', title: '5. PA Pitch (Implementation Only)', desc: 'Offered to proceed from our end or guide step-by-step. <br><a href="https://tagsupport.corp.google.com/create-session" target="_blank" style="color:var(--primary); text-decoration:underline; font-weight:600; font-size:12px; margin-top:4px; display:inline-block;">Launch TagSupport Session ↗</a>', keywords: ['implementation from our end', 'temporary access', 'guiding you through each step', 'agree to allow us'] },
-            
-            { id: 'qa_access', title: '6. Admin/Backend Access', desc: 'Confirmed required access to Ads/Analytics & Admin Panel.', keywords: ['required access', 'admin panel', 'ads account', 'analytics account'] },
-            { id: 'qa_share', title: '7. Screen Share Protocol', desc: 'Instructed client to close private/confidential windows.', keywords: ['sharing the screen', 'private', 'confidential windows', 'confidential tabs'] },
-            { id: 'qa_centric', title: '8. Customer Centricity Pitch', desc: 'Pitched to client to interrupt if going too fast or unclear.', keywords: ['going too fast', 'not clear', 'hesitate to stop me', 'interrupt me'] },
-            { id: 'qa_sum', title: '9. Summarize Action', desc: 'Summarized the tag/feed implementation discussed.', keywords: ['during our interaction', 'discussed and implemented', 'tags are firing', 'feed is added'] },
-            
-            // Reschedule Node
-            { id: 'qa_reschedule', title: 'Call Rescheduled', desc: 'Call rescheduled due to request, time limits, or missing access.', keywords: ['want a reschedule', 'reschedule the call', 'can we reschedule', 'have a hard stop', 'another meeting', 'running out of time', 'dont have the login', 'need to check with my developer', 'dont have admin access', 'webmaster has the', 'allocated time for today', 'time slot for today', 'next scheduled call'] },
-            
-            { id: 'qa_addt', title: '10. Additional Assistance', desc: 'Asked if there is anything else to help with.', keywords: ['anything else i can help you with', 'any other questions'] },
-            { id: 'qa_gcss', title: '11. GCSS Pitch & Closure', desc: 'Pitched feedback survey and closed the call.', keywords: ['feedback email', 'solely on the interaction', 'continued partnership'] }
+            { id: 'qa_intro', title: '1. Greeting', keywords: ['technical solutions team', 'on behalf of google', 'how are you doing today'] },
+            { id: 'qa_rec', title: '2. Recorded Line', keywords: ['recorded or monitored', 'privacy policy'] },
+            { id: 'qa_auth', title: '3. Authentication', keywords: ['10 digit', 'customer id', 'email address', 'website name'] },
+            { id: 'qa_task', title: '4. Task & Access', keywords: ['submitted for the', 'admin access', 'backup', 'right time to proceed', 'call disconnection'] },
+            { id: 'qa_share', title: '5. Screen Share', keywords: ['close all your private', 'confidential windows', 'present now', 'entire screen'] },
+            { id: 'qa_pa_pitch', title: '6. PA Pitch', keywords: ['implementation from our end', 'temporary access', 'guiding you through'] },
+            { id: 'qa_sum', title: '7. Summarize Call', keywords: ['discussed and implemented', 'tags are firing', 'feed is added', 'tracks as conversions'] },
+            { id: 'qa_so_test', title: '8. SO Test (Optional Closure)', keywords: ['test conversion to validate', 'quality team', 'close the case'] },
+            { id: 'qa_addt', title: '9. Additional Help', keywords: ['anything else that i can help you with'] },
+            { id: 'qa_gcss', title: '10. GCSS & Closure', keywords: ['feedback email', 'solely on the interaction', 'continued partnership'] }
+        ];
+
+        // Plugins is conditional. Does not count towards the 10 core items for 100% score.
+        const conditionalItems = [
+            { id: 'qa_plugins', title: 'Plugins Disclaimer', keywords: ['responsibility for plug-ins', 'third party websites', 'checked for accuracy'] },
+            { id: 'qa_reschedule', title: 'Call Rescheduled', keywords: ['want a reschedule', 'have a hard stop', 'running out of time', 'developer', 'webmaster', 'allocated time'] }
         ];
 
         const troubleshootingKB = {
-            'out_of_scope_shopping': { title: "Out of Scope Handling: Shopping", steps: "\"I would have loved to assist you with that, but, as a specialist from the Shopping team, my expertise lies in Feed Setup and Optimization. For assistance on this issue, the best person to reach out to would be your Google Account Strategist [GSR Name].\"\n\n\"Meanwhile, I will share an update with your Account Strategist about your specific requirements and advise them to contact you at the earliest.\"" },
-            'out_of_scope_tag': { title: "Out of Scope Handling: Tag", steps: "\"Advertiser First Name, just to summarize, you would like to {Mention ask}. However, I am an Implementation Specialist and would be able to answer questions related to tag implementation.\n\nTherefore, on this specific issue, the best person to reach out to would be your Google Account Strategist, {GSR Name}, who’d be glad to help you further.\"" },
-            'reschedule_limit': { title: "Reschedule Limit Exceeded", steps: "\"Advertiser First Name, as informed earlier, due to the high demand for this program, we have limited slot-availability to enhance the experience of our customers. Since you have already had a reschedule, we are unable to accommodate any further.\n\nWe will proceed to close your case. You can reach out to your Google Account Strategist [GSR Name], or reach out to us via the Ads Support.\"" },
-            'plugins_disclaimer': { title: "Plugins Disclaimer", steps: "\"We do not take responsibility for Plug-ins originating from Third Party websites. As these Plugins have not been investigated and monitored or checked for accuracy.\"" },
-            'pa_pitch_no': { title: "PA Pitch: Client Declined Access", steps: "\"Thank you, we understand your concerns. In that case we will navigate you through the implementation process.\"" },
-            
-            // Reschedule KB Scripts
-            'reschedule_agent_busy': { title: "Reschedule: Agent Queue / Time Limit", steps: "\"Advertiser [Name], our allocated time slot for today's session is coming to an end, and I want to ensure we give your setup full attention without rushing.\n\nLet's schedule a follow-up session to complete the remaining steps. When are you available next?\"" },
-            'reschedule_time': { title: "Reschedule: Client Hard Stop", steps: "\"I completely understand you have a hard stop. Since we want to ensure this is implemented correctly without rushing, let's go ahead and schedule a follow-up call. What day and time works best for you?\"" },
-            'reschedule_access': { title: "Reschedule: Missing Access / Developer Needed", steps: "\"It looks like we'll need full Admin access [or your web developer] to complete this step. I'll send you an email detailing what is needed. Would you like me to include your webmaster on the follow-up invite?\"" },
-            
-            'default': { title: "Hold Procedure / Standard Script", steps: "\"I will need to check on a few technical details. May I place your call on hold for a 2 minutes while I get this done for you?\"\n\nRemember to refresh the hold with the customer before 3 minutes elapses." }
+            'out_of_scope': { title: "Out of Scope", steps: "\"I would have loved to assist you with that, but my expertise lies in Feed Setup/Tag Implementation. The best person to reach out to would be your Google Account Strategist.\"" },
+            'pa_pitch_no': { title: "PA Pitch Declined", steps: "\"Thank you, we understand your concerns. In that case we will navigate you through the implementation process.\"" },
+            'reschedule_agent': { title: "Reschedule: Time Limit", steps: "\"Our allocated time slot for today is ending. Let's schedule a follow-up session to complete the remaining steps without rushing. When are you available next?\"" },
+            'reschedule_client': { title: "Reschedule: Hard Stop/Access", steps: "\"I completely understand. Let's schedule a follow-up call. I'll send an email with what is needed (Admin access/Webmaster). What day works best for you?\"" },
+            'default': { title: "Standard Hold", steps: "\"May I place your call on hold for 2 minutes while I check this?\"\n\n(Refresh before 3 mins elapses)" }
         };
 
-        // --- 2. INITIALIZE QA UI ---
+        // --- 2. INITIALIZE UI ---
         const qaContainer = document.getElementById('qaListContainer');
-        qaItems.forEach(item => {
+        qaItems.forEach((item, index) => {
             qaContainer.innerHTML += `
                 <label class="qa-card" id="card-${item.id}" for="${item.id}">
-                    <input type="checkbox" id="${item.id}" onchange="updateProgress()">
+                    <input type="checkbox" id="${item.id}" onchange="updateProgress(); highlightScript('${item.id}', ${index});">
                     <div class="qa-node"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                    <div class="qa-content">
-                        <div class="qa-title">${item.title}</div>
-                        <div class="qa-desc">${item.desc}</div>
-                    </div>
-                </label>
-            `;
+                    <div class="qa-content"><div class="qa-title">${item.title}</div></div>
+                </label>`;
         });
 
+        const condContainer = document.getElementById('qaConditionalContainer');
+        conditionalItems.forEach(item => {
+            condContainer.innerHTML += `
+                <label class="qa-card contextual" id="card-${item.id}" for="${item.id}">
+                    <input type="checkbox" id="${item.id}" onchange="updateContextual('${item.id}')">
+                    <div class="qa-node"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                    <div class="qa-content"><div class="qa-title">${item.title}</div></div>
+                </label>`;
+        });
+
+        // --- 3. LOGIC FUNCTIONS ---
         function updateProgress() {
             const total = qaItems.length;
-            const checked = document.querySelectorAll('.qa-card input:checked').length;
+            const checked = Array.from(document.querySelectorAll('#qaListContainer input:checked')).length;
             const percentage = Math.round((checked / total) * 100);
             
             document.getElementById('progressText').innerText = `${percentage}%`;
             document.getElementById('progressRingFill').style.strokeDashoffset = 471 - (percentage / 100) * 471;
             
-            document.querySelectorAll('.qa-card input').forEach(cb => {
-                if (cb.checked) document.getElementById('card-' + cb.id).classList.add('done');
-                else document.getElementById('card-' + cb.id).classList.remove('done');
+            qaItems.forEach(item => {
+                if (document.getElementById(item.id).checked) {
+                    document.getElementById('card-' + item.id).classList.add('done');
+                    let scriptBlock = document.getElementById('script-' + item.id);
+                    if(scriptBlock) scriptBlock.classList.add('done');
+                }
             });
         }
 
-        // --- 3. HOLD & SCRIPT CONTROLLER ---
-        let isOnHold = false;
-        let holdTimerInterval;
-        let holdSeconds = 0;
-        let currentIntent = 'default';
+        function updateContextual(id) {
+            if (document.getElementById(id).checked) {
+                document.getElementById('card-' + id).classList.add('done');
+            } else {
+                document.getElementById('card-' + id).classList.remove('done');
+            }
+        }
+
+        // SMART AUTO-SCROLL
+        function highlightScript(currentId, index) {
+            // Un-highlight all
+            document.querySelectorAll('.script-block').forEach(el => el.classList.remove('active'));
+            
+            // If there's a next item, make it active and scroll to it
+            if (index + 1 < qaItems.length) {
+                let nextId = 'script-' + qaItems[index + 1].id;
+                let nextBlock = document.getElementById(nextId);
+                if(nextBlock) {
+                    nextBlock.classList.add('active');
+                    nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        // --- 4. HOLD/TROUBLESHOOTING OVERLAY ---
+        let isOnHold = false; let holdTimerInterval; let holdSeconds = 0; let currentIntent = 'default';
 
         function toggleHold() {
             isOnHold = !isOnHold;
             const holdBtn = document.getElementById('holdBtn');
-            const panelHeader = document.getElementById('panelHeader');
-            const qaView = document.getElementById('qaListContainer');
+            const mainScript = document.getElementById('mainScriptContainer');
             const holdView = document.getElementById('holdAssistContainer');
             
             if (isOnHold) {
-                holdBtn.classList.add('active'); holdBtn.innerHTML = "Resume Call";
-                panelHeader.innerHTML = `<h2>Relevant Scripts & Hold Timer</h2><p style="font-size:12px; color:var(--text-muted)">Read exact verbiage below.</p>`;
-                qaView.style.display = "none"; holdView.classList.add('active');
+                holdBtn.classList.add('active'); holdBtn.innerHTML = "Resume Main Script";
+                mainScript.style.display = "none"; holdView.classList.add('active');
                 
                 const data = troubleshootingKB[currentIntent] || troubleshootingKB['default'];
                 document.getElementById('holdStepsContainer').innerHTML = `
@@ -328,9 +469,8 @@
                 holdSeconds = 0; updateHoldDisplay();
                 holdTimerInterval = setInterval(() => { holdSeconds++; updateHoldDisplay(); }, 1000);
             } else {
-                holdBtn.classList.remove('active'); holdBtn.innerHTML = "⏸️ Script / Hold";
-                panelHeader.innerHTML = `<h2>Techsols Live Call Flow</h2>`;
-                qaView.style.display = "block"; holdView.classList.remove('active');
+                holdBtn.classList.remove('active'); holdBtn.innerHTML = "⏸️ Troubleshooting Scripts";
+                mainScript.style.display = "block"; holdView.classList.remove('active');
                 clearInterval(holdTimerInterval); document.getElementById('holdTimerDisplay').classList.remove('danger');
             }
         }
@@ -340,181 +480,87 @@
             const mins = String(Math.floor(holdSeconds / 60)).padStart(2, '0');
             const secs = String(holdSeconds % 60).padStart(2, '0');
             display.innerText = `${mins}:${secs}`;
-            if (holdSeconds >= 165) {
-                display.classList.add('danger');
-                if (holdSeconds === 165) alert("SLA WARNING: Refresh the hold with customer now to avoid Dead Air markdown.");
-            }
+            if (holdSeconds >= 165) display.classList.add('danger');
         }
 
-        // --- 4. QUICK RESCHEDULE PIVOT ---
         function triggerQuickReschedule() {
-            const cb = document.getElementById('qa_reschedule');
-            cb.checked = true;
-            updateProgress();
-            
-            currentIntent = 'reschedule_agent_busy';
-            detectIntent('allocated time for today');
-            
+            document.getElementById('qa_reschedule').checked = true;
+            updateContextual('qa_reschedule');
+            currentIntent = 'reschedule_agent';
             if(!isOnHold) toggleHold();
         }
 
-        // --- 5. CRM CASE WRAP-UP NOTES GENERATOR ---
+        // --- 5. CRM MODAL ---
         function openCrmModal() {
             const checked = Array.from(document.querySelectorAll('.qa-card input:checked')).map(cb => {
-                const item = qaItems.find(i => i.id === cb.id);
+                const item = [...qaItems, ...conditionalItems].find(i => i.id === cb.id);
                 return `  [✓] ${item.title}`;
             });
-
-            const isRescheduled = document.getElementById('qa_reschedule').checked;
             
-            let notes = `=== TECHSOLS CASE WRAP-UP NOTES ===\n`;
-            notes += `Timestamp: ${new Date().toLocaleString()}\n`;
-            notes += `Call Outcome: ${isRescheduled ? 'RESCHEDULED / FOLLOW-UP REQUIRED' : 'IN PROGRESS / COMPLETED'}\n\n`;
-            notes += `QA Checklist Completed:\n${checked.length > 0 ? checked.join('\n') : '  None marked'}\n\n`;
-            notes += `Active Context / Intent: ${currentIntent}\n`;
-            notes += `===================================`;
-
+            let notes = `=== TECHSOLS CRM NOTES ===\nCall Outcome: ${document.getElementById('qa_reschedule').checked ? 'RESCHEDULED' : 'COMPLETED'}\n\nCompleted Steps:\n${checked.length > 0 ? checked.join('\n') : '  None'}\n\nContext Flag: ${currentIntent}`;
             document.getElementById('crmNotesText').value = notes;
             document.getElementById('crmModal').classList.add('active');
         }
+        function closeCrmModal() { document.getElementById('crmModal').classList.remove('active'); }
+        function copyCrmNotes() { document.getElementById('crmNotesText').select(); navigator.clipboard.writeText(document.getElementById('crmNotesText').value); closeCrmModal(); }
 
-        function closeCrmModal() {
-            document.getElementById('crmModal').classList.remove('active');
-        }
-
-        function copyCrmNotes() {
-            const textarea = document.getElementById('crmNotesText');
-            textarea.select();
-            navigator.clipboard.writeText(textarea.value);
-            alert("Case notes copied to clipboard!");
-            closeCrmModal();
-        }
-
-        // --- 6. VOICE ENGINE & SPEECH RECOGNITION ---
-        let recognition;
-        let isListening = false;
-        let sessionTranscript = ''; 
-
-        function normalizeString(str) {
-            return str.toLowerCase().replace(/[^\w\s]/gi, ' ').replace(/\s+/g, ' ').trim();
-        }
+        // --- 6. VOICE ENGINE ---
+        let recognition; let isListening = false; let sessionTranscript = ''; 
+        function normalizeString(str) { return str.toLowerCase().replace(/[^\w\s]/gi, ' ').replace(/\s+/g, ' ').trim(); }
 
         function toggleVoice() {
             const btn = document.getElementById('voiceBtn');
             const status = document.getElementById('voiceStatus');
-
-            if (window.location.protocol === 'file:') {
-                status.innerHTML = "<span style='color:var(--danger)'>Cannot access mic from file://. Open with a local web server (e.g. VS Code Live Server).</span>"; return;
-            }
+            if (window.location.protocol === 'file:') { status.innerHTML = "<span style='color:var(--danger)'>Use a local web server (HTTP) for mic access.</span>"; return; }
 
             if(!isListening) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.continuous = true;
-                recognition.interimResults = true;
+                recognition = new SpeechRecognition(); recognition.continuous = true; recognition.interimResults = true;
+                sessionTranscript = ''; isListening = true;
                 
-                sessionTranscript = ''; 
-                isListening = true;
+                recognition.onstart = () => { btn.classList.add('listening'); btn.innerHTML = `Stop Tracker`; status.innerHTML = "<span style='color:var(--primary);'>Listening...</span>"; };
                 
-                recognition.onstart = () => {
-                    btn.classList.add('listening'); btn.innerHTML = `Stop Voice Tracking`;
-                    status.innerHTML = "<span style='color:var(--primary);'>Listening actively...</span>";
-                };
-
                 recognition.onresult = (e) => {
                     let interim = ''; let final = '';
                     for (let i = e.resultIndex; i < e.results.length; ++i) {
-                        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
-                        else interim += e.results[i][0].transcript + ' ';
+                        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' '; else interim += e.results[i][0].transcript + ' ';
                     }
-                    
-                    let display = interim || final;
-                    if (display) {
-                        status.innerHTML = `<span style="color:var(--primary)">Hearing:</span> "<i>${display.substring(display.length - 60)}</i>"`;
-                    }
-                    
-                    sessionTranscript += final;
-                    let fullContext = sessionTranscript + interim;
-                    
-                    let wordCount = fullContext.split(/\s+/).filter(w => w.length > 0).length;
-                    document.getElementById('memoryStats').innerText = `Buffer: ${wordCount} words retained`;
+                    sessionTranscript += final; let fullContext = normalizeString(sessionTranscript + interim);
+                    document.getElementById('memoryStats').innerText = `Buffer: ${fullContext.split(' ').length} words`;
 
-                    let normalizedContext = normalizeString(fullContext);
-                    
-                    // Match QA Checkboxes
-                    qaItems.forEach(item => {
+                    // Check Core Items
+                    qaItems.forEach((item, index) => {
                         const cb = document.getElementById(item.id);
-                        if(!cb.checked) {
-                            let matched = item.keywords.some(kw => normalizedContext.includes(normalizeString(kw)));
-                            if(matched) {
-                                cb.checked = true; updateProgress();
-                                document.getElementById('card-' + item.id).scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            }
+                        if(!cb.checked && item.keywords.some(kw => fullContext.includes(normalizeString(kw)))) {
+                            cb.checked = true; updateProgress(); highlightScript(item.id, index);
+                        }
+                    });
+                    
+                    // Check Conditional
+                    conditionalItems.forEach(item => {
+                        const cb = document.getElementById(item.id);
+                        if(!cb.checked && item.keywords.some(kw => fullContext.includes(normalizeString(kw)))) {
+                            cb.checked = true; updateContextual(item.id);
                         }
                     });
 
-                    // Detect Context/Intent
-                    detectIntent(normalizedContext);
+                    detectIntent(fullContext);
                 };
-                
-                recognition.onerror = (e) => { 
-                    if(e.error === 'not-allowed') {
-                        isListening = false;
-                        btn.classList.remove('listening'); btn.innerHTML = `🎙️ Start Voice Tracking`;
-                        status.innerHTML = "Microphone blocked.";
-                    }
-                };
-                
-                recognition.onend = () => { 
-                    if(isListening) { try { recognition.start(); } catch(e){} }
-                };
-                
+                recognition.onerror = (e) => { if(e.error === 'not-allowed') { isListening = false; btn.classList.remove('listening'); btn.innerHTML = `Start Tracker`; } };
+                recognition.onend = () => { if(isListening) { try { recognition.start(); } catch(e){} } };
                 recognition.start();
-            } else {
-                isListening = false; recognition.stop();
-                btn.classList.remove('listening'); btn.innerHTML = `🎙️ Start Voice Tracking`;
-                status.innerHTML = "AI actively listens & auto-checks Techsols requirements.";
-            }
+            } else { isListening = false; recognition.stop(); btn.classList.remove('listening'); btn.innerHTML = `🎙️ Start Voice Tracker`; status.innerHTML = "Tracker offline."; }
         }
 
         function detectIntent(text) {
-            const tagsBox = document.getElementById('intentTags');
-            let detected = [];
+            const tagsBox = document.getElementById('intentTags'); let detected = [];
+            if (text.includes('out of scope')) { currentIntent = 'out_of_scope'; detected.push('Out of Scope Flagged'); }
+            else if (text.includes('temporary access') && (text.includes('no') || text.includes('not comfortable'))) { currentIntent = 'pa_pitch_no'; detected.push('PA Pitch Declined'); }
+            else if (text.includes('allocated time')) { currentIntent = 'reschedule_agent'; detected.push('Agent Time Limit Pivot'); }
+            else if (text.includes('hard stop') || text.includes('developer') || text.includes('webmaster')) { currentIntent = 'reschedule_client'; detected.push('Client Delay Pivot'); }
 
-            if (text.includes('out of scope') && text.includes('shopping')) { currentIntent = 'out_of_scope_shopping'; detected.push('OOS - Shopping Script'); }
-            else if (text.includes('out of scope') && text.includes('tag')) { currentIntent = 'out_of_scope_tag'; detected.push('OOS - Tag Script'); }
-            else if (text.includes('reschedule limit') || text.includes('accommodate any further')) { currentIntent = 'reschedule_limit'; detected.push('Reschedule Limit Script'); }
-            else if (text.includes('plugin') || text.includes('third party')) { currentIntent = 'plugins_disclaimer'; detected.push('Plugin Disclaimer Script'); }
-            
-            // PA Pitch Declined
-            else if (text.includes('temporary access') && (text.includes('no') || text.includes('not comfortable'))) { 
-                currentIntent = 'pa_pitch_no'; 
-                detected.push('PA Pitch Declined - Guide Mode'); 
-            }
-            
-            // Agent Busy / Queue Reschedule
-            else if (text.includes('allocated time') || text.includes('time slot for today') || text.includes('next scheduled call')) {
-                currentIntent = 'reschedule_agent_busy';
-                detected.push('Pivot: Agent Queue Time-Limit');
-            }
-
-            // Client Hard Stop
-            else if (text.includes('hard stop') || text.includes('another meeting') || text.includes('running out of time')) {
-                currentIntent = 'reschedule_time'; 
-                detected.push('Pivot: Client Time-Out');
-            }
-            
-            // Missing Access / Developer Needed
-            else if (text.includes('dont have the login') || text.includes('developer') || text.includes('webmaster') || text.includes('admin access')) {
-                currentIntent = 'reschedule_access'; 
-                detected.push('Pivot: Missing Access');
-            }
-
-            if (detected.length > 0) {
-                tagsBox.innerHTML = detected.map(t => `<span class="intent-tag" style="color:var(--primary); border:1px solid var(--primary)">${t}</span>`).join('');
-            } else {
-                tagsBox.innerHTML = `<span class="intent-tag" style="color:var(--text-muted)">Context Active...</span>`;
-            }
+            if (detected.length > 0) tagsBox.innerHTML = detected.map(t => `<span class="intent-tag" style="color:var(--primary); border:1px solid var(--primary)">${t}</span>`).join('');
+            else tagsBox.innerHTML = `<span class="intent-tag" style="color:var(--text-muted)">Context Active...</span>`;
         }
 
         updateProgress();
