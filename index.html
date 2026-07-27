@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Assist | Techsols AI QA Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #09090b;
+            --surface-glass: rgba(24, 24, 27, 0.65);
+            --surface-hover: rgba(39, 39, 42, 0.8);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.4);
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-main); }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1), transparent 25%);
+            color: var(--text-main);
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden;
+        }
+
+        .app-wrapper {
+            width: 95%; max-width: 1300px; height: 90vh;
+            background: var(--surface-glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
+            display: grid; grid-template-columns: 420px 1fr;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        /* --- LEFT PANEL: HUD --- */
+        .hud-panel {
+            background: rgba(9, 9, 11, 0.4); border-right: 1px solid var(--border-subtle);
+            display: flex; flex-direction: column; align-items: center; padding: 30px; position: relative;
+        }
+
+        .brand {
+            display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 800;
+            letter-spacing: -0.5px; margin-bottom: 30px; width: 100%;
+        }
+        .header-logo { width: 42px; height: 42px; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5)); }
+
+        .progress-container { position: relative; width: 160px; height: 160px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; }
+        .progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .progress-ring circle { fill: transparent; stroke-width: 10; stroke-linecap: round; }
+        .progress-ring-bg { stroke: rgba(255, 255, 255, 0.05); }
+        .progress-ring-fill {
+            stroke: var(--success); stroke-dasharray: 471; stroke-dashoffset: 471;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease;
+            filter: drop-shadow(0 0 8px var(--success-glow));
+        }
+
+        .progress-text { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+        .progress-percentage { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .progress-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Memory Consciousness & Intent Box */
+        .intent-box {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md); padding: 15px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;
+        }
+        .intent-header { font-size: 12px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between;}
+        .intent-tag { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: 600; }
+        .intent-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .memory-stats { font-size: 11px; color: var(--success); text-align: right; margin-top: 4px; font-family: monospace; }
+
+        /* Action Buttons */
+        .btn-group { display: flex; gap: 10px; width: 100%; margin-bottom: 20px; }
+        .btn {
+            flex: 1; padding: 14px; border-radius: var(--radius-lg); border: none; font-size: 14px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;
+        }
+        .btn-start { background: var(--primary); color: white; box-shadow: 0 4px 15px var(--primary-glow); }
+        .btn-start.listening { background: var(--danger); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        
+        .btn-hold { background: transparent; border: 1px solid var(--warning); color: var(--warning); }
+        .btn-hold.active { background: var(--warning); color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); animation: pulse-warning 2s infinite; }
+
+        .status-msg { font-size: 13px; color: var(--text-muted); text-align: center; height: 60px; margin-top: auto; display: flex; flex-direction: column; justify-content: flex-end; }
+
+        /* --- RIGHT PANEL: TIMELINE & HOLD ASSIST --- */
+        .content-panel { position: relative; display: flex; flex-direction: column; overflow: hidden; }
+        .panel-header { padding: 30px 40px 10px; background: linear-gradient(to bottom, var(--surface-glass) 60%, transparent); z-index: 10; }
+        .panel-header h2 { font-size: 22px; font-weight: 700; }
+        
+        .scroll-area { padding: 10px 40px 60px; overflow-y: auto; flex: 1; }
+        .scroll-area::-webkit-scrollbar { width: 6px; }
+        .scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+        /* Timeline Checklist (Default View) */
+        .qa-card { display: block; position: relative; padding-left: 48px; margin-bottom: 24px; cursor: pointer; transition: all 0.4s ease; }
+        .qa-card::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -24px; width: 2px; background: var(--border-subtle); z-index: 1; }
+        .qa-card:last-child::before { display: none; }
+        .qa-card.done::before { background: var(--success); }
+
+        .qa-node { position: absolute; left: 0; top: 2px; width: 32px; height: 32px; border-radius: 50%; background: rgba(24, 24, 27, 0.8); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.4s; }
+        .qa-node svg { width: 14px; height: 14px; fill: none; stroke: white; stroke-width: 3; opacity: 0; transform: scale(0.5); transition: all 0.4s; }
+
+        .qa-card.done .qa-node { background: var(--success); border-color: var(--success); box-shadow: 0 0 10px var(--success-glow); }
+        .qa-card.done .qa-node svg { opacity: 1; transform: scale(1); }
+        .qa-card.done .qa-content { opacity: 0.5; }
+        .qa-card.done .qa-title { text-decoration: line-through; color: var(--success); }
+
+        .qa-content { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); padding: 16px; border-radius: var(--radius-lg); transition: all 0.3s; }
+        .qa-card:hover .qa-content { background: rgba(255, 255, 255, 0.04); transform: translateX(4px); }
+        .qa-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .qa-desc { font-size: 13px; color: var(--text-muted); }
+        .qa-card input[type="checkbox"] { display: none; }
+
+        /* Hold Assistant View (Hidden by default) */
+        .hold-assist-view { display: none; flex-direction: column; gap: 20px; animation: fadeIn 0.3s ease-out; }
+        .hold-assist-view.active { display: flex; }
+        
+        .timer-display { font-size: 48px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--warning); text-shadow: 0 0 20px rgba(245, 158, 11, 0.3); text-align: center; padding: 20px; background: rgba(0,0,0,0.3); border-radius: var(--radius-lg); border: 1px solid var(--warning); }
+        .timer-display.danger { color: var(--danger); border-color: var(--danger); text-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulse-error 1s infinite; }
+
+        .step-card { background: rgba(255,255,255,0.02); border: 1px solid var(--primary); border-left: 4px solid var(--primary); padding: 20px; border-radius: var(--radius-md); }
+        .step-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--primary); }
+        .step-body { font-size: 14px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; }
+
+        @keyframes pulse-warning { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
+        @keyframes pulse-error { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <!-- LEFT PANEL -->
+        <div class="hud-panel">
+            <div class="brand">
+                <svg class="header-logo" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="1" width="8" height="2" fill="#27272a" /><rect x="3" y="2" width="10" height="1" fill="#52525b" /><rect x="2" y="3" width="12" height="1" fill="#27272a" />
+                    <rect x="4" y="4" width="8" height="6" fill="#fcd34d" />
+                    <rect x="4" y="5" width="3" height="2" fill="#09090b" /><rect x="9" y="5" width="3" height="2" fill="#09090b" /><rect x="7" y="5" width="2" height="1" fill="#09090b" />
+                    <rect x="2" y="4" width="2" height="4" fill="#6366f1" /><rect x="12" y="4" width="2" height="4" fill="#6366f1" />
+                    <rect x="3" y="7" width="1" height="2" fill="#94a3b8" /><rect x="4" y="8" width="2" height="1" fill="#94a3b8" /><rect x="6" y="8" width="1" height="1" fill="#ef4444" />
+                    <rect x="3" y="10" width="10" height="6" fill="#18181b" /><rect x="6" y="10" width="4" height="2" fill="#f8fafc" /><rect x="7" y="12" width="2" height="1" fill="#f8fafc" /><rect x="7" y="11" width="2" height="5" fill="#6366f1" />
+                </svg>
+                Techsols Assist
+            </div>
+            
+            <div class="progress-container">
+                <svg class="progress-ring"><circle class="progress-ring-bg" cx="80" cy="80" r="75"></circle><circle class="progress-ring-fill" id="progressRingFill" cx="80" cy="80" r="75"></circle></svg>
+                <div class="progress-text">
+                    <div class="progress-percentage" id="progressText">0%</div>
+                    <div class="progress-label">QA Compliance</div>
+                </div>
+            </div>
+
+            <!-- Smart Copilot Intent & Memory Tracker -->
+            <div class="intent-box">
+                <div class="intent-header"><span>Consciousness DB</span> <span>🧠</span></div>
+                <div class="intent-tags" id="intentTags">
+                    <span class="intent-tag" style="color:var(--text-muted)">Ready for recording...</span>
+                </div>
+                <div class="memory-stats" id="memoryStats">Buffer: 0 words retained</div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-start" id="voiceBtn" onclick="toggleVoice()">🎙️ Track</button>
+                <button class="btn btn-hold" id="holdBtn" onclick="toggleHold()">⏸️ Script / Hold</button>
+            </div>
+            
+            <div class="status-msg" id="voiceStatus">AI actively listens & auto-checks Techsols requirements.</div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="content-panel">
+            <div class="panel-header" id="panelHeader">
+                <h2>Techsols Live Call Flow</h2>
+            </div>
+            
+            <div class="scroll-area">
+                <!-- DEFAULT VIEW: QA Checklist -->
+                <div id="qaListContainer"></div>
+
+                <!-- ON HOLD VIEW: Smart SOPs & Scripts -->
+                <div class="hold-assist-view" id="holdAssistContainer">
+                    <div class="timer-display" id="holdTimerDisplay">00:00</div>
+                    <div id="holdStepsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. DATA STRUCTURES (MAPPED EXACTLY TO PROVIDED SOP) ---
+        const qaItems = [
+            { id: 'qa_intro', title: '1. Call Opening & Greeting', desc: 'Introduced self as Technical Solutions on behalf of Google.', keywords: ['technical solutions team', 'on behalf of google', 'am i speaking with'] },
+            { id: 'qa_rec', title: '2. Recorded Line Verbatim', desc: 'Read the verbatim recorded line and privacy policy.', keywords: ['recorded or monitored', 'subject to our privacy policy', 'quality training and to improve'] },
+            { id: 'qa_auth', title: '3. Account Verification', desc: 'Verified 10-digit CID and matching Email Address.', keywords: ['10 digit', 'customer id', 'email address'] },
+            { id: 'qa_task', title: '4. Case/Task Confirmation', desc: 'Confirmed request and checked if it is the right time to proceed.', keywords: ['request was submitted', 'right time to proceed', 'implement'] },
+            { id: 'qa_access', title: '5. Admin/Backend Access', desc: 'Confirmed required access to Ads/Analytics and Admin Panel.', keywords: ['required access', 'admin panel', 'ads account', 'analytics account'] },
+            { id: 'qa_share', title: '6. Screen Share Protocol', desc: 'Instructed client to close private/confidential windows.', keywords: ['sharing the screen', 'private', 'confidential windows', 'confidential tabs'] },
+            { id: 'qa_centric', title: '7. Customer Centricity Pitch', desc: 'Pitched to the client to interrupt if going too fast or unclear.', keywords: ['going too fast', 'not clear', 'hesitate to stop me', 'interrupt me'] },
+            { id: 'qa_sum', title: '8. Summarize Action', desc: 'Summarized the tag/feed implementation discussed.', keywords: ['during our interaction', 'discussed and implemented', 'tags are firing', 'feed is added'] },
+            { id: 'qa_addt', title: '9. Additional Assistance', desc: 'Asked if there is anything else to help with.', keywords: ['anything else i can help you with', 'any other questions'] },
+            { id: 'qa_gcss', title: '10. GCSS Pitch & Closure', desc: 'Pitched the feedback survey and closed the call.', keywords: ['feedback email', 'solely on the interaction', 'continued partnership'] }
+        ];
+
+        const troubleshootingKB = {
+            'out_of_scope_shopping': { title: "Out of Scope Handling: Shopping", steps: "\"I would have loved to assist you with that, but, as a specialist from the Shopping team, my expertise lies in Feed Setup and Optimization. For assistance on this issue, the best person to reach out to would be your Google Account Strategist [GSR Name].\"\n\n\"Meanwhile, I will share an update with your Account Strategist about your specific requirements and advise them to contact you at the earliest.\"" },
+            'out_of_scope_tag': { title: "Out of Scope Handling: Tag", steps: "\"Advertiser First Name, just to summarize, you would like to {Mention ask}. However, I am an Implementation Specialist and would be able to answer questions related to tag implementation.\n\nTherefore, on this specific issue, the best person to reach out to would be your Google Account Strategist, {GSR Name}, who’d be glad to help you further.\"" },
+            'reschedule_limit': { title: "Reschedule Limit Exceeded", steps: "\"Advertiser First Name, as informed earlier, due to the high demand for this program, we have limited slot-availability to enhance the experience of our customers. Since you have already had a reschedule, we are unable to accommodate any further.\n\nWe will proceed to close your case. You can reach out to your Google Account Strategist [GSR Name], or reach out to us via the Ads Support.\"" },
+            'plugins_disclaimer': { title: "Plugins Disclaimer", steps: "\"We do not take responsibility for Plug-ins originating from Third Party websites. As these Plugins have not been investigated and monitored or checked for accuracy.\"" },
+            'default': { title: "Hold Procedure / Standard Script", steps: "\"I will need to (create the code/check with my webmaster/etc). May I place your call on hold for a {specify duration) while I get this done for you?\"\n\nRemember to refresh the hold with the customer before 3 minutes elapses to avoid Dead Air markdown." }
+        };
+
+        // --- 2. INITIALIZE QA UI ---
+        const qaContainer = document.getElementById('qaListContainer');
+        qaItems.forEach(item => {
+            qaContainer.innerHTML += `
+                <label class="qa-card" id="card-${item.id}" for="${item.id}">
+                    <input type="checkbox" id="${item.id}" onchange="updateProgress()">
+                    <div class="qa-node"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                    <div class="qa-content">
+                        <div class="qa-title">${item.title}</div>
+                        <div class="qa-desc">${item.desc}</div>
+                    </div>
+                </label>
+            `;
+        });
+
+        function updateProgress() {
+            const total = qaItems.length;
+            const checked = document.querySelectorAll('.qa-card input:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            document.getElementById('progressText').innerText = `${percentage}%`;
+            document.getElementById('progressRingFill').style.strokeDashoffset = 471 - (percentage / 100) * 471;
+            
+            document.querySelectorAll('.qa-card input').forEach(cb => {
+                if (cb.checked) document.getElementById('card-' + cb.id).classList.add('done');
+                else document.getElementById('card-' + cb.id).classList.remove('done');
+            });
+        }
+
+        // --- 3. SMART HOLD COPILOT LOGIC ---
+        let isOnHold = false;
+        let holdTimerInterval;
+        let holdSeconds = 0;
+        let currentIntent = 'default';
+
+        function toggleHold() {
+            isOnHold = !isOnHold;
+            const holdBtn = document.getElementById('holdBtn');
+            const panelHeader = document.getElementById('panelHeader');
+            const qaView = document.getElementById('qaListContainer');
+            const holdView = document.getElementById('holdAssistContainer');
+            
+            if (isOnHold) {
+                holdBtn.classList.add('active'); holdBtn.innerHTML = "Resume Call";
+                panelHeader.innerHTML = `<h2>Relevant Scripts & Hold Timer</h2><p>Read the exact verbiage below if applicable.</p>`;
+                qaView.style.display = "none"; holdView.classList.add('active');
+                
+                const data = troubleshootingKB[currentIntent] || troubleshootingKB['default'];
+                document.getElementById('holdStepsContainer').innerHTML = `
+                    <div class="step-card"><div class="step-title">${data.title}</div><div class="step-body">${data.steps}</div></div>`;
+
+                holdSeconds = 0; updateHoldDisplay();
+                holdTimerInterval = setInterval(() => { holdSeconds++; updateHoldDisplay(); }, 1000);
+            } else {
+                holdBtn.classList.remove('active'); holdBtn.innerHTML = "⏸️ Script / Hold";
+                panelHeader.innerHTML = `<h2>Techsols Live Call Flow</h2>`;
+                qaView.style.display = "block"; holdView.classList.remove('active');
+                clearInterval(holdTimerInterval); document.getElementById('holdTimerDisplay').classList.remove('danger');
+            }
+        }
+
+        function updateHoldDisplay() {
+            const display = document.getElementById('holdTimerDisplay');
+            const mins = String(Math.floor(holdSeconds / 60)).padStart(2, '0');
+            const secs = String(holdSeconds % 60).padStart(2, '0');
+            display.innerText = `${mins}:${secs}`;
+            if (holdSeconds >= 165) {
+                display.classList.add('danger');
+                if (holdSeconds === 165) alert("SLA WARNING: Refresh the hold with the customer now to avoid a Dead Air markdown.");
+            }
+        }
+
+        // --- 4. UPGRADED "CONSCIOUSNESS MEMORY" AI ENGINE ---
+        let recognition;
+        let isListening = false;
+        let sessionTranscript = ''; 
+
+        // Normalizes text to ensure perfect matching even if punctuation is slightly off
+        function normalizeString(str) {
+            return str.toLowerCase().replace(/[^\w\s]/gi, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        function toggleVoice() {
+            const btn = document.getElementById('voiceBtn');
+            const status = document.getElementById('voiceStatus');
+
+            if (window.location.protocol === 'file:') {
+                status.innerHTML = "<span style='color:var(--danger)'>Cannot access mic from local file. Use a server like VS Code Live Server.</span>"; return;
+            }
+
+            if(!isListening) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                
+                // Only reset the memory buffer when the user explicitly clicks "Start"
+                sessionTranscript = ''; 
+                isListening = true;
+                
+                recognition.onstart = () => {
+                    btn.classList.add('listening'); btn.innerHTML = `Stop`;
+                    status.innerHTML = "<span style='color:var(--primary);'>Listening actively...</span>";
+                };
+
+                recognition.onresult = (e) => {
+                    let interim = ''; let final = '';
+                    for (let i = e.resultIndex; i < e.results.length; ++i) {
+                        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+                        else interim += e.results[i][0].transcript + ' ';
+                    }
+                    
+                    let display = interim || final;
+                    if (display) {
+                        status.innerHTML = `<span style="color:var(--primary)">Hearing:</span> "<i>${display.substring(display.length - 70)}</i>"`;
+                    }
+                    
+                    // Accumulate verified memory
+                    sessionTranscript += final;
+                    let fullContext = sessionTranscript + interim;
+                    
+                    // Update visual buffer count
+                    let wordCount = fullContext.split(/\s+/).filter(w => w.length > 0).length;
+                    document.getElementById('memoryStats').innerText = `Buffer: ${wordCount} words retained`;
+
+                    // Normalize the full context for fuzzy matching
+                    let normalizedContext = normalizeString(fullContext);
+                    
+                    // 1. Check QA Boxes using fuzzy matching on the continuous memory
+                    qaItems.forEach(item => {
+                        const cb = document.getElementById(item.id);
+                        if(!cb.checked) {
+                            let matched = item.keywords.some(kw => normalizedContext.includes(normalizeString(kw)));
+                            if(matched) {
+                                cb.checked = true; updateProgress();
+                                document.getElementById('card-' + item.id).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }
+                    });
+
+                    // 2. Detect Context/Intent for Hold Copilot
+                    detectIntent(normalizedContext);
+                };
+                
+                recognition.onerror = (e) => { 
+                    if(e.error === 'not-allowed') {
+                        isListening = false;
+                        btn.classList.remove('listening'); btn.innerHTML = `🎙️ Track`;
+                        status.innerHTML = "Microphone blocked.";
+                    }
+                };
+                
+                // BUG FIX: Auto-restart on silence drop WITHOUT resetting the session transcript
+                recognition.onend = () => { 
+                    if(isListening) {
+                        try { recognition.start(); } catch(e){} 
+                    }
+                };
+                
+                recognition.start();
+            } else {
+                // User explicitly stops the listening session
+                isListening = false; recognition.stop();
+                btn.classList.remove('listening'); btn.innerHTML = `🎙️ Track`;
+                status.innerHTML = "AI actively listens & auto-checks Techsols requirements.";
+            }
+        }
+
+        function detectIntent(text) {
+            const tagsBox = document.getElementById('intentTags');
+            let detected = [];
+
+            if (text.includes('out of scope') && text.includes('shopping')) { currentIntent = 'out_of_scope_shopping'; detected.push('OOS - Shopping Script'); }
+            else if (text.includes('out of scope') && text.includes('tag')) { currentIntent = 'out_of_scope_tag'; detected.push('OOS - Tag Script'); }
+            else if (text.includes('reschedule limit') || text.includes('accommodate any further')) { currentIntent = 'reschedule_limit'; detected.push('Reschedule Limit Script'); }
+            else if (text.includes('plugin') || text.includes('third party')) { currentIntent = 'plugins_disclaimer'; detected.push('Plugin Disclaimer Script'); }
+
+            if (detected.length > 0) {
+                tagsBox.innerHTML = detected.map(t => `<span class="intent-tag" style="color:var(--primary); border:1px solid var(--primary)">${t}</span>`).join('');
+            } else {
+                tagsBox.innerHTML = `<span class="intent-tag" style="color:var(--text-muted)">Context Active...</span>`;
+            }
+        }
+
+        updateProgress();
+    </script>
+</body>
+</html>
