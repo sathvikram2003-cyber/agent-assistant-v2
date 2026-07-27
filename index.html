@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Ultra-Premium Dark Color Palette */
             --bg-obsidian: #030305;
             --bg-ambient: radial-gradient(circle at 50% -20%, rgba(59, 130, 246, 0.15), rgba(3, 3, 5, 1) 60%);
             
@@ -23,7 +22,10 @@
             --success: #10b981;
             --success-glow: rgba(16, 185, 129, 0.4);
             
-            --danger: #f43f5e; /* Premium Rose/Crimson */
+            --warning: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.4);
+            
+            --danger: #f43f5e;
             --danger-glow: rgba(244, 63, 94, 0.3);
             
             --text-pure: #ffffff;
@@ -53,7 +55,7 @@
 
         .app-workspace {
             width: 100%; max-width: 1800px; height: 96vh;
-            display: flex; gap: 24px; padding: 24px;
+            display: flex; gap: 24px; padding: 24px; position: relative;
         }
 
         /* Billion-Dollar Glass Panels */
@@ -67,7 +69,6 @@
             position: relative;
         }
         
-        /* Subtle noise texture overlay for the true premium feel */
         .glass-panel::before {
             content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
@@ -81,12 +82,8 @@
         /* ================= LEFT PANEL (HUD) ================= */
         .panel-left { width: 350px; padding: 28px; flex-shrink: 0; display: flex; flex-direction: column; gap: 24px; z-index: 2; }
 
-        .brand-logo {
-            display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-pure);
-        }
-        .brand-logo svg {
-            width: 32px; height: 32px; fill: none; stroke: url(#accentGradient); stroke-width: 2.5; filter: drop-shadow(0 0 12px var(--accent-glow));
-        }
+        .brand-logo { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-pure); }
+        .brand-logo svg { width: 32px; height: 32px; fill: none; stroke: url(#accentGradient); stroke-width: 2.5; filter: drop-shadow(0 0 12px var(--accent-glow)); }
 
         .metric-card {
             background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
@@ -94,15 +91,12 @@
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
         }
         
-        /* Custom Animated SVG Progress Ring */
         .progress-ring-container { position: relative; width: 140px; height: 140px; margin-bottom: 16px; }
         .progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; }
         .progress-ring circle { fill: transparent; stroke-width: 6; stroke-linecap: round; }
         .ring-bg { stroke: rgba(255,255,255,0.05); }
         .ring-fill { stroke: var(--accent-primary); stroke-dasharray: 408; stroke-dashoffset: 408; transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.3s; filter: drop-shadow(0 0 8px var(--accent-glow)); }
-        .progress-value {
-            position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
+        .progress-value { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .score-num { font-size: 36px; font-weight: 700; color: var(--text-pure); line-height: 1; }
         .score-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
@@ -113,20 +107,15 @@
             cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex; justify-content: center; align-items: center; gap: 10px; position: relative; overflow: hidden;
         }
-        .btn-transcriber::before {
-            content: ''; position: absolute; inset: 0; background: var(--accent-gradient); opacity: 0; transition: opacity 0.3s; z-index: 0;
-        }
+        .btn-transcriber::before { content: ''; position: absolute; inset: 0; background: var(--accent-gradient); opacity: 0; transition: opacity 0.3s; z-index: 0; }
         .btn-transcriber span, .btn-transcriber svg { position: relative; z-index: 1; transition: all 0.3s; }
         .btn-transcriber:hover { border-color: rgba(255,255,255,0.2); }
-        
         .btn-transcriber.active { border-color: transparent; box-shadow: 0 10px 30px var(--accent-glow); }
         .btn-transcriber.active::before { opacity: 1; }
         
-        /* Premium Terminal/Transcript */
         .live-terminal {
             flex: 1; background: #000000; border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
-            display: flex; flex-direction: column; overflow: hidden; font-family: var(--font-mono);
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; overflow: hidden; font-family: var(--font-mono); box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
         }
         .terminal-header {
             padding: 12px 16px; background: rgba(255,255,255,0.05); font-size: 11px; font-weight: 500; color: var(--text-muted);
@@ -134,7 +123,6 @@
         }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #333; transition: 0.3s; }
         .status-dot.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
-        
         .terminal-body { padding: 16px; flex: 1; overflow-y: auto; font-size: 13px; line-height: 1.7; }
         .txt-final { color: #f8fafc; }
         .txt-interim { color: #64748b; }
@@ -148,58 +136,45 @@
         }
         .header-bar h2 { font-size: 20px; font-weight: 600; color: var(--text-pure); }
         
+        .header-actions { display: flex; gap: 12px; }
+        
         .task-dropdown {
             background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); color: var(--text-pure);
             padding: 10px 20px; border-radius: 100px; font-size: 13px; font-weight: 500; font-family: var(--font-ui);
             outline: none; cursor: pointer; transition: 0.2s; appearance: none;
         }
-        .task-dropdown:hover { border-color: rgba(255,255,255,0.3); }
-        .task-dropdown option { background: var(--bg-obsidian); }
+        
+        .btn-reschedule {
+            background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); color: var(--warning);
+            padding: 10px 20px; border-radius: 100px; font-size: 13px; font-weight: 600; font-family: var(--font-ui);
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px;
+        }
+        .btn-reschedule:hover { background: rgba(245, 158, 11, 0.2); box-shadow: 0 0 15px var(--warning-glow); }
 
         .script-area { padding: 32px; overflow-y: auto; height: calc(100% - 85px); scroll-behavior: smooth; }
 
         .script-block {
             padding: 28px; margin-bottom: 24px; border-radius: var(--radius-lg);
             background: rgba(255,255,255,0.015); border: 1px solid var(--glass-border);
-            position: relative; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
+            position: relative; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden;
         }
-        /* Left indicator line */
-        .script-block::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,0.1); transition: 0.5s;
-        }
+        .script-block::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,0.1); transition: 0.5s; }
         
-        /* Active State: Glowing aurora background */
         .script-block.active {
             background: linear-gradient(145deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.03) 100%);
-            border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            transform: scale(1.01) translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: scale(1.01) translateY(-2px);
         }
         .script-block.active::before { width: 4px; background: var(--accent-primary); box-shadow: 0 0 15px var(--accent-primary); }
         
         .script-block.done { opacity: 0.5; }
         .script-block.done::before { background: var(--success); }
-        
-        .script-block.missed { background: rgba(244, 63, 94, 0.03); border-color: rgba(244, 63, 94, 0.2); }
-        .script-block.missed::before { background: var(--danger); box-shadow: 0 0 15px var(--danger); }
 
-        .block-title {
-            font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px;
-            margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;
-        }
+        .block-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
         .script-block.active .block-title { color: var(--accent-primary); }
         .script-block.done .block-title { color: var(--success); }
-        .script-block.missed .block-title { color: var(--danger); }
         
-        .missed-badge { display: none; background: var(--danger); color: #fff; padding: 4px 10px; border-radius: 100px; font-size: 10px; letter-spacing: 0.5px; }
-        .script-block.missed .missed-badge { display: inline-block; }
-
         .block-text { font-size: 17px; line-height: 1.7; color: var(--text-main); font-weight: 300; }
-        .kw-tag { 
-            font-weight: 500; color: #fff; background: rgba(255,255,255,0.08); 
-            padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); 
-            transition: 0.3s;
-        }
+        .kw-tag { font-weight: 500; color: #fff; background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
         .script-block.active .kw-tag { background: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.4); }
 
         /* PA Pitch Decision Component */
@@ -210,32 +185,26 @@
         }
         .decision-modal.show { display: block; }
         .decision-title { font-size: 14px; font-weight: 600; color: var(--text-pure); margin-bottom: 6px; }
-        
         .decision-btns { display: flex; gap: 16px; margin-top: 20px; }
         .d-btn { flex: 1; padding: 14px; border-radius: var(--radius-sm); border: none; font-family: var(--font-ui); font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .d-btn.yes { background: var(--text-pure); color: #000; }
         .d-btn.yes:hover { background: #e2e8f0; transform: translateY(-2px); }
         .d-btn.no { background: rgba(255,255,255,0.05); color: var(--text-pure); border: 1px solid rgba(255,255,255,0.1); }
         .d-btn.no:hover { background: rgba(255,255,255,0.1); }
-        
         .result-view { margin-top: 20px; display: none; font-size: 15px; font-weight: 300; line-height: 1.6; }
         .launch-btn {
             display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; padding: 12px 20px;
             background: var(--accent-gradient); color: #fff; text-decoration: none; border-radius: var(--radius-sm);
             font-weight: 600; font-size: 14px; box-shadow: 0 4px 15px var(--accent-glow); transition: 0.2s;
         }
-        .launch-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--accent-glow); }
 
         /* ================= RIGHT PANEL ================= */
         .panel-right { width: 360px; flex-shrink: 0; display: flex; flex-direction: column; z-index: 2; }
-        
         .tracker-list { padding: 32px 24px; overflow-y: auto; flex: 1; }
-
         .tracker-item {
             display: flex; align-items: center; gap: 16px; padding: 16px; margin-bottom: 12px;
             background: rgba(255,255,255,0.02); border: 1px solid transparent; border-radius: var(--radius-md); transition: all 0.3s;
         }
-        
         .check-circle {
             width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);
             display: flex; align-items: center; justify-content: center; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -246,23 +215,37 @@
         .tracker-item.done .check-circle { background: var(--success); border-color: var(--success); box-shadow: 0 0 15px var(--success-glow); }
         .tracker-item.done .check-circle svg { opacity: 1; transform: scale(1); }
         .tracker-item.done span { color: var(--text-muted); text-decoration: line-through; }
-
-        .tracker-item.missed { background: rgba(244, 63, 94, 0.05); border-color: rgba(244, 63, 94, 0.2); }
-        .tracker-item.missed .check-circle { background: var(--danger); border-color: var(--danger); }
-        .tracker-item.missed .check-circle svg { opacity: 1; transform: scale(1); stroke: #fff; }
-        .tracker-item.missed span { color: var(--danger); }
-        
         .tracker-item span { font-size: 14px; font-weight: 500; transition: 0.3s; color: var(--text-main); }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* ================= RESCHEDULE MODAL ================= */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: var(--bg-obsidian); border: 1px solid var(--glass-border); border-radius: var(--radius-xl);
+            padding: 32px; width: 100%; max-width: 600px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            transform: translateY(20px); transition: 0.3s;
+        }
+        .modal-overlay.show .modal-content { transform: translateY(0); }
+        .modal-title { font-size: 24px; font-weight: 600; color: var(--warning); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
         
-        /* SVG Gradient Definition */
+        .reschedule-option { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 20px; margin-bottom: 16px; }
+        .reschedule-option h4 { color: var(--text-pure); margin-bottom: 8px; font-weight: 500; }
+        .reschedule-option p { color: var(--text-muted); font-size: 14px; line-height: 1.6; font-style: italic; }
+        
+        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 32px; }
+        .btn-modal { padding: 12px 24px; border-radius: var(--radius-sm); border: none; font-family: var(--font-ui); font-weight: 600; cursor: pointer; }
+        .btn-cancel { background: transparent; color: var(--text-muted); }
+        .btn-cancel:hover { color: var(--text-pure); }
+        .btn-confirm { background: var(--warning); color: #000; box-shadow: 0 0 15px var(--warning-glow); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         svg { overflow: visible; }
     </style>
 </head>
 <body>
-
-    <!-- SVG Gradients defined here for re-use -->
     <svg width="0" height="0">
         <defs>
             <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -273,14 +256,12 @@
     </svg>
 
     <div class="app-workspace">
-        
-        <!-- ================= LEFT PANEL ================= -->
+        <!-- LEFT PANEL -->
         <div class="glass-panel panel-left">
             <div class="brand-logo">
                 <svg viewBox="0 0 24 24"><path d="M12 2L12 22M6 8L6 16M18 8L18 16M3 11L3 13M21 11L21 13"/></svg>
                 Techsoul
             </div>
-
             <div class="metric-card">
                 <div class="progress-ring-container">
                     <svg class="progress-ring" viewBox="0 0 140 140">
@@ -293,12 +274,10 @@
                     </div>
                 </div>
             </div>
-
             <button class="btn-transcriber" id="micBtn" onclick="toggleEngine()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
                 <span id="micText">Transcriber</span>
             </button>
-
             <div class="live-terminal">
                 <div class="terminal-header">
                     <span>Live AI Audio Stream</span>
@@ -311,52 +290,73 @@
             </div>
         </div>
 
-        <!-- ================= MIDDLE PANEL ================= -->
+        <!-- MIDDLE PANEL -->
         <div class="glass-panel panel-middle">
             <div class="header-bar">
                 <h2>Call Script</h2>
-                <select class="task-dropdown" id="taskSelector" onchange="updateTaskType()">
-                    <option value="ads">Task: Ads Conversion Tracking</option>
-                    <option value="ga4">Task: GA4 Setup & Linking</option>
-                    <option value="consent">Task: Consent Mode V2</option>
-                </select>
+                <div class="header-actions">
+                    <select class="task-dropdown" id="taskSelector" onchange="updateTaskType()">
+                        <option value="ads">Ads Conversion Tracking</option>
+                        <option value="ga4">GA4 Setup & Linking</option>
+                        <option value="consent">Consent Mode V2</option>
+                    </select>
+                    <button class="btn-reschedule" onclick="openRescheduleModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        Reschedule
+                    </button>
+                </div>
             </div>
             <div class="script-area" id="scriptScrollArea">
                 <div id="scriptBlocks"></div>
             </div>
         </div>
 
-        <!-- ================= RIGHT PANEL ================= -->
+        <!-- RIGHT PANEL -->
         <div class="glass-panel panel-right">
-            <div class="header-bar">
-                <h2>Flow Tracker</h2>
-            </div>
+            <div class="header-bar"><h2>Flow Tracker</h2></div>
             <div class="tracker-list" id="qaList"></div>
         </div>
+    </div>
 
+    <!-- RESCHEDULE MODAL -->
+    <div class="modal-overlay" id="rescheduleModal">
+        <div class="modal-content">
+            <div class="modal-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                Reschedule Call Flow
+            </div>
+            
+            <div class="reschedule-option">
+                <h4>Scenario 1: Agent Time Insufficient</h4>
+                <p>"Our allocated time slot for today is ending. Let's schedule a follow-up session to complete the remaining steps without rushing. When are you available next?"</p>
+            </div>
+            
+            <div class="reschedule-option">
+                <h4>Scenario 2: Advertiser Not Ready / No Access</h4>
+                <p>"I completely understand. Let's schedule a follow-up call. I'll send an email with what is needed (Admin access/Webmaster). What day works best for you?"</p>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-modal btn-cancel" onclick="closeRescheduleModal()">Cancel</button>
+                <button class="btn-modal btn-confirm" onclick="confirmReschedule()">Log as Rescheduled</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        // --- 1. SCRIPT & KEYWORD ENGINE ---
+        // --- 1. SCRIPT & KEYWORD ENGINE (Non-Linear) ---
         let currentTaskType = "Ads Conversion Tracking";
         
+        // Status can be: 'pending', 'active', 'done'. (Removed 'missed' logic entirely)
         let scriptData = [
             { id: 'intro', title: '1. Greeting', keywords: ['technical solutions', 'google', 'how are you'], status: 'active', text: `"Hi! My name is <span class="kw-tag">[Your Name]</span>, and I'm calling from the <span class="kw-tag">Technical Solutions team on behalf of Google</span>. Am I speaking with <span class="kw-tag">[Advertiser Name]</span>? <span class="kw-tag">How are you doing today?</span>"` },
-            
             { id: 'rec', title: '2. Recorded Line', keywords: ['recorded', 'monitored', 'privacy policy'], status: 'pending', text: `"This call may be <span class="kw-tag">recorded or monitored</span> for quality, training and to improve Google's services, subject to our <span class="kw-tag">Privacy Policy</span>. Do you agree?"` },
-            
             { id: 'auth', title: '3. Authentication', keywords: ['customer id', 'email', 'website'], status: 'pending', text: `"To ensure that we're working on the correct account, please confirm your <span class="kw-tag">10-digit Customer ID</span> along with your <span class="kw-tag">email address</span> and your <span class="kw-tag">website name</span>?"` },
-            
             { id: 'task', title: '4. Task & Access', keywords: ['conversion tracking', 'admin access', 'backup'], status: 'pending', text: `"This request was submitted for the <span class="kw-tag" id="taskHighlight">Ads Conversion Tracking</span>. Please confirm if you have <span class="kw-tag">admin access</span> to your Google Ads account and to the admin panel of the website? Could you please confirm if a <span class="kw-tag">backup</span> of the website was taken recently?"` },
-            
-            { id: 'share', title: '5. Screen Share', keywords: ['confidential', 'present', 'entire screen'], status: 'pending', text: `"Before sharing your screen Please, close all your private/<span class="kw-tag">confidential windows</span>, tabs and confidential documents on your device. When you are ready, please click <span class="kw-tag">'Present now'</span> and choose the <span class="kw-tag">'Entire screen'</span> option."` },
-            
+            { id: 'share', title: '5. Screen Share', keywords: ['confidential', 'present', 'entire screen'], status: 'pending', text: `"Before sharing your screen Please, close all your private/<span class="kw-tag">confidential windows</span>. When you are ready, please click <span class="kw-tag">'Present now'</span> and choose the <span class="kw-tag">'Entire screen'</span> option."` },
             { id: 'pa_pitch', title: '6. PA Pitch', keywords: ['temporary access', 'revoked', 'session expires', 'do you agree'], status: 'pending', isConsent: true, text: `"We may proceed with the implementation from our end or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw-tag" id="paTaskHighlight">Ads Conversion Tracking</span> on your behalf, we would need to ask you for <span class="kw-tag">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw-tag">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. <span class="kw-tag">Do you agree</span> to allow us temporary access?"` },
-            
             { id: 'sum', title: '7. Summarize Call', keywords: ['implemented', 'firing', 'conversions'], status: 'pending', text: `"During our interaction, we discussed and <span class="kw-tag">implemented</span> the tags. We also verified that they are <span class="kw-tag">firing correctly</span>. Any user coming through a google ad click visits your website and then performs the action it tracks as <span class="kw-tag">conversions</span>."` },
-            
             { id: 'close', title: '8. Test & Close', keywords: ['test conversion', 'validate', 'close the case'], status: 'pending', text: `"The implementation is complete, and we will monitor your account for few days. During this time, our quality team may perform a <span class="kw-tag">test conversion</span> to validate the implementation.<br><br>Can I go ahead and <span class="kw-tag">close the case?</span>"` },
-            
             { id: 'gcss', title: '9. GCSS & Closure', keywords: ['feedback', 'partnership'], status: 'pending', text: `"We will be sending you a <span class="kw-tag">feedback email</span> once your current case is closed. This feedback is focused solely on the interaction and experience you had with us. We appreciate your continued <span class="kw-tag">partnership</span> with Google. Have a great day!"` }
         ];
 
@@ -366,16 +366,11 @@
             scriptCont.innerHTML = ''; qaCont.innerHTML = '';
 
             scriptData.forEach((item, index) => {
-                // SCRIPT BLOCKS
                 let sHtml = `
                     <div class="script-block ${item.status}" id="s-${item.id}">
-                        <div class="block-title">
-                            <span>${item.title}</span>
-                            <span class="missed-badge">MISSED</span>
-                        </div>
+                        <div class="block-title"><span>${item.title}</span></div>
                         <div class="block-text">${item.text}</div>`;
                 
-                // DECISION MODAL (PA PITCH)
                 if(item.isConsent) {
                     sHtml += `
                         <div class="decision-modal" id="pa-ui">
@@ -390,9 +385,7 @@
                 sHtml += `</div>`;
                 scriptCont.innerHTML += sHtml;
 
-                // FLOW TRACKER
-                let qaClass = (item.status === 'done' || item.status === 'missed') ? item.status : '';
-                
+                let qaClass = (item.status === 'done') ? 'done' : '';
                 qaCont.innerHTML += `
                     <div class="tracker-item ${qaClass}" id="qa-${item.id}">
                         <div class="check-circle"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
@@ -403,7 +396,6 @@
             updateScore();
             scrollToActive();
             
-            // Reveal PA Pop-up ONLY when Step 6 is 'done'
             if(scriptData[5].status === 'done') {
                 const paUi = document.getElementById('pa-ui');
                 if(paUi && !paUi.classList.contains('show')) paUi.classList.add('show');
@@ -418,7 +410,6 @@
             
             scriptData[3].text = `"This request was submitted for the <span class="kw-tag" id="taskHighlight">${currentTaskType}</span>. Please confirm if you have <span class="kw-tag">admin access</span>... Could you please confirm if a <span class="kw-tag">backup</span> of the website was taken recently?"`;
             scriptData[5].text = `"We may proceed with the implementation from our end or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw-tag" id="paTaskHighlight">${currentTaskType}</span> on your behalf, we would need to ask you for <span class="kw-tag">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw-tag">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. <span class="kw-tag">Do you agree</span> to allow us temporary access?"`;
-            
             renderUI();
         }
 
@@ -442,19 +433,31 @@
             }
         }
 
+        // --- RESCHEDULE LOGIC ---
+        function openRescheduleModal() { document.getElementById('rescheduleModal').classList.add('show'); }
+        function closeRescheduleModal() { document.getElementById('rescheduleModal').classList.remove('show'); }
+        function confirmReschedule() {
+            closeRescheduleModal();
+            // Logic to handle reschedule UI reflection
+            document.querySelectorAll('.script-block').forEach(el => {
+                el.style.opacity = '0.3';
+                el.classList.remove('active');
+            });
+            document.getElementById('taskSelector').style.display = 'none';
+            document.querySelector('.header-bar h2').innerText = "Call Rescheduled";
+            document.querySelector('.header-bar h2').style.color = "var(--warning)";
+        }
+
         function updateScore() {
-            let comp = scriptData.filter(i => i.status === 'done' || i.status === 'missed').length;
+            let comp = scriptData.filter(i => i.status === 'done').length;
             let percent = Math.round((comp / scriptData.length) * 100);
-            
             document.getElementById('scorePercent').innerText = `${percent}%`;
-            
-            // Calculate SVG Stroke Offset (Total circumference is ~408)
             let offset = 408 - (percent / 100) * 408;
             document.getElementById('scoreRing').style.strokeDashoffset = offset;
         }
 
         function scrollToActive() {
-            let target = scriptData.find(i => i.status === 'active') || scriptData.find(i => i.status === 'missed');
+            let target = scriptData.find(i => i.status === 'active');
             if(target) {
                 let el = document.getElementById(`s-${target.id}`);
                 let area = document.getElementById('scriptScrollArea');
@@ -466,7 +469,7 @@
             }
         }
 
-        // --- 2. BILLION-DOLLAR VOICE ENGINE (Zero Dropout) ---
+        // --- 2. CONVERSATIONAL VOICE ENGINE (Non-Linear) ---
         let rec; let isStopped = true; let globalTranscript = "";
 
         function initEngine() {
@@ -475,10 +478,8 @@
             let engine = new SR();
             engine.continuous = true; engine.interimResults = true;
 
-            engine.onstart = () => {
-                document.getElementById('statusDot').classList.add('active');
-            };
-
+            engine.onstart = () => { document.getElementById('statusDot').classList.add('active'); };
+            
             engine.onresult = (e) => {
                 let final = ''; let interim = '';
                 for (let i = e.resultIndex; i < e.results.length; ++i) {
@@ -493,36 +494,23 @@
                     tb.scrollTop = tb.scrollHeight;
                 }
                 document.getElementById('tInterim').innerText = interim;
-
-                // Analyzes full continuous text stream instantly
                 let instantLiveText = (globalTranscript + interim).toLowerCase();
                 fastAnalyze(instantLiveText);
             };
 
             engine.onend = () => {
                 document.getElementById('statusDot').classList.remove('active');
-                if(!isStopped) {
-                    setTimeout(() => { try { engine.start(); } catch(err){} }, 100); 
-                }
+                if(!isStopped) { setTimeout(() => { try { engine.start(); } catch(err){} }, 100); }
             };
-
-            engine.onerror = (e) => {
-                if(e.error === 'not-allowed') { isStopped = true; toggleUI(false); alert('Microphone access denied.'); }
-            };
+            engine.onerror = (e) => { if(e.error === 'not-allowed') { isStopped = true; toggleUI(false); alert('Microphone access denied.'); } };
             return engine;
         }
 
         function toggleEngine() {
             if(!rec) rec = initEngine();
             if(!rec) return;
-
-            if(isStopped) {
-                isStopped = false; toggleUI(true);
-                try { rec.start(); } catch(e){}
-            } else {
-                isStopped = true; toggleUI(false);
-                rec.stop();
-            }
+            if(isStopped) { isStopped = false; toggleUI(true); try { rec.start(); } catch(e){} } 
+            else { isStopped = true; toggleUI(false); rec.stop(); }
         }
 
         function toggleUI(on) {
@@ -531,38 +519,33 @@
             else { btn.classList.remove('active'); document.getElementById('micText').innerText = 'Transcriber'; }
         }
 
+        // NON-LINEAR ANALYSIS: Checks ANY pending box that matches, without failing others
         function fastAnalyze(text) {
-            let highestMatch = -1;
+            let UI_needs_update = false;
             
-            scriptData.forEach((step, index) => {
+            scriptData.forEach((step) => {
                 if(step.status === 'pending' || step.status === 'active') {
                     let matched = step.keywords.some(kw => text.includes(kw.toLowerCase()));
-                    if(matched) highestMatch = Math.max(highestMatch, index);
+                    if(matched) {
+                        step.status = 'done';
+                        UI_needs_update = true;
+                    }
                 }
             });
-            if(highestMatch !== -1) markDone(highestMatch);
-        }
 
-        function markDone(idx) {
-            let changed = false;
-            // Mark skipped steps RED
-            for(let i = 0; i < idx; i++) {
-                if(scriptData[i].status === 'pending' || scriptData[i].status === 'active') {
-                    scriptData[i].status = 'missed'; changed = true;
+            if(UI_needs_update) {
+                // Find the VERY FIRST pending item in the list and set it to active
+                // so the UI naturally highlights the next thing you missed/need to do
+                let firstPending = scriptData.find(s => s.status === 'pending');
+                
+                // Clear all currently active items first to prevent multiple highlights
+                scriptData.forEach(s => { if(s.status === 'active') s.status = 'pending'; });
+                
+                if(firstPending) {
+                    firstPending.status = 'active';
                 }
+                renderUI();
             }
-            // Mark target DONE
-            if(scriptData[idx].status !== 'done') {
-                scriptData[idx].status = 'done'; changed = true;
-                // No global transcript wipe ensures flawless continuity
-            }
-            // Activate Next
-            let next = idx + 1;
-            if(next < scriptData.length && scriptData[next].status === 'pending') {
-                scriptData[next].status = 'active'; changed = true;
-            }
-            
-            if(changed) renderUI();
         }
 
         renderUI();
