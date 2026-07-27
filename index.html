@@ -10,7 +10,6 @@
             --bg-deep: #050507;
             --glass-surface: rgba(24, 24, 28, 0.65);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-highlight: rgba(255, 255, 255, 0.03);
             
             --accent: #3b82f6; /* Brilliant Blue */
             --accent-glow: rgba(59, 130, 246, 0.4);
@@ -34,25 +33,15 @@
 
         body {
             background-color: var(--bg-deep);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%);
-            color: var(--text-main);
-            height: 100vh; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
+            background-image: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%);
+            color: var(--text-main); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
 
-        .app-workspace {
-            width: 100%; max-width: 1800px; height: 96vh;
-            display: flex; gap: 24px; padding: 24px;
-        }
+        .app-workspace { width: 100%; max-width: 1800px; height: 96vh; display: flex; gap: 24px; padding: 24px; }
 
-        /* Glossy Panel Base */
         .glass-panel {
-            background: var(--glass-surface);
-            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
+            background: var(--glass-surface); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+            border: 1px solid var(--glass-border); border-radius: var(--radius-xl);
             box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
             display: flex; flex-direction: column; overflow: hidden;
         }
@@ -65,20 +54,14 @@
         /* ================= LEFT PANEL ================= */
         .panel-left { width: 340px; padding: 24px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
 
-        .brand-logo {
-            display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
-        }
-        .brand-logo svg {
-            width: 34px; height: 34px; fill: none; stroke: var(--accent); stroke-width: 2.5; filter: drop-shadow(0 0 10px var(--accent-glow));
-        }
+        .brand-logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+        .brand-logo svg { width: 34px; height: 34px; fill: none; stroke: var(--accent); stroke-width: 2.5; filter: drop-shadow(0 0 10px var(--accent-glow)); }
 
         .ai-status-box {
             background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
             padding: 20px; text-align: center; position: relative; overflow: hidden;
         }
-        .pulse-ring {
-            position: absolute; top: 15px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: #475569;
-        }
+        .pulse-ring { position: absolute; top: 15px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: #475569; }
         .pulse-ring.active { background: var(--success); box-shadow: 0 0 15px var(--success); animation: pulse 1s infinite; }
         
         .btn {
@@ -125,7 +108,7 @@
             background: rgba(59, 130, 246, 0.05); border-color: var(--accent); border-left: 4px solid var(--accent);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3); transform: scale(1.01);
         }
-        .script-card.done { border-left-color: var(--success); opacity: 0.5; }
+        .script-card.done { border-left-color: var(--success); opacity: 0.6; }
         .script-card.missed { border-left-color: var(--danger); background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.3); }
 
         .step-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; display: flex; justify-content: space-between;}
@@ -137,10 +120,11 @@
         .step-text { font-size: 16px; line-height: 1.7; color: var(--text-main); }
         .kw { font-weight: 600; color: #fff; background: var(--keyword-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(59, 130, 246, 0.3); }
 
-        /* Dynamic PA Pitch Pop-Up UI */
+        /* Dynamic PA Pitch Pop-Up UI (Appears AFTER reading) */
         .pa-decision-ui {
-            margin-top: 20px; padding: 20px; border-radius: var(--radius-md); background: rgba(0,0,0,0.4);
-            border: 1px dashed rgba(255,255,255,0.2); display: none; animation: slideDown 0.3s ease;
+            margin-top: 20px; padding: 20px; border-radius: var(--radius-md); background: rgba(0,0,0,0.6);
+            border: 1px solid var(--accent); display: none; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .pa-decision-ui.show { display: block; }
         .pa-btns { display: flex; gap: 12px; margin-top: 16px; }
@@ -184,7 +168,7 @@
         .qa-node span { font-size: 13px; font-weight: 500; transition: all 0.3s;}
 
         @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-15px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     </style>
 </head>
 <body>
@@ -200,7 +184,7 @@
 
             <div class="ai-status-box">
                 <div class="pulse-ring" id="statusDot"></div>
-                <div style="font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px;">Trillion-Dollar Core</div>
+                <div style="font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px;">QA Percentage</div>
                 <div style="font-size: 36px; font-weight: 700; color: #fff; line-height: 1;" id="scorePercent">0%</div>
                 <div style="font-size: 11px; margin-top: 8px; color: var(--accent);" id="statusText">System Standby</div>
             </div>
@@ -243,27 +227,28 @@
     </div>
 
     <script>
-        // --- 1. SCRIPT DATA & DYNAMICS ---
+        // --- 1. OPTIMIZED & FORGIVING KEYWORDS ---
+        // Using ultra-short strings to ensure the browser's speech-to-text doesn't miss them due to pluralization or slight mispronunciations.
         let currentTaskType = "Ads Conversion Tracking";
         
         let scriptData = [
-            { id: 'intro', title: '1. Greeting', keywords: ['technical solutions', 'behalf of google', 'how are you'], status: 'active', text: `"Hi! My name is <span class="kw">[Your Name]</span>, and I'm calling from the <span class="kw">Technical Solutions team on behalf of Google</span>. Am I speaking with <span class="kw">[Advertiser Name]</span>? <span class="kw">How are you doing today?</span>"` },
+            { id: 'intro', title: '1. Greeting', keywords: ['technical solutions', 'google', 'how are you'], status: 'active', text: `"Hi! My name is <span class="kw">[Your Name]</span>, and I'm calling from the <span class="kw">Technical Solutions team on behalf of Google</span>. Am I speaking with <span class="kw">[Advertiser Name]</span>? <span class="kw">How are you doing today?</span>"` },
             
-            { id: 'rec', title: '2. Recorded Line', keywords: ['recorded', 'monitored', 'privacy policy'], status: 'pending', text: `"This call may be <span class="kw">recorded or monitored</span> for quality, training and to improve Google's services, subject to our <span class="kw">Privacy Policy</span>. Do you agree to have this call monitored and recorded?"` },
+            { id: 'rec', title: '2. Recorded Line', keywords: ['recorded', 'monitored', 'privacy policy'], status: 'pending', text: `"This call may be <span class="kw">recorded or monitored</span> for quality, training and to improve Google's services, subject to our <span class="kw">Privacy Policy</span>. Do you agree?"` },
             
-            { id: 'auth', title: '3. Authentication', keywords: ['customer id', 'email address', 'website name'], status: 'pending', text: `"To ensure that we're working on the correct account, please confirm your <span class="kw">10-digit Customer ID</span> along with your <span class="kw">email address</span> and your <span class="kw">website name</span>?"` },
+            { id: 'auth', title: '3. Authentication', keywords: ['customer id', 'email', 'website'], status: 'pending', text: `"To ensure that we're working on the correct account, please confirm your <span class="kw">10-digit Customer ID</span> along with your <span class="kw">email address</span> and your <span class="kw">website name</span>?"` },
             
             { id: 'task', title: '4. Task & Access', keywords: ['conversion tracking', 'admin access', 'backup'], status: 'pending', text: `"This request was submitted for the <span class="kw" id="taskHighlight">Ads Conversion Tracking</span>. Please confirm if you have <span class="kw">admin access</span> to your Google Ads account and to the admin panel of the website? Could you please confirm if a <span class="kw">backup</span> of the website was taken recently?"` },
             
-            { id: 'share', title: '5. Screen Share', keywords: ['confidential', 'present now', 'entire screen'], status: 'pending', text: `"Before sharing your screen Please, close all your private/<span class="kw">confidential windows</span>, tabs and confidential documents on your device and start presenting your screen. When you are ready, please click the <span class="kw">'Present now'</span> button and choose the <span class="kw">'Entire screen'</span> option."` },
+            { id: 'share', title: '5. Screen Share', keywords: ['confidential', 'present', 'entire screen'], status: 'pending', text: `"Before sharing your screen Please, close all your private/<span class="kw">confidential windows</span>, tabs and confidential documents on your device. When you are ready, please click <span class="kw">'Present now'</span> and choose the <span class="kw">'Entire screen'</span> option."` },
             
-            { id: 'pa_pitch', title: '6. PA Pitch', keywords: ['implementation from our end', 'temporary access', 'revoked when our session expires'], status: 'pending', isConsent: true, text: `"We may proceed with the <span class="kw">implementation from our end</span> or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw" id="paTaskHighlight">Ads Conversion Tracking</span> on your behalf, we would need to ask you for <span class="kw">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. Do you agree to allow us temporary access?"` },
+            { id: 'pa_pitch', title: '6. PA Pitch', keywords: ['temporary access', 'revoked', 'session expires', 'do you agree'], status: 'pending', isConsent: true, text: `"We may proceed with the implementation from our end or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw" id="paTaskHighlight">Ads Conversion Tracking</span> on your behalf, we would need to ask you for <span class="kw">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. <span class="kw">Do you agree</span> to allow us temporary access?"` },
             
-            { id: 'sum', title: '7. Summarize Call', keywords: ['implemented', 'firing correctly'], status: 'pending', text: `"During our interaction, we discussed and <span class="kw">implemented</span> the tags. We also verified that they are <span class="kw">firing correctly</span>. Any user coming through a google ad click visits your website and then performs the action it tracks as conversions."` },
+            { id: 'sum', title: '7. Summarize Call', keywords: ['implemented', 'firing', 'conversions'], status: 'pending', text: `"During our interaction, we discussed and <span class="kw">implemented</span> the tags. We also verified that they are <span class="kw">firing correctly</span>. Any user coming through a google ad click visits your website and then performs the action it tracks as <span class="kw">conversions</span>."` },
             
-            { id: 'close', title: '8. Test & Close', keywords: ['test conversion', 'close the case'], status: 'pending', text: `"The implementation is complete, and we will monitor your account for few days. During this time, our quality team may perform a <span class="kw">test conversion</span> to validate the implementation.<br><br>Can I go ahead and <span class="kw">close the case?</span>"` },
+            { id: 'close', title: '8. Test & Close', keywords: ['test conversion', 'validate', 'close the case'], status: 'pending', text: `"The implementation is complete, and we will monitor your account for few days. During this time, our quality team may perform a <span class="kw">test conversion</span> to validate the implementation.<br><br>Can I go ahead and <span class="kw">close the case?</span>"` },
             
-            { id: 'gcss', title: '9. GCSS & Closure', keywords: ['feedback email', 'partnership'], status: 'pending', text: `"We will be sending you a <span class="kw">feedback email</span> once your current case is closed. This feedback is focused solely on the interaction and experience you had with us. We appreciate your continued <span class="kw">partnership</span> with Google. Have a great day!"` }
+            { id: 'gcss', title: '9. GCSS & Closure', keywords: ['feedback', 'partnership'], status: 'pending', text: `"We will be sending you a <span class="kw">feedback email</span> once your current case is closed. This feedback is focused solely on the interaction and experience you had with us. We appreciate your continued <span class="kw">partnership</span> with Google. Have a great day!"` }
         ];
 
         function renderUI() {
@@ -272,17 +257,18 @@
             scriptCont.innerHTML = ''; qaCont.innerHTML = '';
 
             scriptData.forEach((item, index) => {
-                // Script Side
+                // Script Area
                 let sHtml = `
                     <div class="script-card ${item.status}" id="s-${item.id}">
                         <div class="step-title"><span>${item.title}</span></div>
                         <div class="step-text">${item.text}</div>`;
                 
-                // Add PA Decision Box for Step 6
+                // Add PA Decision Box (Only pops up if the status is DONE, meaning they finished reading it)
                 if(item.isConsent) {
                     sHtml += `
                         <div class="pa-decision-ui" id="pa-ui">
-                            <div style="font-size:13px; color:var(--text-muted);">Awaiting Advertiser Consent...</div>
+                            <div style="font-size:14px; font-weight: 600; color:var(--accent); margin-bottom: 8px;">Action Required</div>
+                            <div style="font-size:13px; color:var(--text-main);">Did the advertiser agree to Temporary Access?</div>
                             <div class="pa-btns">
                                 <button class="btn-yes" onclick="handlePA(true, ${index})">YES, Access Granted</button>
                                 <button class="btn-no" onclick="handlePA(false, ${index})">NO, Guide Mode</button>
@@ -293,7 +279,7 @@
                 sHtml += `</div>`;
                 scriptCont.innerHTML += sHtml;
 
-                // Checklist Side
+                // Checklist Area
                 let qaClass = (item.status === 'done' || item.status === 'missed') ? 'done' : '';
                 if(item.status === 'missed') qaClass = 'missed';
 
@@ -307,10 +293,10 @@
             updateScore();
             scrollToActive();
             
-            // Show PA UI if PA Pitch is active
-            if(scriptData[5].status === 'active' || scriptData[5].status === 'done') {
+            // Logic to reveal the PA Pop-up ONLY when Step 6 is marked as 'done' (AI heard them finish reading it)
+            if(scriptData[5].status === 'done') {
                 const paUi = document.getElementById('pa-ui');
-                if(paUi) paUi.classList.add('show');
+                if(paUi && !paUi.classList.contains('show')) paUi.classList.add('show');
             }
         }
 
@@ -320,9 +306,8 @@
             else if(sel === 'ga4') { currentTaskType = "GA4 Setup & Linking"; scriptData[3].keywords = ['ga4 setup', 'analytics property', 'backup']; }
             else if(sel === 'consent') { currentTaskType = "Consent Mode V2"; scriptData[3].keywords = ['consent mode', 'certified cmp', 'admin access']; }
             
-            // Update Array Texts
-            scriptData[3].text = `"This request was submitted for the <span class="kw" id="taskHighlight">${currentTaskType}</span>. Please confirm if you have <span class="kw">admin access</span> to your Google Ads account and to the admin panel of the website? Could you please confirm if a <span class="kw">backup</span> of the website was taken recently?"`;
-            scriptData[5].text = `"We may proceed with the <span class="kw">implementation from our end</span> or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw" id="paTaskHighlight">${currentTaskType}</span> on your behalf, we would need to ask you for <span class="kw">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. Do you agree to allow us temporary access?"`;
+            scriptData[3].text = `"This request was submitted for the <span class="kw" id="taskHighlight">${currentTaskType}</span>. Please confirm if you have <span class="kw">admin access</span>... Could you please confirm if a <span class="kw">backup</span> of the website was taken recently?"`;
+            scriptData[5].text = `"We may proceed with the implementation from our end or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw" id="paTaskHighlight">${currentTaskType}</span> on your behalf, we would need to ask you for <span class="kw">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. <span class="kw">Do you agree</span> to allow us temporary access?"`;
             
             renderUI();
         }
@@ -345,7 +330,6 @@
                     <div style="color:var(--danger); font-weight:700; margin-bottom:8px;">Access Declined - Guide Mode</div>
                     "Thank you, we understand your concerns. In that case we will navigate you through the implementation process."`;
             }
-            if(scriptData[index].status !== 'done') markDone(index);
         }
 
         function updateScore() {
@@ -366,12 +350,12 @@
             }
         }
 
-        // --- 2. TRILLION DOLLAR INSTANT AI ENGINE ---
+        // --- 2. BULLETPROOF INSTANT AI ENGINE ---
         let rec; let isStopped = true; let globalTranscript = "";
 
         function initEngine() {
             const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SR) { alert('Browser unsupported. Use Chrome.'); return null; }
+            if(!SR) { alert('Browser unsupported. Use Chrome for Speech API.'); return null; }
             let engine = new SR();
             engine.continuous = true; engine.interimResults = true;
 
@@ -395,7 +379,7 @@
                 }
                 document.getElementById('tInterim').innerText = interim;
 
-                // INSTANT ANALYSIS: We evaluate the global text PLUS the live interim text simultaneously.
+                // Analyzes the text continuously without waiting for a sentence to finish
                 let instantLiveText = (globalTranscript + interim).toLowerCase();
                 fastAnalyze(instantLiveText);
             };
@@ -404,12 +388,13 @@
                 document.getElementById('statusDot').classList.remove('active');
                 if(!isStopped) {
                     document.getElementById('statusText').innerText = 'Re-engaging...';
-                    setTimeout(() => { try { engine.start(); } catch(err){} }, 50); // 50ms aggressive loop
+                    // 250ms restart loop prevents the browser from blocking it for looping too fast
+                    setTimeout(() => { try { engine.start(); } catch(err){} }, 250); 
                 } else { document.getElementById('statusText').innerText = 'System Standby'; }
             };
 
             engine.onerror = (e) => {
-                if(e.error === 'not-allowed') { isStopped = true; toggleUI(false); alert('Mic blocked.'); }
+                if(e.error === 'not-allowed') { isStopped = true; toggleUI(false); alert('Microphone access denied.'); }
             };
             return engine;
         }
@@ -435,10 +420,10 @@
 
         function fastAnalyze(text) {
             let highestMatch = -1;
-            // Scan all pending/active steps
+            
             scriptData.forEach((step, index) => {
                 if(step.status === 'pending' || step.status === 'active') {
-                    // If ANY of the highlighted keywords are found in the instant stream, flag it.
+                    // Match if ANY of the ultra-forgiving keywords are present
                     let matched = step.keywords.some(kw => text.includes(kw.toLowerCase()));
                     if(matched) highestMatch = Math.max(highestMatch, index);
                 }
@@ -449,7 +434,7 @@
         function markDone(idx) {
             let changed = false;
             // Mark skipped steps RED
-            for(let i=0; i<idx; i++) {
+            for(let i = 0; i < idx; i++) {
                 if(scriptData[i].status === 'pending' || scriptData[i].status === 'active') {
                     scriptData[i].status = 'missed'; changed = true;
                 }
@@ -457,6 +442,10 @@
             // Mark target DONE
             if(scriptData[idx].status !== 'done') {
                 scriptData[idx].status = 'done'; changed = true;
+                
+                // Clear the global transcript memory so old sentences don't re-trigger future steps if keywords overlap
+                globalTranscript = ""; 
+                document.getElementById('tFinal').innerText = "";
             }
             // Activate Next
             let next = idx + 1;
