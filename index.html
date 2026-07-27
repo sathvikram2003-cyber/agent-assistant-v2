@@ -3,453 +3,468 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techsoul Assist | Voice-to-Text QA</title>
+    <title>Techsoul Assist | Advanced AI QA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Premium Dark Theme Variables */
-            --bg-base: #09090b;
-            --surface-100: #18181b;
-            --surface-200: #27272a;
-            --border-color: #3f3f46;
+            --bg-deep: #050507;
+            --glass-surface: rgba(24, 24, 28, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.03);
             
-            --accent-primary: #6366f1; /* Indigo */
-            --accent-glow: rgba(99, 102, 241, 0.4);
+            --accent: #3b82f6; /* Brilliant Blue */
+            --accent-glow: rgba(59, 130, 246, 0.4);
             
             --success: #10b981; /* Emerald */
-            --success-glow: rgba(16, 185, 129, 0.15);
+            --success-glow: rgba(16, 185, 129, 0.3);
             
-            --danger: #ef4444; /* Stark Red for Missed */
-            --danger-glow: rgba(239, 68, 68, 0.15);
+            --danger: #ef4444; /* Crimson */
+            --danger-glow: rgba(239, 68, 68, 0.2);
             
-            --text-primary: #f8fafc;
-            --text-secondary: #a1a1aa;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --keyword-bg: rgba(59, 130, 246, 0.2);
             
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            
-            --font-sans: 'Inter', system-ui, sans-serif;
+            --radius-xl: 20px;
+            --radius-lg: 14px;
+            --radius-md: 10px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
         body {
-            font-family: var(--font-sans); background-color: var(--bg-base); color: var(--text-primary);
-            height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center;
-            background-image: radial-gradient(circle at 50% 0%, rgba(99,102,241,0.05) 0%, transparent 60%);
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%);
+            color: var(--text-main);
+            height: 100vh; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .app-container {
-            width: 100%; max-width: 1800px; height: 96vh; display: flex; gap: 20px; padding: 20px;
+        .app-workspace {
+            width: 100%; max-width: 1800px; height: 96vh;
+            display: flex; gap: 24px; padding: 24px;
         }
 
-        .panel {
-            background: rgba(24, 24, 27, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+        /* Glossy Panel Base */
+        .glass-panel {
+            background: var(--glass-surface);
+            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
             display: flex; flex-direction: column; overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #52525b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
 
-        /* ================= LEFT PANEL (HUD & TRANSCRIPT) ================= */
-        .panel-left { width: 340px; padding: 24px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; }
+        /* ================= LEFT PANEL ================= */
+        .panel-left { width: 340px; padding: 24px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
 
-        .brand {
-            display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: #fff;
+        .brand-logo {
+            display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
         }
-        .brand svg {
-            width: 30px; height: 30px; fill: none; stroke: var(--accent-primary); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 8px var(--accent-glow));
+        .brand-logo svg {
+            width: 34px; height: 34px; fill: none; stroke: var(--accent); stroke-width: 2.5; filter: drop-shadow(0 0 10px var(--accent-glow));
         }
 
-        .status-card {
-            background: linear-gradient(145deg, var(--surface-100), var(--bg-base));
-            border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; text-align: center;
+        .ai-status-box {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
+            padding: 20px; text-align: center; position: relative; overflow: hidden;
         }
-        .ai-status-indicator {
-            width: 10px; height: 10px; border-radius: 50%; background: #52525b; display: inline-block; margin-right: 8px;
+        .pulse-ring {
+            position: absolute; top: 15px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: #475569;
         }
-        .ai-status-indicator.listening { background: var(--success); box-shadow: 0 0 12px var(--success), 0 0 24px var(--success); animation: pulse 1.5s infinite; }
-        .status-text { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
-
+        .pulse-ring.active { background: var(--success); box-shadow: 0 0 15px var(--success); animation: pulse 1s infinite; }
+        
         .btn {
-            width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 16px; border-radius: var(--radius-md); border: 1px solid transparent;
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; justify-content: center; align-items: center; gap: 8px;
         }
-        .btn-primary { background: var(--accent-primary); color: white; }
-        .btn-primary:hover { background: #4f46e5; box-shadow: 0 0 20px var(--accent-glow); }
-        .btn-primary.active { background: var(--danger); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+        .btn-ai { background: var(--accent); color: #fff; box-shadow: 0 8px 20px var(--accent-glow); }
+        .btn-ai:hover { transform: translateY(-2px); box-shadow: 0 12px 25px var(--accent-glow); }
+        .btn-ai.listening { background: var(--danger); box-shadow: 0 8px 20px var(--danger-glow); }
 
-        /* LIVE TRANSCRIPT BOX */
-        .transcript-box {
-            flex: 1; background: #000; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+        .live-transcript {
+            flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: var(--radius-md);
             display: flex; flex-direction: column; overflow: hidden;
         }
-        .transcript-header {
-            background: var(--surface-200); padding: 10px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);
-        }
-        .transcript-content {
-            padding: 12px; flex: 1; overflow-y: auto; font-size: 13px; line-height: 1.6; color: var(--text-primary);
-        }
-        .transcript-final { color: #fff; }
-        .transcript-interim { color: var(--text-secondary); font-style: italic; }
-
-        .console-feed {
-            height: 100px; background: #000; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
-            padding: 12px; font-family: monospace; font-size: 11px; color: var(--text-secondary); overflow-y: auto;
-        }
-        .console-feed span.match { color: var(--success); }
-        .console-feed span.miss { color: var(--danger); }
+        .transcript-head { padding: 12px; background: rgba(255,255,255,0.03); font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--glass-border); }
+        .transcript-body { padding: 16px; flex: 1; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+        .txt-final { color: #fff; }
+        .txt-interim { color: var(--text-muted); font-style: italic; }
 
         /* ================= MIDDLE PANEL (SCRIPT) ================= */
-        .panel-middle { flex: 1; position: relative; display: flex; flex-direction: column;}
-
-        .panel-header {
-            padding: 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(24, 24, 27, 0.9); z-index: 10;
-        }
-        .panel-header h2 { font-size: 18px; font-weight: 600; }
-
-        select.task-dropdown {
-            background: var(--surface-200); border: 1px solid var(--border-color); color: var(--text-primary); padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; outline: none; cursor: pointer;
-        }
-
-        .script-scroll { padding: 32px; overflow-y: auto; flex: 1; scroll-behavior: smooth; }
-
-        .script-block {
-            padding: 24px; margin-bottom: 24px; border-radius: var(--radius-md); background: var(--surface-100); border: 1px solid var(--border-color); border-left: 4px solid var(--border-color); transition: all 0.3s;
-        }
-        .script-block.active { border-color: var(--accent-primary); border-left: 4px solid var(--accent-primary); background: rgba(99, 102, 241, 0.05); transform: translateX(4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .script-block.done { border-left-color: var(--success); opacity: 0.6; }
-        .script-block.missed { border-left-color: var(--danger); border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); }
-
-        .script-title { font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; display: flex; justify-content: space-between; color: var(--text-secondary); }
-        .script-block.active .script-title { color: var(--accent-primary); }
-        .script-block.done .script-title { color: var(--success); text-decoration: line-through; }
-        .script-block.missed .script-title { color: var(--danger); }
-        .script-block.missed .script-title::after { content: 'MISSED STEP'; background: var(--danger); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 10px; }
-
-        .script-text { font-size: 15px; line-height: 1.7; color: var(--text-primary); }
-        .keyword-highlight { font-weight: 600; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
-
-        /* ================= RIGHT PANEL (CHECKLIST) ================= */
-        .panel-right { width: 340px; flex-shrink: 0; display: flex; flex-direction: column;}
+        .panel-middle { flex: 1; position: relative; }
         
-        .qa-header { padding: 24px; border-bottom: 1px solid var(--border-color); }
-        .qa-scroll { padding: 24px; overflow-y: auto; flex: 1; }
-
-        .qa-item {
-            display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface-100); border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 10px; transition: all 0.3s;
+        .script-header {
+            padding: 24px 32px; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+            display: flex; justify-content: space-between; align-items: center; z-index: 10;
         }
         
-        .qa-checkbox {
-            width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        select.modern-select {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
+            padding: 10px 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; outline: none; cursor: pointer;
         }
-        .qa-checkbox svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(0.5); }
+        select.modern-select:hover { background: rgba(255,255,255,0.1); }
+        select.modern-select option { background: var(--bg-deep); }
+
+        .script-container { padding: 32px; overflow-y: auto; height: calc(100% - 80px); scroll-behavior: smooth; }
+
+        .script-card {
+            padding: 24px; margin-bottom: 24px; border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-left: 4px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .script-card.active {
+            background: rgba(59, 130, 246, 0.05); border-color: var(--accent); border-left: 4px solid var(--accent);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); transform: scale(1.01);
+        }
+        .script-card.done { border-left-color: var(--success); opacity: 0.5; }
+        .script-card.missed { border-left-color: var(--danger); background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.3); }
+
+        .step-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; display: flex; justify-content: space-between;}
+        .script-card.active .step-title { color: var(--accent); }
+        .script-card.done .step-title { color: var(--success); text-decoration: line-through; }
+        .script-card.missed .step-title { color: var(--danger); }
+        .script-card.missed .step-title::after { content: 'MISSED STEP'; background: var(--danger); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 10px; }
+
+        .step-text { font-size: 16px; line-height: 1.7; color: var(--text-main); }
+        .kw { font-weight: 600; color: #fff; background: var(--keyword-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+        /* Dynamic PA Pitch Pop-Up UI */
+        .pa-decision-ui {
+            margin-top: 20px; padding: 20px; border-radius: var(--radius-md); background: rgba(0,0,0,0.4);
+            border: 1px dashed rgba(255,255,255,0.2); display: none; animation: slideDown 0.3s ease;
+        }
+        .pa-decision-ui.show { display: block; }
+        .pa-btns { display: flex; gap: 12px; margin-top: 16px; }
+        .pa-btns button {
+            flex: 1; padding: 12px; border-radius: var(--radius-sm); border: none; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-yes { background: var(--success); color: #000; }
+        .btn-yes:hover { background: #0ea5e9; box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
+        .btn-no { background: rgba(255,255,255,0.1); color: #fff; }
+        .btn-no:hover { background: rgba(255,255,255,0.2); }
         
-        /* DONE STATE */
-        .qa-item.done { border-color: var(--success); background: var(--success-glow); }
-        .qa-item.done .qa-checkbox { background: var(--success); border-color: var(--success); }
-        .qa-item.done .qa-checkbox svg { opacity: 1; transform: scale(1); }
-        .qa-item.done .qa-title { color: var(--success); text-decoration: line-through; }
+        .pa-result-box { margin-top: 16px; padding: 16px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.05); border-left: 3px solid var(--accent); display: none; font-size: 14px; line-height: 1.6;}
+        .launch-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 16px; background: var(--accent); color: white; text-decoration: none; border-radius: var(--radius-sm); font-weight: 600; font-size: 13px;}
 
-        /* MISSED (RED) STATE */
-        .qa-item.missed { border-color: var(--danger); background: var(--danger-glow); }
-        .qa-item.missed .qa-checkbox { background: var(--danger); border-color: var(--danger); }
-        .qa-item.missed .qa-checkbox svg { opacity: 1; transform: scale(1); stroke: #fff; }
-        .qa-item.missed .qa-title { color: var(--danger); }
+        /* ================= RIGHT PANEL ================= */
+        .panel-right { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; }
+        
+        .qa-title-head { padding: 24px; border-bottom: 1px solid var(--glass-border); font-size: 16px; font-weight: 600; background: rgba(0,0,0,0.2); }
+        .qa-list { padding: 24px; overflow-y: auto; flex: 1; }
 
-        .qa-title { font-size: 13px; font-weight: 500; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.6; } 100% { transform: scale(1); opacity: 1; } }
+        .qa-node {
+            display: flex; align-items: center; gap: 12px; padding: 14px; margin-bottom: 10px;
+            background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); transition: all 0.3s;
+        }
+        .qa-box {
+            width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--text-muted);
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .qa-box svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 3; opacity: 0; transform: scale(0.5); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* States */
+        .qa-node.done { border-color: var(--success); background: var(--success-glow); }
+        .qa-node.done .qa-box { background: var(--success); border-color: var(--success); }
+        .qa-node.done .qa-box svg { opacity: 1; transform: scale(1); }
+        .qa-node.done span { color: var(--success); text-decoration: line-through; }
+
+        .qa-node.missed { border-color: var(--danger); background: var(--danger-glow); }
+        .qa-node.missed .qa-box { background: var(--danger); border-color: var(--danger); }
+        .qa-node.missed .qa-box svg { opacity: 1; transform: scale(1); stroke: #fff; }
+        .qa-node.missed span { color: var(--danger); }
+        .qa-node span { font-size: 13px; font-weight: 500; transition: all 0.3s;}
+
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="app-workspace">
         
-        <!-- 1. LEFT PANEL -->
-        <div class="panel panel-left">
-            <div class="brand">
+        <!-- LEFT PANEL -->
+        <div class="glass-panel panel-left">
+            <div class="brand-logo">
                 <svg viewBox="0 0 24 24"><path d="M12 2L12 22M6 8L6 16M18 8L18 16M3 11L3 13M21 11L21 13"/></svg>
                 Techsoul Assist
             </div>
 
-            <div class="status-card">
-                <div style="margin-bottom: 12px;">
-                    <span class="ai-status-indicator" id="statusDot"></span>
-                    <span class="status-text" id="statusText">System Offline</span>
-                </div>
-                <div style="font-size: 32px; font-weight: 700; color: #fff;" id="progressScore">0%</div>
+            <div class="ai-status-box">
+                <div class="pulse-ring" id="statusDot"></div>
+                <div style="font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px;">Trillion-Dollar Core</div>
+                <div style="font-size: 36px; font-weight: 700; color: #fff; line-height: 1;" id="scorePercent">0%</div>
+                <div style="font-size: 11px; margin-top: 8px; color: var(--accent);" id="statusText">System Standby</div>
             </div>
 
-            <button class="btn btn-primary" id="micBtn" onclick="toggleListening()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
-                <span id="micBtnText">Initialize AI Listener</span>
+            <button class="btn btn-ai" id="micBtn" onclick="toggleEngine()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                <span id="micText">Initialize AI Listener</span>
             </button>
 
-            <!-- LIVE TRANSCRIPT -->
-            <div class="transcript-box">
-                <div class="transcript-header">Real-Time Audio Transcript</div>
-                <div class="transcript-content" id="transcriptWindow">
-                    <span class="transcript-final" id="transcriptFinal"></span>
-                    <span class="transcript-interim" id="transcriptInterim"></span>
+            <div class="live-transcript">
+                <div class="transcript-head">Neural Transcription Feed</div>
+                <div class="transcript-body" id="transBox">
+                    <span class="txt-final" id="tFinal"></span>
+                    <span class="txt-interim" id="tInterim"></span>
                 </div>
-            </div>
-
-            <div class="console-feed" id="consoleOutput">
-                > Engine ready.<br>
             </div>
         </div>
 
-        <!-- 2. MIDDLE PANEL -->
-        <div class="panel panel-middle">
-            <div class="panel-header">
+        <!-- MIDDLE PANEL -->
+        <div class="glass-panel panel-middle">
+            <div class="script-header">
                 <h2>Verbiage Guide</h2>
-                <select class="task-dropdown" id="taskSelect" onchange="updateTaskType()">
+                <select class="modern-select" id="taskSelector" onchange="updateTaskType()">
                     <option value="ads">Task: Ads Conversion Tracking</option>
                     <option value="ga4">Task: GA4 Setup & Linking</option>
                     <option value="consent">Task: Consent Mode V2</option>
                 </select>
             </div>
-            <div class="script-scroll" id="scriptScrollArea">
-                <div id="scriptContainer"></div>
+            <div class="script-container" id="scriptScrollArea">
+                <div id="scriptBlocks"></div>
             </div>
         </div>
 
-        <!-- 3. RIGHT PANEL -->
-        <div class="panel panel-right">
-            <div class="qa-header"><h3>Live Flow Tracker</h3></div>
-            <div class="qa-scroll" id="qaScrollArea">
-                <div id="qaContainer"></div>
-            </div>
+        <!-- RIGHT PANEL -->
+        <div class="glass-panel panel-right">
+            <div class="qa-title-head">Live Flow Tracker</div>
+            <div class="qa-list" id="qaList"></div>
         </div>
 
     </div>
 
     <script>
-        // 1. FORGIVING KEYWORDS - Shorter phrases means a much higher match rate.
+        // --- 1. SCRIPT DATA & DYNAMICS ---
+        let currentTaskType = "Ads Conversion Tracking";
+        
         let scriptData = [
-            { id: 'intro', title: '1. Greeting', keywords: ['technical solutions', 'behalf of google', 'am i speaking with'], status: 'active', text: `"Hi! My name is <span class="keyword-highlight">[Your Name]</span>, and I'm calling from the Technical Solutions team on behalf of Google. Am I speaking with <span class="keyword-highlight">[Advertiser Name]</span>? How are you doing today?"` },
-            { id: 'rec', title: '2. Recorded Line', keywords: ['recorded', 'monitored', 'privacy policy'], status: 'pending', text: `"This call may be recorded or monitored for quality, training and to improve Google's services, subject to our Privacy Policy. Do you agree?"` },
-            { id: 'auth', title: '3. Authentication', keywords: ['customer id', 'email address', 'website name'], status: 'pending', text: `"To ensure that we're working on the correct account, please confirm your <span class="keyword-highlight">10-digit Customer ID</span> along with your <span class="keyword-highlight">email address</span> and your <span class="keyword-highlight">website name</span>?"` },
-            { id: 'task', title: '4. Task & Access', keywords: ['conversion tracking', 'admin access', 'backup'], status: 'pending', text: `"This request was submitted for the <span class="keyword-highlight">Ads Conversion Tracking</span>. Please confirm if you have admin access to your Google Ads account and to the admin panel of the website? Could you please confirm if a backup of the website was taken recently?"` },
-            { id: 'share', title: '5. Screen Share', keywords: ['confidential', 'present now', 'entire screen'], status: 'pending', text: `"Before sharing your screen Please, close all your private/confidential windows. When you are ready, please click 'Present now' and choose 'Entire screen'."` },
-            { id: 'pa_pitch', title: '6. PA Pitch', keywords: ['implementation', 'temporary access', 'guiding you'], status: 'pending', text: `"We may proceed with the implementation from our end or by guiding you through each step. To proceed with the creation on your behalf, we would need to ask you for temporary access. Do you agree?"` },
-            { id: 'sum', title: '7. Summarize Call', keywords: ['implemented', 'firing correctly'], status: 'pending', text: `"During our interaction, we discussed and implemented the tags. We also verified that they are firing correctly."` },
-            { id: 'close', title: '8. Test & Close', keywords: ['test conversion', 'close the case'], status: 'pending', text: `"The implementation is complete. Our quality team may perform a test conversion to validate. Can I go ahead and close the case?"` },
-            { id: 'gcss', title: '9. GCSS Feedback', keywords: ['feedback email', 'partnership with google'], status: 'pending', text: `"We will be sending you a feedback email once your current case is closed. We appreciate your continued partnership with Google. Have a great day!"` }
+            { id: 'intro', title: '1. Greeting', keywords: ['technical solutions', 'behalf of google', 'how are you'], status: 'active', text: `"Hi! My name is <span class="kw">[Your Name]</span>, and I'm calling from the <span class="kw">Technical Solutions team on behalf of Google</span>. Am I speaking with <span class="kw">[Advertiser Name]</span>? <span class="kw">How are you doing today?</span>"` },
+            
+            { id: 'rec', title: '2. Recorded Line', keywords: ['recorded', 'monitored', 'privacy policy'], status: 'pending', text: `"This call may be <span class="kw">recorded or monitored</span> for quality, training and to improve Google's services, subject to our <span class="kw">Privacy Policy</span>. Do you agree to have this call monitored and recorded?"` },
+            
+            { id: 'auth', title: '3. Authentication', keywords: ['customer id', 'email address', 'website name'], status: 'pending', text: `"To ensure that we're working on the correct account, please confirm your <span class="kw">10-digit Customer ID</span> along with your <span class="kw">email address</span> and your <span class="kw">website name</span>?"` },
+            
+            { id: 'task', title: '4. Task & Access', keywords: ['conversion tracking', 'admin access', 'backup'], status: 'pending', text: `"This request was submitted for the <span class="kw" id="taskHighlight">Ads Conversion Tracking</span>. Please confirm if you have <span class="kw">admin access</span> to your Google Ads account and to the admin panel of the website? Could you please confirm if a <span class="kw">backup</span> of the website was taken recently?"` },
+            
+            { id: 'share', title: '5. Screen Share', keywords: ['confidential', 'present now', 'entire screen'], status: 'pending', text: `"Before sharing your screen Please, close all your private/<span class="kw">confidential windows</span>, tabs and confidential documents on your device and start presenting your screen. When you are ready, please click the <span class="kw">'Present now'</span> button and choose the <span class="kw">'Entire screen'</span> option."` },
+            
+            { id: 'pa_pitch', title: '6. PA Pitch', keywords: ['implementation from our end', 'temporary access', 'revoked when our session expires'], status: 'pending', isConsent: true, text: `"We may proceed with the <span class="kw">implementation from our end</span> or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw" id="paTaskHighlight">Ads Conversion Tracking</span> on your behalf, we would need to ask you for <span class="kw">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. Do you agree to allow us temporary access?"` },
+            
+            { id: 'sum', title: '7. Summarize Call', keywords: ['implemented', 'firing correctly'], status: 'pending', text: `"During our interaction, we discussed and <span class="kw">implemented</span> the tags. We also verified that they are <span class="kw">firing correctly</span>. Any user coming through a google ad click visits your website and then performs the action it tracks as conversions."` },
+            
+            { id: 'close', title: '8. Test & Close', keywords: ['test conversion', 'close the case'], status: 'pending', text: `"The implementation is complete, and we will monitor your account for few days. During this time, our quality team may perform a <span class="kw">test conversion</span> to validate the implementation.<br><br>Can I go ahead and <span class="kw">close the case?</span>"` },
+            
+            { id: 'gcss', title: '9. GCSS & Closure', keywords: ['feedback email', 'partnership'], status: 'pending', text: `"We will be sending you a <span class="kw">feedback email</span> once your current case is closed. This feedback is focused solely on the interaction and experience you had with us. We appreciate your continued <span class="kw">partnership</span> with Google. Have a great day!"` }
         ];
 
         function renderUI() {
-            const scriptContainer = document.getElementById('scriptContainer');
-            const qaContainer = document.getElementById('qaContainer');
-            scriptContainer.innerHTML = ''; qaContainer.innerHTML = '';
+            const scriptCont = document.getElementById('scriptBlocks');
+            const qaCont = document.getElementById('qaList');
+            scriptCont.innerHTML = ''; qaCont.innerHTML = '';
 
             scriptData.forEach((item, index) => {
-                let blockHTML = `
-                    <div class="script-block ${item.status}" id="script-${item.id}">
-                        <div class="script-title"><span>${item.title}</span></div>
-                        <div class="script-text">${item.text}</div>
-                    </div>`;
-                scriptContainer.innerHTML += blockHTML;
+                // Script Side
+                let sHtml = `
+                    <div class="script-card ${item.status}" id="s-${item.id}">
+                        <div class="step-title"><span>${item.title}</span></div>
+                        <div class="step-text">${item.text}</div>`;
+                
+                // Add PA Decision Box for Step 6
+                if(item.isConsent) {
+                    sHtml += `
+                        <div class="pa-decision-ui" id="pa-ui">
+                            <div style="font-size:13px; color:var(--text-muted);">Awaiting Advertiser Consent...</div>
+                            <div class="pa-btns">
+                                <button class="btn-yes" onclick="handlePA(true, ${index})">YES, Access Granted</button>
+                                <button class="btn-no" onclick="handlePA(false, ${index})">NO, Guide Mode</button>
+                            </div>
+                            <div class="pa-result-box" id="pa-result"></div>
+                        </div>`;
+                }
+                sHtml += `</div>`;
+                scriptCont.innerHTML += sHtml;
 
-                let checkedClass = (item.status === 'done' || item.status === 'missed') ? 'done' : '';
-                if(item.status === 'missed') checkedClass = 'missed'; // RED
+                // Checklist Side
+                let qaClass = (item.status === 'done' || item.status === 'missed') ? 'done' : '';
+                if(item.status === 'missed') qaClass = 'missed';
 
-                qaContainer.innerHTML += `
-                    <div class="qa-item ${checkedClass}" id="qa-${item.id}">
-                        <div class="qa-checkbox"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                        <div class="qa-title">${item.title}</div>
+                qaCont.innerHTML += `
+                    <div class="qa-node ${qaClass}" id="qa-${item.id}">
+                        <div class="qa-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <span>${item.title}</span>
                     </div>`;
             });
 
-            updateProgress();
+            updateScore();
             scrollToActive();
+            
+            // Show PA UI if PA Pitch is active
+            if(scriptData[5].status === 'active' || scriptData[5].status === 'done') {
+                const paUi = document.getElementById('pa-ui');
+                if(paUi) paUi.classList.add('show');
+            }
         }
 
         function updateTaskType() {
-            const type = document.getElementById('taskSelect').value;
-            if(type === 'ads') {
-                scriptData[3].text = `"This request was submitted for the <span class="keyword-highlight">Ads Conversion Tracking</span>..."`;
-                scriptData[3].keywords = ['conversion tracking', 'admin access'];
-            } else if (type === 'ga4') {
-                scriptData[3].text = `"This request was submitted for the <span class="keyword-highlight">GA4 Setup and Linking</span>..."`;
-                scriptData[3].keywords = ['ga4 setup', 'analytics property'];
-            } else if (type === 'consent') {
-                scriptData[3].text = `"This request was submitted for <span class="keyword-highlight">Consent Mode V2</span>..."`;
-                scriptData[3].keywords = ['consent mode', 'certified cmp'];
-            }
+            const sel = document.getElementById('taskSelector').value;
+            if(sel === 'ads') { currentTaskType = "Ads Conversion Tracking"; scriptData[3].keywords = ['conversion tracking', 'admin access', 'backup']; }
+            else if(sel === 'ga4') { currentTaskType = "GA4 Setup & Linking"; scriptData[3].keywords = ['ga4 setup', 'analytics property', 'backup']; }
+            else if(sel === 'consent') { currentTaskType = "Consent Mode V2"; scriptData[3].keywords = ['consent mode', 'certified cmp', 'admin access']; }
+            
+            // Update Array Texts
+            scriptData[3].text = `"This request was submitted for the <span class="kw" id="taskHighlight">${currentTaskType}</span>. Please confirm if you have <span class="kw">admin access</span> to your Google Ads account and to the admin panel of the website? Could you please confirm if a <span class="kw">backup</span> of the website was taken recently?"`;
+            scriptData[5].text = `"We may proceed with the <span class="kw">implementation from our end</span> or by guiding you through each step.<br><br>To proceed with the creation of <span class="kw" id="paTaskHighlight">${currentTaskType}</span> on your behalf, we would need to ask you for <span class="kw">temporary access</span> to your GTM/Google Ads account. It will let us create, save and publish the changes. This access will be <span class="kw">revoked when our session expires</span>.<br><br>You should receive an email with the access request from our side. Do you agree to allow us temporary access?"`;
+            
             renderUI();
         }
 
-        function updateProgress() {
-            let completed = scriptData.filter(i => i.status === 'done' || i.status === 'missed').length;
-            let percent = Math.round((completed / scriptData.length) * 100);
-            document.getElementById('progressScore').innerText = `${percent}%`;
+        function handlePA(isYes, index) {
+            const resBox = document.getElementById('pa-result');
+            document.querySelector('.pa-btns').style.display = 'none';
+            resBox.style.display = 'block';
+            
+            if(isYes) {
+                resBox.innerHTML = `
+                    <div style="color:var(--success); font-weight:700; margin-bottom:8px;">Access Accepted</div>
+                    "Thank you! I will now guide you how to confirm our temporary access."<br>
+                    <a href="https://tagsupport.corp.google.com/create-session" target="_blank" class="launch-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        Launch TagSupport Session
+                    </a>`;
+            } else {
+                resBox.innerHTML = `
+                    <div style="color:var(--danger); font-weight:700; margin-bottom:8px;">Access Declined - Guide Mode</div>
+                    "Thank you, we understand your concerns. In that case we will navigate you through the implementation process."`;
+            }
+            if(scriptData[index].status !== 'done') markDone(index);
+        }
+
+        function updateScore() {
+            let comp = scriptData.filter(i => i.status === 'done' || i.status === 'missed').length;
+            document.getElementById('scorePercent').innerText = `${Math.round((comp / scriptData.length) * 100)}%`;
         }
 
         function scrollToActive() {
             let target = scriptData.find(i => i.status === 'active') || scriptData.find(i => i.status === 'missed');
-            if (target) {
-                let el = document.getElementById(`script-${target.id}`);
-                if (el) {
-                    const scrollArea = document.getElementById('scriptScrollArea');
-                    const rect = el.getBoundingClientRect();
-                    const areaRect = scrollArea.getBoundingClientRect();
-                    // Scroll only if out of view
-                    if (rect.top < areaRect.top || rect.bottom > areaRect.bottom) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+            if(target) {
+                let el = document.getElementById(`s-${target.id}`);
+                let area = document.getElementById('scriptScrollArea');
+                if(el && area) {
+                    let rect = el.getBoundingClientRect();
+                    let aRect = area.getBoundingClientRect();
+                    if(rect.top < aRect.top || rect.bottom > aRect.bottom) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
         }
 
-        const consoleFeed = document.getElementById('consoleOutput');
-        function logMsg(msg, type = 'normal') {
-            let colorClass = '';
-            if(type === 'match') colorClass = 'match';
-            if(type === 'miss') colorClass = 'miss';
-            consoleFeed.innerHTML += `> <span class="${colorClass}">${msg}</span><br>`;
-            consoleFeed.scrollTop = consoleFeed.scrollHeight;
-        }
+        // --- 2. TRILLION DOLLAR INSTANT AI ENGINE ---
+        let rec; let isStopped = true; let globalTranscript = "";
 
-        // ================= BULLETPROOF VOICE ENGINE =================
-        let recognition;
-        let isIntentionalStop = true;
-        let fullSessionTranscript = "";
+        function initEngine() {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!SR) { alert('Browser unsupported. Use Chrome.'); return null; }
+            let engine = new SR();
+            engine.continuous = true; engine.interimResults = true;
 
-        function initVoiceEngine() {
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SpeechRec) { logMsg('FATAL: Browser does not support Web Speech API.', 'miss'); return null; }
-            
-            let rec = new SpeechRec();
-            rec.continuous = true;
-            rec.interimResults = true;
-
-            rec.onstart = () => {
-                document.getElementById('statusDot').classList.add('listening');
-                document.getElementById('statusText').innerText = 'Actively Listening...';
-                logMsg('Microphone engaged.');
+            engine.onstart = () => {
+                document.getElementById('statusDot').classList.add('active');
+                document.getElementById('statusText').innerText = 'Neural Engine Active';
             };
 
-            rec.onresult = (e) => {
-                let interim = '';
-                let final = '';
-                
+            engine.onresult = (e) => {
+                let final = ''; let interim = '';
                 for (let i = e.resultIndex; i < e.results.length; ++i) {
-                    if (e.results[i].isFinal) {
-                        final += e.results[i][0].transcript + ' ';
-                    } else {
-                        interim += e.results[i][0].transcript;
-                    }
+                    if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+                    else interim += e.results[i][0].transcript;
                 }
                 
-                // Print to Live UI
-                if (final) {
-                    fullSessionTranscript += final;
-                    document.getElementById('transcriptFinal').innerText = fullSessionTranscript;
-                    
-                    // Auto-scroll transcript window
-                    const tWindow = document.getElementById('transcriptWindow');
-                    tWindow.scrollTop = tWindow.scrollHeight;
-                    
-                    analyzeTranscript(final.toLowerCase());
+                if(final) {
+                    globalTranscript += final;
+                    document.getElementById('tFinal').innerText = globalTranscript;
+                    let tb = document.getElementById('transBox');
+                    tb.scrollTop = tb.scrollHeight;
                 }
-                document.getElementById('transcriptInterim').innerText = interim;
+                document.getElementById('tInterim').innerText = interim;
+
+                // INSTANT ANALYSIS: We evaluate the global text PLUS the live interim text simultaneously.
+                let instantLiveText = (globalTranscript + interim).toLowerCase();
+                fastAnalyze(instantLiveText);
             };
 
-            // AGGRESSIVE RESTART LOGIC - Never stops unless you click stop
-            rec.onend = () => {
-                document.getElementById('statusDot').classList.remove('listening');
-                if (!isIntentionalStop) {
+            engine.onend = () => {
+                document.getElementById('statusDot').classList.remove('active');
+                if(!isStopped) {
                     document.getElementById('statusText').innerText = 'Re-engaging...';
-                    setTimeout(() => {
-                        try { rec.start(); } catch(err) {}
-                    }, 100); // Instantly force it back on
-                } else {
-                    document.getElementById('statusText').innerText = 'System Offline';
-                }
+                    setTimeout(() => { try { engine.start(); } catch(err){} }, 50); // 50ms aggressive loop
+                } else { document.getElementById('statusText').innerText = 'System Standby'; }
             };
 
-            rec.onerror = (e) => {
-                if (e.error === 'not-allowed') {
-                    isIntentionalStop = true; toggleListeningState(false);
-                    logMsg('ERROR: Mic permission denied.', 'miss');
-                }
-                // Other errors (network, no-speech) will naturally fall through to onend and restart automatically
+            engine.onerror = (e) => {
+                if(e.error === 'not-allowed') { isStopped = true; toggleUI(false); alert('Mic blocked.'); }
             };
-            return rec;
+            return engine;
         }
 
-        function toggleListening() {
-            if(!recognition) recognition = initVoiceEngine();
-            if(!recognition) return;
+        function toggleEngine() {
+            if(!rec) rec = initEngine();
+            if(!rec) return;
 
-            if (isIntentionalStop) {
-                isIntentionalStop = false;
-                toggleListeningState(true);
-                try { recognition.start(); } catch(e){}
+            if(isStopped) {
+                isStopped = false; toggleUI(true);
+                try { rec.start(); } catch(e){}
             } else {
-                isIntentionalStop = true;
-                toggleListeningState(false);
-                recognition.stop();
-                logMsg('System deactivated.');
+                isStopped = true; toggleUI(false);
+                rec.stop();
             }
         }
 
-        function toggleListeningState(isActive) {
+        function toggleUI(on) {
             const btn = document.getElementById('micBtn');
-            if (isActive) {
-                btn.classList.add('active'); document.getElementById('micBtnText').innerText = 'Deactivate AI';
-            } else {
-                btn.classList.remove('active'); document.getElementById('micBtnText').innerText = 'Initialize AI Listener';
-            }
+            if(on) { btn.classList.add('listening'); document.getElementById('micText').innerText = 'Deactivate Engine'; }
+            else { btn.classList.remove('listening'); document.getElementById('micText').innerText = 'Initialize AI Listener'; }
         }
 
-        // ================= MISSED STEP DETECTION =================
-        function analyzeTranscript(text) {
-            let highestMatchIndex = -1;
-
+        function fastAnalyze(text) {
+            let highestMatch = -1;
+            // Scan all pending/active steps
             scriptData.forEach((step, index) => {
-                if (step.status === 'pending' || step.status === 'active') {
-                    // Check if the AI heard ANY of the keywords for this step
-                    let matchFound = step.keywords.some(kw => text.includes(kw.toLowerCase()));
-                    if (matchFound) highestMatchIndex = Math.max(highestMatchIndex, index);
+                if(step.status === 'pending' || step.status === 'active') {
+                    // If ANY of the highlighted keywords are found in the instant stream, flag it.
+                    let matched = step.keywords.some(kw => text.includes(kw.toLowerCase()));
+                    if(matched) highestMatch = Math.max(highestMatch, index);
                 }
             });
-
-            if (highestMatchIndex !== -1) markStepDone(highestMatchIndex);
+            if(highestMatch !== -1) markDone(highestMatch);
         }
 
-        function markStepDone(matchedIndex) {
-            let stateChanged = false;
-
-            // Mark prior skipped steps as RED/MISSED
-            for (let i = 0; i < matchedIndex; i++) {
-                if (scriptData[i].status === 'pending' || scriptData[i].status === 'active') {
-                    scriptData[i].status = 'missed';
-                    logMsg(`FLAG: Skipped "${scriptData[i].title}"`, 'miss');
-                    stateChanged = true;
+        function markDone(idx) {
+            let changed = false;
+            // Mark skipped steps RED
+            for(let i=0; i<idx; i++) {
+                if(scriptData[i].status === 'pending' || scriptData[i].status === 'active') {
+                    scriptData[i].status = 'missed'; changed = true;
                 }
             }
-
-            // Mark matched step as DONE
-            if (scriptData[matchedIndex].status !== 'done') {
-                scriptData[matchedIndex].status = 'done';
-                logMsg(`CHECK: "${scriptData[matchedIndex].title}"`, 'match');
-                stateChanged = true;
+            // Mark target DONE
+            if(scriptData[idx].status !== 'done') {
+                scriptData[idx].status = 'done'; changed = true;
             }
-
-            // Activate next step
-            let nextIndex = matchedIndex + 1;
-            if (nextIndex < scriptData.length && scriptData[nextIndex].status === 'pending') {
-                scriptData[nextIndex].status = 'active';
-                stateChanged = true;
+            // Activate Next
+            let next = idx + 1;
+            if(next < scriptData.length && scriptData[next].status === 'pending') {
+                scriptData[next].status = 'active'; changed = true;
             }
-
-            if (stateChanged) renderUI();
+            
+            if(changed) renderUI();
         }
 
         renderUI();
