@@ -3,209 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Assist | Google Internal Style</title>
-    <!-- Google Fonts: Google Sans (using Roboto as the public fallback for Google's internal font) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Google Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    <title>Agent Assist | Retro Google UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Google Material 3 Light Theme Colors */
-            --bg-base: #f8f9fa;
-            --surface: #ffffff;
-            --surface-variant: #f1f3f4;
-            --primary: #1a73e8;
-            --primary-hover: #174ea6;
-            --primary-bg: #e8f0fe;
-            --success: #1e8e3e;
-            --success-bg: #e6f4ea;
-            --danger: #d93025;
-            --danger-bg: #fce8e6;
-            --warning: #f9ab00;
-            --warning-bg: #fef7e0;
-            --text-main: #202124;
-            --text-muted: #5f6368;
-            --border: #dadce0;
+            --bg-deep: #050505;
+            --surface-glass: rgba(20, 20, 22, 0.85);
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            /* Google Neon Accents */
+            --g-blue: #4285F4;
+            --g-red: #EA4335;
+            --g-yellow: #FBBC05;
+            --g-green: #34A853;
             
-            --radius-xl: 24px;
+            --text-main: #e8eaed;
+            --text-muted: #9aa0a6;
             --radius-lg: 16px;
             --radius-md: 8px;
-            --radius-sm: 4px;
-            
-            --font-main: 'Roboto', system-ui, -apple-system, sans-serif;
-            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-retro: 'Space Mono', monospace;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-main); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* Fixed scrolling: Body is fixed, panels scroll independently and smoothly */
         body {
-            background-color: var(--bg-base);
+            background-color: var(--bg-deep);
+            background-image: 
+                linear-gradient(rgba(66, 133, 244, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(66, 133, 244, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
             color: var(--text-main);
+            font-family: var(--font-main);
+            height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            height: 100vh; overflow: hidden;
-        }
-
-        /* 3-COLUMN LAYOUT */
-        .app-wrapper {
-            width: 100%; max-width: 1600px; height: 100vh;
-            background: var(--bg-base);
-            display: grid; grid-template-columns: 280px 1fr 350px;
             overflow: hidden;
         }
 
+        .app-wrapper {
+            width: 98%; max-width: 1800px; height: 96vh;
+            background: var(--surface-glass);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+            display: grid; grid-template-columns: 300px 1fr 380px;
+            box-shadow: 0 0 40px rgba(66, 133, 244, 0.1);
+            overflow: hidden;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--g-blue); }
+
         /* --- LEFT PANEL: HUD --- */
         .hud-panel {
-            background: var(--surface); border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; align-items: center; padding: 24px;
-            z-index: 10;
+            background: rgba(0, 0, 0, 0.4); border-right: 1px solid var(--border-subtle);
+            padding: 24px; display: flex; flex-direction: column; align-items: center;
+            overflow-y: auto;
         }
 
         .brand {
-            display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 500;
-            color: var(--text-main); margin-bottom: 32px; width: 100%;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            font-family: var(--font-retro); font-size: 14px; font-weight: 700;
+            color: var(--text-main); margin-bottom: 30px; text-align: center;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
-        /* Google-style 4-color logo icon */
-        .brand-icon {
-            width: 24px; height: 24px;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-        }
-        .brand-icon div { border-radius: 2px; }
-        .g-blue { background: #4285F4; } .g-red { background: #EA4335; }
-        .g-yellow { background: #FBBC05; } .g-green { background: #34A853; }
 
-        .progress-container { position: relative; width: 120px; height: 120px; margin-bottom: 24px; display: flex; justify-content: center; align-items: center; }
+        /* Pixel Art Detective SVG */
+        .pixel-logo { width: 64px; height: 64px; filter: drop-shadow(0 0 8px var(--g-blue)); }
+
+        .progress-container { position: relative; width: 140px; height: 140px; margin-bottom: 24px; display: flex; justify-content: center; align-items: center; }
         .progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; }
-        .progress-ring circle { fill: transparent; stroke-width: 8; stroke-linecap: round; }
-        .progress-ring-bg { stroke: var(--surface-variant); }
+        .progress-ring circle { fill: transparent; stroke-width: 6; stroke-linecap: round; }
+        .progress-ring-bg { stroke: rgba(255, 255, 255, 0.05); }
         .progress-ring-fill {
-            stroke: var(--success); stroke-dasharray: 471; stroke-dashoffset: 471;
-            transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            stroke: var(--g-green); stroke-dasharray: 471; stroke-dashoffset: 471;
+            transition: stroke-dashoffset 0.5s ease-out, stroke 0.3s;
+            filter: drop-shadow(0 0 6px var(--g-green));
         }
 
-        .progress-text { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-        .progress-percentage { font-size: 28px; font-weight: 700; color: var(--text-main); }
-        .progress-label { font-size: 11px; font-weight: 500; color: var(--text-muted); }
+        .progress-text { position: absolute; text-align: center; font-family: var(--font-retro); }
+        .progress-percentage { font-size: 28px; font-weight: 700; color: #fff; }
+        .progress-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;}
 
-        .intent-box {
-            width: 100%; background: var(--surface-variant); border: 1px solid var(--border);
-            border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px;
-        }
-        .intent-header { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-        .intent-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-        .intent-tag { background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; color: var(--text-main); }
-        .memory-stats { font-size: 11px; color: var(--text-muted); text-align: right; }
-
-        .btn-grid { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-bottom: 16px; }
         .btn {
-            padding: 10px 16px; border-radius: 100px; border: 1px solid transparent; font-size: 14px; font-weight: 500;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
-            letter-spacing: 0.25px;
+            width: 100%; padding: 14px; border-radius: var(--radius-md); border: none;
+            font-family: var(--font-retro); font-size: 12px; font-weight: 700; text-transform: uppercase;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s; margin-bottom: 12px;
         }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-hover); box-shadow: var(--shadow-1); }
-        .btn-primary.listening { background: var(--danger); }
+        .btn-mic { background: var(--g-blue); color: #000; box-shadow: 0 0 15px rgba(66, 133, 244, 0.4); }
+        .btn-mic:hover { background: #6ba4ff; }
+        .btn-mic.listening { 
+            background: var(--g-red); box-shadow: 0 0 20px rgba(234, 67, 53, 0.6); 
+            animation: pulse-red 2s infinite; color: white;
+        }
         
-        .btn-tonal { background: var(--primary-bg); color: var(--primary); }
-        .btn-tonal:hover { background: #d2e3fc; }
-        
-        .btn-outline { background: transparent; border-color: var(--border); color: var(--text-main); }
-        .btn-outline:hover { background: var(--surface-variant); }
+        .btn-crm { background: transparent; border: 1px solid var(--g-yellow); color: var(--g-yellow); }
+        .btn-crm:hover { background: rgba(251, 188, 5, 0.1); }
 
-        .status-msg { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: auto; padding-top: 10px; }
+        .memory-console {
+            width: 100%; background: #000; border: 1px solid #333; border-radius: var(--radius-md);
+            padding: 12px; font-family: var(--font-retro); font-size: 10px; color: var(--g-green);
+            margin-top: 20px; height: 120px; overflow-y: auto; text-align: left;
+        }
 
         /* --- MIDDLE PANEL: SCRIPT VIEWER --- */
         .script-panel {
-            background: var(--surface); display: flex; flex-direction: column; position: relative;
+            display: flex; flex-direction: column; position: relative;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
         }
         
         .panel-header { 
-            padding: 24px 32px 16px; background: var(--surface); z-index: 10; 
-            border-bottom: 1px solid var(--border);
+            padding: 20px 30px; border-bottom: 1px solid var(--border-subtle);
             display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); z-index: 10;
         }
-        .panel-header h2 { font-size: 22px; font-weight: 400; color: var(--text-main); }
+        .panel-header h2 { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; }
 
-        .script-scroll-area { padding: 24px 32px 60px; overflow-y: auto; flex: 1; scroll-behavior: smooth; background: var(--bg-base); }
-        .script-scroll-area::-webkit-scrollbar { width: 8px; }
-        .script-scroll-area::-webkit-scrollbar-thumb { background: #bdc1c6; border-radius: 4px; }
+        /* Task Selector */
+        .task-selector {
+            background: rgba(0,0,0,0.5); border: 1px solid var(--g-blue); color: #fff;
+            padding: 8px 12px; border-radius: var(--radius-md); font-family: var(--font-retro);
+            font-size: 12px; outline: none; cursor: pointer;
+        }
+        .task-selector option { background: #111; color: #fff; }
+
+        .script-scroll-area { padding: 30px; overflow-y: auto; flex: 1; scroll-behavior: smooth; }
 
         .script-block { 
-            padding: 24px; margin-bottom: 16px; border-radius: var(--radius-lg);
-            background: var(--surface); border: 1px solid var(--border);
-            transition: all 0.3s; opacity: 0.8; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.1);
+            padding: 20px; margin-bottom: 20px; border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle);
+            border-left: 4px solid transparent; transition: all 0.3s ease; opacity: 0.7;
         }
         .script-block.active { 
-            opacity: 1; border-color: var(--primary); box-shadow: var(--shadow-2);
-            border-left: 4px solid var(--primary);
+            opacity: 1; background: rgba(66, 133, 244, 0.05); 
+            border-color: rgba(66, 133, 244, 0.3); border-left: 4px solid var(--g-blue); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2); transform: translateX(4px);
         }
-        .script-block.done { opacity: 0.6; border-left: 4px solid var(--success); }
+        .script-block.done { opacity: 0.4; border-left-color: var(--g-green); }
         
-        .script-title { font-size: 14px; font-weight: 500; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .script-block.active .script-title { color: var(--primary); }
-        .script-block.done .script-title { color: var(--success); text-decoration: line-through; }
+        .script-title { font-family: var(--font-retro); font-size: 12px; color: var(--g-blue); margin-bottom: 12px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;}
+        .script-block.done .script-title { color: var(--g-green); text-decoration: line-through; }
         
-        .script-text { font-size: 16px; line-height: 1.6; color: var(--text-main); }
-        .highlight { font-weight: 500; color: #174ea6; background: var(--primary-bg); padding: 2px 6px; border-radius: 4px;}
-        .instruction { font-size: 13px; color: var(--text-muted); font-style: italic; margin-top: 12px; display: flex; align-items: center; gap: 4px;}
+        .script-text { font-size: 16px; line-height: 1.7; color: var(--text-main); }
+        .highlight { color: #000; font-weight: 600; background: var(--g-yellow); padding: 0 4px; border-radius: 3px; font-family: var(--font-retro); font-size: 13px;}
 
-        /* --- INTERACTIVE PA PITCH CONSENT UI --- */
-        .consent-card {
-            margin-top: 16px; border: 1px solid var(--warning); border-radius: var(--radius-md);
-            background: var(--warning-bg); padding: 16px; overflow: hidden; transition: all 0.3s ease;
+        /* Interactive Consent Pop-up */
+        .consent-box {
+            margin-top: 15px; padding: 15px; border: 1px dashed var(--g-yellow); border-radius: var(--radius-md);
+            background: rgba(251, 188, 5, 0.05); display: flex; flex-direction: column; gap: 10px;
         }
-        .consent-prompt { font-weight: 500; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .consent-actions { display: flex; gap: 12px; }
+        .consent-text { font-family: var(--font-retro); font-size: 12px; color: var(--g-yellow); }
+        .consent-btns { display: flex; gap: 10px; }
+        .btn-consent { flex: 1; padding: 8px; border: none; border-radius: 4px; font-family: var(--font-retro); font-size: 11px; cursor: pointer; font-weight: bold;}
+        .btn-yes { background: var(--g-green); color: black; }
+        .btn-no { background: rgba(255,255,255,0.1); color: white; }
         
-        .consent-result { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.1); animation: fadeIn 0.3s ease; }
-        .consent-result.active { display: block; }
-        .link-tagsupport { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); text-decoration: none; font-weight: 500; padding: 8px 16px; background: white; border: 1px solid var(--border); border-radius: 100px; }
-        .link-tagsupport:hover { background: var(--primary-bg); }
-        .guide-mode-text { font-size: 15px; color: var(--text-main); background: white; padding: 12px; border-radius: var(--radius-md); border-left: 3px solid var(--primary); }
+        .guide-mode { display: none; margin-top: 10px; padding: 10px; background: rgba(234, 67, 53, 0.1); border-left: 3px solid var(--g-red); font-size: 14px; }
 
         /* --- RIGHT PANEL: QA CHECKLIST --- */
-        .qa-panel { background: var(--surface); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
-        .qa-header { padding: 24px 24px 12px; border-bottom: 1px solid var(--border); }
-        .qa-header h3 { font-size: 16px; font-weight: 500; color: var(--text-main); }
-        
-        .qa-scroll-area { padding: 16px 24px; overflow-y: auto; flex: 1; }
-        .qa-scroll-area::-webkit-scrollbar { width: 6px; }
-        .qa-scroll-area::-webkit-scrollbar-thumb { background: #bdc1c6; border-radius: 4px; }
+        .qa-panel { background: rgba(0, 0, 0, 0.4); border-left: 1px solid var(--border-subtle); display: flex; flex-direction: column; }
+        .qa-scroll-area { padding: 24px; overflow-y: auto; flex: 1; }
 
-        .section-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; margin: 16px 0 12px 0; letter-spacing: 0.5px; }
-        .section-title:first-child { margin-top: 0; }
+        .section-title { font-family: var(--font-retro); font-size: 11px; color: var(--g-red); text-transform: uppercase; margin: 0 0 16px 0; letter-spacing: 1px; }
 
-        .qa-card { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; cursor: pointer; transition: all 0.2s; }
-        .qa-card:hover .qa-title { color: var(--primary); }
+        .qa-card { display: flex; align-items: flex-start; gap: 12px; padding: 10px; margin-bottom: 8px; cursor: pointer; border-radius: var(--radius-md); transition: all 0.2s; background: rgba(255,255,255,0.02); border: 1px solid transparent;}
+        .qa-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
         
         .qa-checkbox { 
-            width: 20px; height: 20px; border: 2px solid var(--text-muted); border-radius: 4px; 
-            display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 2px;
-            background: var(--surface);
+            width: 22px; height: 22px; border: 2px solid var(--text-muted); border-radius: 4px; 
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s;
         }
-        .qa-checkbox span { font-size: 16px; color: white; opacity: 0; transform: scale(0.5); transition: all 0.2s; }
+        .qa-checkbox svg { width: 14px; height: 14px; fill: none; stroke: black; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(0.5); transition: all 0.3s; }
 
         .qa-card input[type="checkbox"] { display: none; }
-        .qa-card input[type="checkbox"]:checked + .qa-checkbox { background: var(--success); border-color: var(--success); }
-        .qa-card input[type="checkbox"]:checked + .qa-checkbox span { opacity: 1; transform: scale(1); }
+        .qa-card input[type="checkbox"]:checked + .qa-checkbox { background: var(--g-green); border-color: var(--g-green); box-shadow: 0 0 10px rgba(52, 168, 83, 0.4); }
+        .qa-card input[type="checkbox"]:checked + .qa-checkbox svg { opacity: 1; transform: scale(1); }
         
-        .qa-title { font-size: 14px; font-weight: 400; color: var(--text-main); line-height: 1.4; transition: all 0.2s;}
-        .qa-card input[type="checkbox"]:checked ~ .qa-title { text-decoration: line-through; color: var(--text-muted); }
+        .qa-title { font-size: 13px; font-weight: 600; line-height: 1.4; transition: all 0.2s;}
+        .qa-card input[type="checkbox"]:checked ~ .qa-title { text-decoration: line-through; color: var(--g-green); opacity: 0.8; }
 
-        /* Reference Card */
-        .ref-card { background: var(--primary-bg); border-radius: var(--radius-lg); padding: 16px; margin-top: 24px; }
-        .ref-title { font-size: 13px; font-weight: 500; color: var(--primary-hover); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;}
-        .ref-list { font-size: 13px; color: var(--text-main); padding-left: 20px; line-height: 1.8; }
-
-        /* CRM NOTES MODAL */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(32,33,36,0.6); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; z-index: 100; }
-        .modal-overlay.active { display: flex; }
-        .modal-box { background: var(--surface); border-radius: var(--radius-lg); width: 90%; max-width: 600px; padding: 24px; box-shadow: var(--shadow-2); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-title { font-size: 20px; font-weight: 400; color: var(--text-main); }
-        .crm-textarea { width: 100%; height: 220px; background: var(--bg-base); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-main); font-family: 'Roboto Mono', monospace; font-size: 13px; padding: 16px; resize: none; margin-bottom: 24px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(234, 67, 53, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(234, 67, 53, 0); } 100% { box-shadow: 0 0 0 0 rgba(234, 67, 53, 0); } }
     </style>
 </head>
 <body>
@@ -214,149 +194,142 @@
         <!-- 1. LEFT PANEL (HUD) -->
         <div class="hud-panel">
             <div class="brand">
-                <div class="brand-icon">
-                    <div class="g-blue"></div><div class="g-red"></div>
-                    <div class="g-yellow"></div><div class="g-green"></div>
-                </div>
-                Techsols Assist
+                <!-- Pixel Art Detective with Mic/Headphones SVG -->
+                <svg class="pixel-logo" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Headphones -->
+                    <rect x="2" y="3" width="12" height="2" fill="#4285F4"/>
+                    <rect x="1" y="4" width="2" height="5" fill="#4285F4"/>
+                    <rect x="13" y="4" width="2" height="5" fill="#4285F4"/>
+                    <!-- Hat/Head -->
+                    <rect x="4" y="5" width="8" height="2" fill="#555"/>
+                    <rect x="3" y="7" width="10" height="1" fill="#333"/>
+                    <!-- Face -->
+                    <rect x="4" y="8" width="8" height="5" fill="#FBBC05"/>
+                    <!-- Sunglasses -->
+                    <rect x="4" y="9" width="3" height="2" fill="#000"/>
+                    <rect x="9" y="9" width="3" height="2" fill="#000"/>
+                    <rect x="7" y="9" width="2" height="1" fill="#000"/>
+                    <!-- Mic Boom -->
+                    <rect x="3" y="11" width="3" height="1" fill="#333"/>
+                    <rect x="6" y="11" width="1" height="2" fill="#EA4335"/>
+                </svg>
+                <span>AGENT ASSIST<br>AI LISTENER</span>
             </div>
             
             <div class="progress-container">
-                <svg class="progress-ring"><circle class="progress-ring-bg" cx="60" cy="60" r="56"></circle><circle class="progress-ring-fill" id="progressRingFill" cx="60" cy="60" r="56"></circle></svg>
+                <svg class="progress-ring"><circle class="progress-ring-bg" cx="70" cy="70" r="66"></circle><circle class="progress-ring-fill" id="progressRingFill" cx="70" cy="70" r="66"></circle></svg>
                 <div class="progress-text">
                     <div class="progress-percentage" id="progressText">0%</div>
-                    <div class="progress-label">Core QA</div>
+                    <div class="progress-label">Score</div>
                 </div>
             </div>
 
-            <div class="intent-box">
-                <div class="intent-header">Live Context</div>
-                <div class="intent-tags" id="intentTags">
-                    <span class="intent-tag" style="color:var(--text-muted); background: transparent; border:none; padding:0;">Ready to listen...</span>
-                </div>
-                <div class="memory-stats" id="memoryStats">Buffer: 0 words</div>
-            </div>
+            <button class="btn btn-mic" id="voiceBtn" onclick="toggleVoice()">
+                🎙️ INITIALIZE LISTENER
+            </button>
+            <button class="btn btn-crm" onclick="alert('Case Notes copied (Demo)')">
+                📋 COPY CRM NOTES
+            </button>
 
-            <div class="btn-grid">
-                <button class="btn btn-primary" id="voiceBtn" onclick="toggleVoice()">
-                    <span class="material-symbols-outlined">mic</span> Start Voice Tracker
-                </button>
-                <button class="btn btn-outline" onclick="triggerQuickReschedule()">
-                    <span class="material-symbols-outlined">schedule</span> Mark Rescheduled
-                </button>
-                <button class="btn btn-tonal" onclick="openCrmModal()">
-                    <span class="material-symbols-outlined">content_copy</span> Copy Case Notes
-                </button>
+            <div class="memory-console" id="memoryConsole">
+                > System ready.<br>> Awaiting voice input...<br>
             </div>
-            
-            <div class="status-msg" id="voiceStatus">Auto-scroll & check is active.</div>
         </div>
 
         <!-- 2. MIDDLE PANEL (SCRIPT VIEWER) -->
         <div class="script-panel">
-            <div class="panel-header" id="panelHeader">
-                <h2>Call Verbiage Guide</h2>
+            <div class="panel-header">
+                <h2>Verbiage Script</h2>
+                <!-- Situational Task Selector -->
+                <select class="task-selector" id="taskSelector" onchange="updateTaskType()">
+                    <option value="ads">Task: Ads Conversion Tracking</option>
+                    <option value="ga4">Task: GA4 Setup & Linking</option>
+                    <option value="consent">Task: Consent Mode V2</option>
+                </select>
             </div>
             
             <div class="script-scroll-area" id="mainScriptContainer">
                 
                 <div class="script-block active" id="script-qa_intro">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">waving_hand</span> 1. Greeting</div>
+                    <div class="script-title">1. Greeting</div>
                     <div class="script-text">
                         "Hi! My name is <span class="highlight">[Your Name]</span>, and I'm calling from the Technical Solutions team on behalf of Google. Am I speaking with <span class="highlight">[Advertiser Name]</span>? How are you doing today?"
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_rec">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">mic</span> 2. Recorded Line Verbatim</div>
+                    <div class="script-title">2. Recorded Line Verbatim</div>
                     <div class="script-text">
                         "This call may be recorded or monitored for quality, training and to improve Google's services, subject to our Privacy Policy. Do you agree to have this call monitored and recorded?"
-                        <div class="instruction"><span class="material-symbols-outlined" style="font-size:16px;">info</span> (If no, disconnect and log Speakeasy)</div>
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_auth">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">admin_panel_settings</span> 3. Authentication</div>
+                    <div class="script-title">3. Authentication</div>
                     <div class="script-text">
-                        "<span class="highlight">[Advertiser First Name]</span>, to ensure that we're working on the correct account, please confirm your <span class="highlight">10-digit Customer ID</span> along with your <span class="highlight">email address</span> and your <span class="highlight">website name</span>?"
+                        "To ensure that we're working on the correct account, please confirm your <span class="highlight">10-digit Customer ID</span> along with your <span class="highlight">email address</span> and your <span class="highlight">website name</span>?"
                     </div>
                 </div>
 
+                <!-- This block changes based on the dropdown -->
                 <div class="script-block" id="script-qa_task">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">task_alt</span> 4. Task & Readiness</div>
-                    <div class="script-text">
-                        "This request was submitted for the <span class="highlight">[Task: ads_conversion_tracking]</span>. Please confirm if you have admin access to your Google Ads account and to the admin panel of the website? Could you please confirm if a backup of the website was taken recently?"<br><br>
-                        "As the call was scheduled for 30 minutes, would this be the right time to proceed with the implementation? Just a quick heads-up before we begin—in case of a call disconnection, please don't worry, we will call you back as soon as possible."
+                    <div class="script-title">4. Task & Readiness</div>
+                    <div class="script-text" id="taskScriptText">
+                        "This request was submitted for the <span class="highlight">Ads Conversion Tracking</span>. Please confirm if you have admin access to your Google Ads account and to the admin panel of the website? Could you please confirm if a backup of the website was taken recently?"
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_share">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">screen_share</span> 5. Screen Share</div>
+                    <div class="script-title">5. Screen Share</div>
                     <div class="script-text">
-                        "Before sharing your screen Please, close all your private/confidential windows, tabs and confidential documents on your device and start presenting your screen."<br><br>
-                        "When you are ready, please click the 'Present now' button with a rectangle and an upward arrow. Please, choose the 'Entire screen' option."
+                        "Before sharing your screen Please, close all your private/confidential windows, tabs and documents. When you are ready, please click 'Present now' and choose 'Entire screen'."
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_pa_pitch">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">vpn_key</span> 6. PA Pitch (Implementation Only)</div>
+                    <div class="script-title">6. PA Pitch (Implementation)</div>
                     <div class="script-text">
-                        "We may proceed with the implementation from our end or by guiding you through each step. To proceed with the creation on your behalf, we would need to ask you for temporary access... This access will be revoked when our session expires."<br><br>
-                        "You should receive an email with the access request. Do you agree to allow us temporary access?"
+                        "We may proceed with the implementation from our end or by guiding you through each step. To proceed with the creation on your behalf, we would need to ask you for temporary access. Do you agree to allow us temporary access?"
                     </div>
                     
-                    <!-- NEW: INTERACTIVE CONSENT UI -->
-                    <div class="consent-card">
-                        <div class="consent-prompt">
-                            <span class="material-symbols-outlined" style="color:var(--warning);">help</span> 
-                            Did the advertiser agree to Temporary Access?
+                    <!-- Consent UI inside the block -->
+                    <div class="consent-box">
+                        <div class="consent-text">Did advertiser consent to PA Access?</div>
+                        <div class="consent-btns">
+                            <button class="btn-consent btn-yes" onclick="handleConsent(true)">YES (Launch TagSupport)</button>
+                            <button class="btn-consent btn-no" onclick="handleConsent(false)">NO (Guide Mode)</button>
                         </div>
-                        <div class="consent-actions">
-                            <button class="btn btn-primary" onclick="handleConsent(true)">Yes, proceed</button>
-                            <button class="btn btn-outline" onclick="handleConsent(false)">No, declined</button>
-                        </div>
-                        
-                        <div id="consent-yes" class="consent-result">
-                            <a href="https://tagsupport.corp.google.com/create-session" target="_blank" class="link-tagsupport">
-                                <span class="material-symbols-outlined" style="font-size:18px;">open_in_new</span> Launch TagSupport Session
-                            </a>
-                        </div>
-                        <div id="consent-no" class="consent-result">
-                            <div class="guide-mode-text">
-                                <strong>Switch to Guide Mode:</strong><br>
-                                "Thank you, we understand your concerns. In that case we will navigate you through the implementation process step-by-step."
-                            </div>
+                        <div id="guideModeText" class="guide-mode">
+                            "Thank you, we understand your concerns. In that case we will navigate you through the implementation process step-by-step."
                         </div>
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_sum">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">summarize</span> 7. Summarize Call</div>
+                    <div class="script-title">7. Summarize Call</div>
                     <div class="script-text">
-                        "During our interaction, we discussed and implemented <span class="highlight">[Task performed]</span>. We also verified that the <span class="highlight">[Tags are firing / Feed is added]</span> as requested. Any user coming through a google ad click visits your website and then performs the action it tracks as conversions."
+                        "During our interaction, we discussed and implemented the tags. We also verified that they are firing correctly. Any user coming through a google ad click will now be tracked."
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_so_test">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">fact_check</span> 8. SO Test & Close</div>
+                    <div class="script-title">8. SO Test & Close</div>
                     <div class="script-text">
-                        "The implementation is complete, and we will monitor your account for few days. During this time, our quality team may perform a test conversion to validate the implementation. Are you okay with our quality team performing this test conversion?"<br><br>
-                        "Can I go ahead and close the case?"
+                        "The implementation is complete. Our quality team may perform a test conversion to validate. Are you okay with our quality team performing this test conversion? Can I go ahead and close the case?"
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_addt">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">support_agent</span> 9. Additional Help</div>
+                    <div class="script-title">9. Additional Help</div>
                     <div class="script-text">
                         "Would there be anything else that I can help you with?"
                     </div>
                 </div>
 
                 <div class="script-block" id="script-qa_gcss">
-                    <div class="script-title"><span class="material-symbols-outlined" style="font-size:18px;">mark_email_read</span> 10. GCSS & Closure</div>
+                    <div class="script-title">10. GCSS & Closure</div>
                     <div class="script-text">
-                        "We will be sending you a feedback email once your current case is closed. This feedback is focused solely on the interaction and experience you had with us during this particular case."<br><br>
-                        "If you have any other questions, please contact your Google Account Manager or the Google Ads Support. It's been a pleasure speaking with you. We appreciate your continued partnership with Google. Have a great day!"
+                        "We will be sending you a feedback email once your current case is closed. We appreciate your continued partnership with Google. Have a great day!"
                     </div>
                 </div>
             </div>
@@ -364,92 +337,67 @@
 
         <!-- 3. RIGHT PANEL (QA CHECKLIST) -->
         <div class="qa-panel">
-            <div class="qa-header">
-                <h3>Flow Tracker</h3>
-            </div>
             <div class="qa-scroll-area">
-                <div class="section-title">Required Flow</div>
+                <div class="section-title">Core Checklist</div>
                 <div id="qaListContainer"></div>
-
-                <div class="section-title" style="margin-top:24px;">Contextual / Pivot Rules</div>
-                <div id="qaConditionalContainer"></div>
-                
-                <!-- Helper/Reference Card -->
-                <div class="ref-card">
-                    <div class="ref-title"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span> Required Screenshots</div>
-                    <ul class="ref-list">
-                        <li>Gtag/GTM ID in Tag Assistant</li>
-                        <li>Tags fired status (preview mode)</li>
-                        <li>Fired status expanded (Succeeded)</li>
-                        <li>No recent conversions screen</li>
-                        <li>Submit + Publish (Version is Live)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CRM MODAL -->
-    <div class="modal-overlay" id="crmModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h2 class="modal-title">CRM Wrap-Up Notes</h2>
-                <button onclick="closeCrmModal()" style="background:none; border:none; cursor:pointer; display:flex;">
-                    <span class="material-symbols-outlined" style="color:var(--text-muted);">close</span>
-                </button>
-            </div>
-            <textarea class="crm-textarea" id="crmNotesText" readonly></textarea>
-            <div style="display:flex; justify-content:flex-end; gap:12px;">
-                <button class="btn btn-outline" onclick="closeCrmModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="copyCrmNotes()">
-                    <span class="material-symbols-outlined" style="font-size:18px;">content_copy</span> Copy to Clipboard
-                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. CORE QA DATA ---
-        const qaItems = [
-            { id: 'qa_intro', title: '1. Greeting', keywords: ['technical solutions team', 'on behalf of google', 'how are you doing today'] },
+        // --- 1. DYNAMIC QA DATA ---
+        let qaItems = [
+            { id: 'qa_intro', title: '1. Greeting', keywords: ['technical solutions', 'on behalf of google', 'how are you doing'] },
             { id: 'qa_rec', title: '2. Recorded Line', keywords: ['recorded or monitored', 'privacy policy'] },
             { id: 'qa_auth', title: '3. Authentication', keywords: ['10 digit', 'customer id', 'email address', 'website name'] },
-            { id: 'qa_task', title: '4. Task & Access', keywords: ['submitted for the', 'admin access', 'backup', 'right time to proceed', 'call disconnection'] },
+            { id: 'qa_task', title: '4. Task & Access', keywords: ['ads conversion tracking', 'admin access', 'backup'] }, // This gets updated dynamically
             { id: 'qa_share', title: '5. Screen Share', keywords: ['close all your private', 'confidential windows', 'present now', 'entire screen'] },
             { id: 'qa_pa_pitch', title: '6. PA Pitch', keywords: ['implementation from our end', 'temporary access', 'guiding you through'] },
-            { id: 'qa_sum', title: '7. Summarize Call', keywords: ['discussed and implemented', 'tags are firing', 'feed is added', 'tracks as conversions'] },
-            { id: 'qa_so_test', title: '8. SO Test (Optional Closure)', keywords: ['test conversion to validate', 'quality team', 'close the case'] },
-            { id: 'qa_addt', title: '9. Additional Help', keywords: ['anything else that i can help you with'] },
-            { id: 'qa_gcss', title: '10. GCSS & Closure', keywords: ['feedback email', 'solely on the interaction', 'continued partnership'] }
+            { id: 'qa_sum', title: '7. Summarize Call', keywords: ['discussed and implemented', 'tags are firing', 'verified'] },
+            { id: 'qa_so_test', title: '8. SO Test', keywords: ['test conversion to validate', 'quality team', 'close the case'] },
+            { id: 'qa_addt', title: '9. Additional Help', keywords: ['anything else', 'help you with'] },
+            { id: 'qa_gcss', title: '10. GCSS & Closure', keywords: ['feedback email', 'continued partnership'] }
         ];
 
-        const conditionalItems = [
-            { id: 'qa_plugins', title: 'Plugins Disclaimer', keywords: ['responsibility for plug-ins', 'third party websites', 'checked for accuracy'] },
-            { id: 'qa_reschedule', title: 'Call Rescheduled', keywords: ['want a reschedule', 'have a hard stop', 'running out of time', 'developer', 'webmaster', 'allocated time'] }
-        ];
+        // Situational Task Logic
+        function updateTaskType() {
+            const type = document.getElementById('taskSelector').value;
+            const taskTextEl = document.getElementById('taskScriptText');
+            
+            // Find the task item in the array to update its keywords
+            const taskItem = qaItems.find(i => i.id === 'qa_task');
+
+            if(type === 'ads') {
+                taskTextEl.innerHTML = `"This request was submitted for the <span class="highlight">Ads Conversion Tracking</span>. Please confirm if you have admin access to your Google Ads account and to the admin panel of the website? Could you please confirm if a backup of the website was taken recently?"`;
+                taskItem.keywords = ['ads conversion tracking', 'admin access', 'backup'];
+            } else if (type === 'ga4') {
+                taskTextEl.innerHTML = `"This request was submitted for the <span class="highlight">GA4 Setup and Linking</span>. Please confirm if you have admin access to the Analytics property and your website backend? Have you taken a backup recently?"`;
+                taskItem.keywords = ['ga4 setup', 'analytics property', 'admin access', 'backup'];
+            } else if (type === 'consent') {
+                taskTextEl.innerHTML = `"This request was submitted for <span class="highlight">Consent Mode V2</span>. Please confirm if your banner provider is a certified CMP and if you have admin access to the website backend?"`;
+                taskItem.keywords = ['consent mode', 'certified cmp', 'banner provider', 'admin access'];
+            }
+            logToConsole(`System: Task switched to [${type.toUpperCase()}]. Keywords updated.`);
+        }
 
         // --- 2. INITIALIZE UI ---
         const qaContainer = document.getElementById('qaListContainer');
-        qaItems.forEach((item, index) => {
-            qaContainer.innerHTML += `
-                <label class="qa-card" id="card-${item.id}">
-                    <input type="checkbox" id="${item.id}" onchange="updateProgress(); highlightScript('${item.id}', ${index});">
-                    <div class="qa-checkbox"><span class="material-symbols-outlined">check</span></div>
-                    <div class="qa-title">${item.title}</div>
-                </label>`;
-        });
+        function renderChecklist() {
+            qaContainer.innerHTML = '';
+            qaItems.forEach((item, index) => {
+                qaContainer.innerHTML += `
+                    <label class="qa-card" id="card-${item.id}">
+                        <input type="checkbox" id="${item.id}" onchange="updateProgress(); highlightScript('${item.id}', ${index});">
+                        <div class="qa-checkbox">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="qa-title">${item.title}</div>
+                    </label>`;
+            });
+        }
+        renderChecklist();
 
-        const condContainer = document.getElementById('qaConditionalContainer');
-        conditionalItems.forEach(item => {
-            condContainer.innerHTML += `
-                <label class="qa-card" id="card-${item.id}">
-                    <input type="checkbox" id="${item.id}">
-                    <div class="qa-checkbox"><span class="material-symbols-outlined">check</span></div>
-                    <div class="qa-title">${item.title}</div>
-                </label>`;
-        });
-
-        // --- 3. LOGIC FUNCTIONS ---
+        // --- 3. UI LOGIC ---
         function updateProgress() {
             const total = qaItems.length;
             const checked = Array.from(document.querySelectorAll('#qaListContainer input:checked')).length;
@@ -458,7 +406,7 @@
             document.getElementById('progressText').innerText = `${percentage}%`;
             document.getElementById('progressRingFill').style.strokeDashoffset = 471 - (percentage / 100) * 471;
             
-            // Handle script block styling
+            // Sync script block opacity
             qaItems.forEach(item => {
                 let scriptBlock = document.getElementById('script-' + item.id);
                 if (document.getElementById(item.id).checked) {
@@ -469,7 +417,7 @@
             });
         }
 
-        // SMART AUTO-SCROLL
+        // Non-intrusive auto-scroll logic
         function highlightScript(currentId, index) {
             document.querySelectorAll('.script-block').forEach(el => el.classList.remove('active'));
             
@@ -478,114 +426,116 @@
                 let nextBlock = document.getElementById(nextId);
                 if(nextBlock) {
                     nextBlock.classList.add('active');
-                    nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Only scroll if the element is out of the viewport to avoid hijacking mouse wheel
+                    const rect = nextBlock.getBoundingClientRect();
+                    const containerRect = document.getElementById('mainScriptContainer').getBoundingClientRect();
+                    if (rect.top < containerRect.top || rect.bottom > containerRect.bottom) {
+                        nextBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 }
             }
         }
 
-        // CONSENT HANDLER (PA Pitch)
         function handleConsent(isYes) {
-            const yesBlock = document.getElementById('consent-yes');
-            const noBlock = document.getElementById('consent-no');
-            
-            if (isYes) {
-                yesBlock.classList.add('active');
-                noBlock.classList.remove('active');
+            const guide = document.getElementById('guideModeText');
+            if(isYes) {
+                guide.style.display = 'none';
+                window.open('https://tagsupport.corp.google.com/create-session', '_blank');
             } else {
-                yesBlock.classList.remove('active');
-                noBlock.classList.add('active');
+                guide.style.display = 'block';
             }
             
-            // Mark the PA Pitch as done in the checklist automatically
+            // Auto check the box
             const paCheckbox = document.getElementById('qa_pa_pitch');
             if(!paCheckbox.checked) {
                 paCheckbox.checked = true;
                 updateProgress();
-                highlightScript('qa_pa_pitch', 5); // Index 5 is PA Pitch
+                highlightScript('qa_pa_pitch', 5);
             }
         }
 
-        function triggerQuickReschedule() {
-            document.getElementById('qa_reschedule').checked = true;
-            document.getElementById('intentTags').innerHTML = `<span class="intent-tag" style="background:var(--danger-bg); color:var(--danger); border-color:var(--danger)">Pivot: Reschedule</span>`;
+        // --- 4. SUPERCHARGED VOICE ENGINE ---
+        let recognition; let isListening = false; 
+        const consoleEl = document.getElementById('memoryConsole');
+        
+        function logToConsole(msg) {
+            consoleEl.innerHTML += `> ${msg}<br>`;
+            consoleEl.scrollTop = consoleEl.scrollHeight;
         }
 
-        // --- 4. CRM MODAL ---
-        function openCrmModal() {
-            const checked = Array.from(document.querySelectorAll('.qa-card input:checked')).map(cb => {
-                const item = [...qaItems, ...conditionalItems].find(i => i.id === cb.id);
-                return `  [✓] ${item.title}`;
-            });
-            
-            let notes = `=== TECHSOLS CRM NOTES ===\nCall Outcome: ${document.getElementById('qa_reschedule').checked ? 'RESCHEDULED' : 'COMPLETED'}\n\nCompleted Steps:\n${checked.length > 0 ? checked.join('\n') : '  None'}`;
-            document.getElementById('crmNotesText').value = notes;
-            document.getElementById('crmModal').classList.add('active');
-        }
-        function closeCrmModal() { document.getElementById('crmModal').classList.remove('active'); }
-        function copyCrmNotes() { 
-            const textarea = document.getElementById('crmNotesText');
-            textarea.select(); 
-            navigator.clipboard.writeText(textarea.value); 
-            closeCrmModal(); 
-        }
-
-        // --- 5. VOICE ENGINE (MOCK/DEMO FOR BROWSER) ---
-        let recognition; let isListening = false; let sessionTranscript = ''; 
-        function normalizeString(str) { return str.toLowerCase().replace(/[^\w\s]/gi, ' ').replace(/\s+/g, ' ').trim(); }
+        function normalizeString(str) { return str.toLowerCase().replace(/[^\w\s]/gi, '').trim(); }
 
         function toggleVoice() {
             const btn = document.getElementById('voiceBtn');
-            const status = document.getElementById('voiceStatus');
             
-            if (window.location.protocol === 'file:') { 
-                status.innerHTML = "<span style='color:var(--danger)'>Voice requires HTTP server.</span>"; 
-                return; 
-            }
-
             if(!isListening) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if(!SpeechRecognition) {
-                    status.innerHTML = "Speech recognition not supported in this browser.";
+                    logToConsole("<span style='color:var(--g-red)'>ERROR: Speech Recognition API not supported. Use Chrome.</span>");
                     return;
                 }
                 
-                recognition = new SpeechRecognition(); recognition.continuous = true; recognition.interimResults = true;
-                sessionTranscript = ''; isListening = true;
+                recognition = new SpeechRecognition(); 
+                recognition.continuous = true; 
+                recognition.interimResults = true;
+                isListening = true;
                 
                 recognition.onstart = () => { 
                     btn.classList.add('listening'); 
-                    btn.innerHTML = `<span class="material-symbols-outlined">stop_circle</span> Stop Tracker`; 
-                    status.innerHTML = "<span style='color:var(--primary); font-weight:500;'>Listening via microphone...</span>"; 
+                    btn.innerHTML = `🛑 STOP LISTENING`; 
+                    logToConsole("MIC ACTIVE. Neural net listening...");
                 };
                 
                 recognition.onresult = (e) => {
-                    let interim = ''; let final = '';
+                    let transcript = '';
                     for (let i = e.resultIndex; i < e.results.length; ++i) {
-                        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' '; else interim += e.results[i][0].transcript + ' ';
+                        transcript += e.results[i][0].transcript + ' ';
                     }
-                    sessionTranscript += final; let fullContext = normalizeString(sessionTranscript + interim);
-                    document.getElementById('memoryStats').innerText = `Buffer: ${fullContext.split(' ').length} words`;
+                    
+                    let lowerContext = transcript.toLowerCase();
 
-                    // Check Core Items
+                    // Check Core Items with high sensitivity
                     qaItems.forEach((item, index) => {
                         const cb = document.getElementById(item.id);
-                        if(!cb.checked && item.keywords.some(kw => fullContext.includes(normalizeString(kw)))) {
-                            cb.checked = true; updateProgress(); highlightScript(item.id, index);
+                        if(!cb.checked) {
+                            // If ANY of the keywords match in the current sentence
+                            let matchFound = item.keywords.some(kw => lowerContext.includes(kw.toLowerCase()));
+                            if(matchFound) {
+                                cb.checked = true; 
+                                updateProgress(); 
+                                highlightScript(item.id, index);
+                                logToConsole(`<span style='color:var(--g-green)'>[CHECK] ${item.title}</span>`);
+                            }
                         }
                     });
                 };
-                recognition.onerror = (e) => { if(e.error === 'not-allowed') { isListening = false; btn.classList.remove('listening'); btn.innerHTML = `<span class="material-symbols-outlined">mic</span> Start Voice Tracker`; } };
-                recognition.onend = () => { if(isListening) { try { recognition.start(); } catch(e){} } };
+
+                // Aggressive restart logic to prevent it from going to sleep
+                recognition.onerror = (e) => { 
+                    logToConsole(`<span style='color:var(--g-yellow)'>Warning: ${e.error}. Restarting...</span>`);
+                    if(e.error === 'not-allowed') {
+                        isListening = false; btn.classList.remove('listening'); btn.innerHTML = `🎙️ INITIALIZE LISTENER`;
+                    }
+                };
+                
+                recognition.onend = () => { 
+                    if(isListening) { 
+                        logToConsole("Silence detected. Rebooting audio stream...");
+                        setTimeout(() => {
+                            try { recognition.start(); } catch(err) { }
+                        }, 500); // 500ms debounce to prevent callstack errors
+                    } 
+                };
+                
                 recognition.start();
             } else { 
-                isListening = false; recognition.stop(); 
+                isListening = false; 
+                try { recognition.stop(); } catch(e){}
                 btn.classList.remove('listening'); 
-                btn.innerHTML = `<span class="material-symbols-outlined">mic</span> Start Voice Tracker`; 
-                status.innerHTML = "Tracker offline."; 
+                btn.innerHTML = `🎙️ INITIALIZE LISTENER`; 
+                logToConsole("System offline."); 
             }
         }
-
-        updateProgress();
     </script>
 </body>
 </html>
