@@ -191,7 +191,7 @@
 
             <button class="btn btn-ai" id="micBtn" onclick="toggleEngine()">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
-                <span id="micText">Initialize AI Listener</span>
+                <span id="micText">Transcriber</span>
             </button>
 
             <div class="live-transcript">
@@ -206,7 +206,7 @@
         <!-- MIDDLE PANEL -->
         <div class="glass-panel panel-middle">
             <div class="script-header">
-                <h2>Verbiage Guide</h2>
+                <h2>Call Script</h2>
                 <select class="modern-select" id="taskSelector" onchange="updateTaskType()">
                     <option value="ads">Task: Ads Conversion Tracking</option>
                     <option value="ga4">Task: GA4 Setup & Linking</option>
@@ -228,7 +228,6 @@
 
     <script>
         // --- 1. OPTIMIZED & FORGIVING KEYWORDS ---
-        // Using ultra-short strings to ensure the browser's speech-to-text doesn't miss them due to pluralization or slight mispronunciations.
         let currentTaskType = "Ads Conversion Tracking";
         
         let scriptData = [
@@ -263,7 +262,7 @@
                         <div class="step-title"><span>${item.title}</span></div>
                         <div class="step-text">${item.text}</div>`;
                 
-                // Add PA Decision Box (Only pops up if the status is DONE, meaning they finished reading it)
+                // Add PA Decision Box (Only pops up if the status is DONE)
                 if(item.isConsent) {
                     sHtml += `
                         <div class="pa-decision-ui" id="pa-ui">
@@ -293,7 +292,7 @@
             updateScore();
             scrollToActive();
             
-            // Logic to reveal the PA Pop-up ONLY when Step 6 is marked as 'done' (AI heard them finish reading it)
+            // Logic to reveal the PA Pop-up ONLY when Step 6 is marked as 'done'
             if(scriptData[5].status === 'done') {
                 const paUi = document.getElementById('pa-ui');
                 if(paUi && !paUi.classList.contains('show')) paUi.classList.add('show');
@@ -379,7 +378,7 @@
                 }
                 document.getElementById('tInterim').innerText = interim;
 
-                // Analyzes the text continuously without waiting for a sentence to finish
+                // Continuous analysis of the entire accumulated text + live speech
                 let instantLiveText = (globalTranscript + interim).toLowerCase();
                 fastAnalyze(instantLiveText);
             };
@@ -388,7 +387,6 @@
                 document.getElementById('statusDot').classList.remove('active');
                 if(!isStopped) {
                     document.getElementById('statusText').innerText = 'Re-engaging...';
-                    // 250ms restart loop prevents the browser from blocking it for looping too fast
                     setTimeout(() => { try { engine.start(); } catch(err){} }, 250); 
                 } else { document.getElementById('statusText').innerText = 'System Standby'; }
             };
@@ -414,8 +412,8 @@
 
         function toggleUI(on) {
             const btn = document.getElementById('micBtn');
-            if(on) { btn.classList.add('listening'); document.getElementById('micText').innerText = 'Deactivate Engine'; }
-            else { btn.classList.remove('listening'); document.getElementById('micText').innerText = 'Initialize AI Listener'; }
+            if(on) { btn.classList.add('listening'); document.getElementById('micText').innerText = 'Deactivate Transcriber'; }
+            else { btn.classList.remove('listening'); document.getElementById('micText').innerText = 'Transcriber'; }
         }
 
         function fastAnalyze(text) {
@@ -442,10 +440,7 @@
             // Mark target DONE
             if(scriptData[idx].status !== 'done') {
                 scriptData[idx].status = 'done'; changed = true;
-                
-                // Clear the global transcript memory so old sentences don't re-trigger future steps if keywords overlap
-                globalTranscript = ""; 
-                document.getElementById('tFinal').innerText = "";
+                // REMOVED `globalTranscript = "";` TO ENSURE NO AUDIO IS DROPPED/WIPED BETWEEN STEPS
             }
             // Activate Next
             let next = idx + 1;
